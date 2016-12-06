@@ -11,6 +11,7 @@ module.exports = () => {
     consign({cwd:'app'})
         .include('controladores')
         .then('rotas')
+        .then('database')
         .into(app);
 
     return app;
