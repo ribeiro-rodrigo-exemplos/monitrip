@@ -11,6 +11,7 @@ describe('testando controlador veiculo.js',function(){
                     .expect('Content-Type', /json/)
                     .expect(200)
                     .end(done);
+
     });
 
     it('consultando veiculo com placa inexistente',function(){

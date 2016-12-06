@@ -1,11 +1,12 @@
 var mysql = require('mysql');
+var config = require('../config/m2m-config')();
 
 function createDBConnection(app){
   return mysql.createConnection({
-    host:'172.16.193.32',
-    user:'frota',
-    password:'frota',
-    database:'frota_zn4'
+    host:config.mysql.url,
+    user:config.mysql.user,
+    password:config.mysql.password,
+    database:config.mysql.database
   });
 }
 
