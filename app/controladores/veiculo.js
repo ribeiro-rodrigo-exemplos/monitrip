@@ -2,7 +2,7 @@ module.exports = function(){
 
     let controlador = {};
 
-    controlador.obterVeiculo = (req,res) => {
+    controlador.obter = (req,res) => {
           
           res
             .json({placa:req.query.placa})
