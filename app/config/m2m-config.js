@@ -1,6 +1,7 @@
 let dev = require('./env/desenvolvimento');
 let hom = require('./env/homologacao');
 let test = require('./env/teste');
+let prod = require('./env/producao');
 
 module.exports = function(){
     
@@ -17,7 +18,10 @@ module.exports = function(){
             if(env == 'hom')
                 return hom();
             else
-                return dev();
+                if(env == 'prod')
+                    return prod();
+                else
+                    return dev();
     
 }
 
