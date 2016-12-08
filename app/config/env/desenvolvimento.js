@@ -1,9 +1,8 @@
 module.exports = function(){
-
     return {
         
         mysql:{
-            url:'172.16.193.32',
+            url:'localhost',
             user:'frota',
             password:'frota',
             database:'frota_zn4',

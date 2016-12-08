@@ -4,8 +4,8 @@ module.exports = function(){
         
         mysql:{
             url:'localhost',
-            user:'frota',
-            password:'frota',
+            user:'root',
+            password:'',
             database:'frota_zn4',
             port:3306
         }
