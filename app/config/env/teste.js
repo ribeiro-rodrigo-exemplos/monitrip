@@ -1,5 +1,5 @@
-module.exports = function(){
 
+module.exports = function(){
     return {
         
         mysql:{
@@ -10,7 +10,7 @@ module.exports = function(){
             port:3306
         },
         mongo:{
-            url:'mongodb://172.16.193.9/m2mfrota'
+            url:'mongodb://localhost/test'
         }
     }
 }

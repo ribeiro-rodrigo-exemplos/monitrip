@@ -33,7 +33,7 @@ module.exports = function(){
                 return;
             }
 
-            if(numero && !dataAtualizacao && linhas.length > 0)
+            if(numero && !dataAtualizacao && linhas.length > 0 || numero && dataAtualizacao && linhas.length)
                 res.json(linhas[0]);
             else
                 res.json(linhas);
