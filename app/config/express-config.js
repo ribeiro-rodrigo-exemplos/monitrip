@@ -2,18 +2,18 @@ let express = require('express');
 let bodyParser = require('body-parser');
 let consign = require('consign');
 
-module.exports = () => {
-    let app = express();
+let app = express();
 
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
-    consign({cwd:'app'})
-        .include('controladores')
-        .then('rotas')
-        .then('database')
-        .into(app);
+consign({cwd:'app'})
+    .include('controladores')
+    .then('rotas')
+    .then('database')
+    .then('modelo')
+    .into(app);
 
-    return app;
-}
+module.exports = () => app;
+
 
