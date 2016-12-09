@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var config = require('../config/m2m-config')();
+var config = require('../../config/m2m-config')();
 
 function createDBConnection(url){
   return mysql.createConnection({

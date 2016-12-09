@@ -1,5 +1,5 @@
 let mongoose = require('mongoose');
-var config = require('../config/m2m-config')();
+var config = require('../../config/m2m-config')();
 
 if(mongoose.connection.readyState)
     return;
