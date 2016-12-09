@@ -1,9 +1,8 @@
-let util = require('../util/util.js');
+let util = require('../util/util.js')();
 
 class MotoristaDAO{
     constructor(connection){
         this.connection = connection;
-        this.tipoFuncionario = util.tipoFuncionario();
     }
 
     obterTodos(cliente, callback){
@@ -11,7 +10,7 @@ class MotoristaDAO{
             var camposRetorno = "nm_matricula, nm_nomeFuncionario, nm_cpf, vl_sexo, dt_atualizacao, fl_ativo";
                         
             this.connection.query(`select ${camposRetorno} from funcionario where id_cliente = ${cliente} 
-                                    and id_tipoFuncionario = ${this.tipoFuncionario.MOTORISTA}` ,(erro,retorno) => {
+                                    and id_tipoFuncionario = ${util.tipoFuncionario.MOTORISTA}` ,(erro,retorno) => {
                 if(erro)
                     reject(erro);
                 else
@@ -26,7 +25,7 @@ class MotoristaDAO{
                         
                 this.connection.query(`select ${camposRetorno} from funcionario 
                             where id_cliente = ${cliente} 
-                            and id_tipoFuncionario = ${this.tipoFuncionario.MOTORISTA}
+                            and id_tipoFuncionario = ${util.tipoFuncionario.MOTORISTA}
                             and nm_cpf = ${cpf} 
                             and dt_atualizacao = '${dataAtualizacao}'` ,(erro,retorno) => {
 
@@ -44,7 +43,7 @@ class MotoristaDAO{
                         
             this.connection.query(`select ${camposRetorno} from funcionario 
                                    where id_cliente = ${cliente} 
-                                   and id_tipoFuncionario = ${this.tipoFuncionario.MOTORISTA}
+                                   and id_tipoFuncionario = ${util.tipoFuncionario.MOTORISTA}
                                    and nm_cpf = ${cpf}`,(erro,retorno) => {
 
                 if(erro)
@@ -61,7 +60,7 @@ class MotoristaDAO{
             
             this.connection.query(`select ${camposRetorno} from funcionario 
                                    where id_cliente = ${cliente} 
-                                   and id_tipoFuncionario = ${this.tipoFuncionario.MOTORISTA}
+                                   and id_tipoFuncionario = ${util.tipoFuncionario.MOTORISTA}
                                    and dt_atualizacao > '${dataAtualizacao}'` ,(erro,retorno) => {
                 
                 if(erro)

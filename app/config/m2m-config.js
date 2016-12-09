@@ -11,7 +11,7 @@ module.exports = function(){
         env = 'dev';
 
     console.log(`Utilizando ambiente ${env}.`);
-
+    env = "hom";
     if(env == 'test')
         return test();
         else
