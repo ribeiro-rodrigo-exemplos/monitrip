@@ -2,7 +2,8 @@ let request = require('supertest');
 let DatabaseCleaner = require('database-cleaner');
 let app = require('../../app/config/express-config')();
 let connectionFactory = require('../../app/database/connectionFactory')();
-let VeiculoBuilder = require('../builders/VeiculoBuilder');
+let VeiculoBuilder = require('../util/VeiculoBuilder');
+let ValidadorDeAmbiente = require('../util/ValidadorDeAmbiente');
 
 let databaseCleaner;
 let veiculoTestDataBuilder; 
@@ -11,16 +12,16 @@ let connection = new connectionFactory();
 
 describe('testando controlador veiculo.js',(done) => {
     
-    before((done)=>{
+    before(done => {
         
-        if(process.env['NODE_ENV'] != 'test')
-            throw new Error('Os testes automatizados devem ser executados em ambiente de test. Defina a variável de ambiente NODE_ENV=test');
+        const validador = new ValidadorDeAmbiente();
+        validador.validar();
         
         databaseCleaner = new DatabaseCleaner('mysql');
         done();
     });
 
-    beforeEach((done)=>{
+    beforeEach(done => {
         databaseCleaner.clean(connection,()=>{
             
             veiculoTestDataBuilder = new VeiculoBuilder(connection);
@@ -99,14 +100,4 @@ describe('testando controlador veiculo.js',(done) => {
                 .expect(204)
                 .end(done);
     });
-
-    /* TODO o teste será implementando quando a autenticação estiver pronta*/
-    /*it('listando todos os veiculos do cliente',done => {
-        request(app)
-                .get('/v1/veiculos')
-                .timeout(10000)
-                .expect(200)
-                .end(done);
-    }); */
-
 });

@@ -6,7 +6,7 @@ class ValidadorDeData{
     validar(data){
         try{
             return moment(data).isValid();
-        }catch{
+        }catch(e){
             return false;
         }
     }

@@ -13,6 +13,11 @@ module.exports = function(app){
 
         let promise;
 
+        if(dataAtualizacao && !app.util.validadorDeData.validar(dataAtualizacao)){
+            res.sendStatus(204);
+            return;
+        }
+
         if(dataAtualizacao && placa)
             promise = veiculoDAO.listarVeiculosPorPlacaEDataAtualizacao(placa,dataAtualizacao);
         else
