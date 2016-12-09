@@ -1,11 +1,13 @@
 let express = require('express');
 let bodyParser = require('body-parser');
 let consign = require('consign');
+let validator = require('express-validator');
 
 module.exports = () => {
     let app = express();
 
     app.use(bodyParser.json());
+    app.use(validator());
     app.use(bodyParser.urlencoded({extended:true}));
 
     consign({cwd:'app'})
