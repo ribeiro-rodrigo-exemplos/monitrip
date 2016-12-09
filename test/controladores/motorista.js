@@ -16,7 +16,7 @@ describe('Testando controlador motorista.js',function(){
                         }]
         
          request(app)
-                    .get('/v1/motorista')
+                    .get('/v1/motoristas')
                     .query('cpf=13818873763')
                     .timeout(10000)
                     .expect('Content-Type', /json/)
@@ -37,7 +37,7 @@ describe('Testando controlador motorista.js',function(){
                         }]
         
          request(app)
-                    .get('/v1/motorista')
+                    .get('/v1/motoristas')
                     .query('dataAtualizacao=2016-12-07')
                     .timeout(10000)
                     .expect('Content-Type', /json/)
@@ -48,7 +48,7 @@ describe('Testando controlador motorista.js',function(){
 
     it('Consultando motorista com cpf não existente',done => {
         request(app)
-                    .get('/v1/motorista')
+                    .get('/v1/motoristas')
                     .query('cpf=012367891')
                     .timeout(30000)
                     .expect(204)
@@ -57,7 +57,7 @@ describe('Testando controlador motorista.js',function(){
 
     it('Consultando motorista pela data de atualização não existente',done =>{
          request(app)
-                    .get('/v1/motorista')
+                    .get('/v1/motoristas')
                     .query('dataAtualizacao=2016-12-09')
                     .timeout(10000)
                     .expect(204)

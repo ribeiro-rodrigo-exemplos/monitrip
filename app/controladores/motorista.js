@@ -13,6 +13,13 @@ module.exports = function(app){
         //var cpf = "1381887376as";
         //var dataAtualizacao = "w";
         var cliente = 209;
+
+        if(dataAtualizacao){
+            if(!app.util.validadorDeData.validar(dataAtualizacao)){
+                res.sendStatus(204);
+                return;
+            }
+        }
        
         if (cpf && dataAtualizacao){
             motoristaDAO.obter(cliente, cpf, dataAtualizacao)
