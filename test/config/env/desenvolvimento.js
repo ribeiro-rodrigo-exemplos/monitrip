@@ -1,13 +1,13 @@
 const config = {
         mysql:{
-            host:'172.16.193.32',
-            username:'frota',
-            password:'frota',
+            host:'localhost',
+            username:'root',
+            password:'rodrigo007',
             database:'frota_zn4',
             port:3306
     },
         mongodb:{
-            host:'172.16.193.9',
+            host:'localhost',
             port:'27017',
             database:'m2mfrota'
         }
