@@ -15,7 +15,8 @@ class DispositivoDAO{
 
                     if (dispositivo){
                         if(dispositivo.fl_excluido == 0){
-                            reject(new Error("imei já cadastrado"));
+                            let mensagem = {"param": "imei", "msg": "imei já cadastrado", "value": "" };
+                            reject(mensagem);
                         }else{
                             this.verificaLicenca(cliente, licenca)
                                 .then(licenca => {
@@ -50,12 +51,13 @@ class DispositivoDAO{
     
     verificaLicenca(cliente, licenca){
         return new Promise((resolve,reject) => {
-            this.connection.query(`select count(*) from dispositivo where id_cliente = ${cliente}` ,(erro,retorno) => {
+            this.connection.query(`select count(*) from dispositivo where id_cliente = ${cliente} and fl_excluido = 0` ,(erro,retorno) => {
                 if(erro){
                     reject(erro);
                 }else{
                     if(retorno[0]["count(*)"] >= licenca){
-                        reject(new Error("Atingiu o limite de licenças."));
+                        let mensagem = {"param": "licenca", "msg": "Atingiu o limite de licenças.", "value": "" };
+                        reject(mensagem);
                     }
                     resolve(retorno);
                 }
