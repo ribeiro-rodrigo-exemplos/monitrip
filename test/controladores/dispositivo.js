@@ -23,52 +23,52 @@ describe('Testando controlador dispositivo.js',function(){
                             }
 
   
-    // it('Cadastrando imei válido e com licença.',done =>{
+    it('Cadastrando imei válido e com licença.',done =>{
 
-    //     request(app)
-    //                 .post('/v1/dispositivos')
-    //                 .timeout(30000)
-    //                 .send(dispositivo1)
-    //                 .expect(200)
-    //                 .end(done);
+        request(app)
+                    .post('/v1/dispositivos')
+                    .timeout(30000)
+                    .send(dispositivo1)
+                    .expect(200)
+                    .end(done);
 
-    // });
+    });
 
-    // it('Cadastrando imei válido e sem licença.', done =>{
+    it('Cadastrando imei válido e sem licença.', done =>{
 
-    //     request(app)
-    //                 .post('/v1/dispositivos')
-    //                 .send(dispositivo2)
-    //                 .expect(422,"Atingiu o limite de licenças.")    
-    //                 .end(done);
-    // });
+        request(app)
+                    .post('/v1/dispositivos')
+                    .send(dispositivo2)
+                    .expect(422)    
+                    .end(done);
+    });
 
-    // it('Cadastrando imei já cadastrado e não excluido.', done =>{
+    it('Cadastrando imei já cadastrado e não excluido.', done =>{
 
-    //     request(app)
-    //                 .post('/v1/dispositivos')
-    //                 .send(dispositivo1)
-    //                 .expect(422,"imei já cadastrado")
-    //                 .end(done);
-    // });
+        request(app)
+                    .post('/v1/dispositivos')
+                    .send(dispositivo1)
+                    .expect(422)
+                    .end(done);
+    });
 
-    // it('Cadastrando imei já cadastrado, excluido e com licença.', done =>{
+    it('Cadastrando imei já cadastrado, excluido e com licença.', done =>{
 
-    //     request(app)
-    //                 .post('/v1/dispositivos')
-    //                 .send(dispositivo1)
-    //                 .expect(200)
-    //                 .end(done);
-    // });
+        request(app)
+                    .post('/v1/dispositivos')
+                    .send(dispositivo1)
+                    .expect(200)
+                    .end(done);
+    });
 
-    // it('Cadastrando imei já cadastrado, excluido e sem licença.', done =>{
+    it('Cadastrando imei já cadastrado, excluido e sem licença.', done =>{
         
-    //     request(app)
-    //                 .post('/v1/dispositivos')
-    //                 .send(dispositivo1)
-    //                 .expect(422, "Atingiu o limite de licenças.")
-    //                 .end(done);
-    // });
+        request(app)
+                    .post('/v1/dispositivos')
+                    .send(dispositivo1)
+                    .expect(422)
+                    .end(done);
+    });
 
     it('Cadastrando imei vazio.', done =>{
 
