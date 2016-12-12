@@ -17,8 +17,25 @@ class LinhaController{
         this._LinhaRepository
                 .filtrarLinhas(this._clienteId,numero,dataAtualizacao)
                     .then(linhas => {
-                        if(linhas)
+                        if(linhas){
+                            
+                            if(!linhas.length)
+                                linhas.trajetos = linhas.trajetos.map(trajeto => {
+                                    return {nome:trajeto.nome,sentido:trajeto.sentido};
+                                })
+                            else{
+                                linhas = linhas.map(linha => {
+                                    let trajetos = linha.trajetos.map(trajeto => {
+                                        return {nome:trajeto.nome,sentido:trajeto.sentido};
+                                    })
+                                    linha.trajetos = trajetos
+                                    return linha;
+                                })
+                            }
+
                             res.json(linhas);
+                        }
+                            
                         else
                             res.sendStatus(204);
                     })
