@@ -1,12 +1,12 @@
 class VeiculoController{
     constructor(app){
-        this._connection = new app.database.mysqlConnectionFactory();
-        this._veiculoRepository = new app.repositorio.veiculoRepository(this._connection);
+        this._MysqlConnectionFactory = app.database.mysqlConnectionFactory;
+        this._VeiculoRepository = app.repositorio.veiculoRepository;
         this._validadorDeData = app.util.validadorDeData;
         this._idCliente = 154; // teste
     }
 
-    obter(req,res){
+    obter(req,res,next){
 
         let placa = req.query.placa;
         let dataAtualizacao = req.query.dataAtualizacao;
@@ -16,7 +16,10 @@ class VeiculoController{
             return;
         }
 
-        this._veiculoRepository
+        let connection = new this._MysqlConnectionFactory();
+        let veiculoRepository = new this._VeiculoRepository(connection);
+
+        veiculoRepository
                 .filtrarVeiculos(this._idCliente,placa,dataAtualizacao)
                     .then( veiculos => {
      
@@ -25,11 +28,7 @@ class VeiculoController{
                             else
                                 res.sendStatus(204);
                         })
-                        .catch(erro => res
-                                        .status(500)
-                                        .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde')
-                            );
-
+                        .catch(erro => next(erro));
     }
 
     _dataValida(dataAtualizacao){

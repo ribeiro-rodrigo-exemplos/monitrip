@@ -14,7 +14,7 @@ class GenericRepository{
         if(err)
             reject(err);
         else
-            resolve(result ? result:null);
+            resolve(result.length && result.length > 0 ? result:null);
     }
 }
 

@@ -1,7 +1,7 @@
 let request = require('supertest');
 let DatabaseCleaner = require('database-cleaner');
 let app = require('../../config/express-config')();
-let connectionFactory = require('../../app/database/connectionFactory')();
+let connectionFactory = require('../../app/database/mysqlConnectionFactory')();
 let VeiculoBuilder = require('../util/veiculoBuilder');
 let ValidadorDeAmbiente = require('../util/validadorDeAmbiente');
 
@@ -10,7 +10,7 @@ let veiculoTestDataBuilder;
 
 let connection = new connectionFactory();
 
-describe('Testando controlador veiculo.js',(done) => {
+describe('Testando VeiculoController',(done) => {
     
     before(done => {
         
@@ -43,8 +43,8 @@ describe('Testando controlador veiculo.js',(done) => {
                     .query('placa=AAA-222')
                     .timeout(30000)
                     .expect('Content-Type', /json/)
-                    .expect(res => res.body["dt_atualizacao"] = new Date(res.body["dt_atualizacao"]))
-                    .expect(200,veiculoTestDataBuilder.veiculo)
+                    .expect(res => res.body[0]["dt_atualizacao"] = new Date(res.body[0]["dt_atualizacao"]))
+                    .expect(200,[veiculoTestDataBuilder.veiculo])
                     .end(done);
     }); 
 
@@ -85,8 +85,8 @@ describe('Testando controlador veiculo.js',(done) => {
                 .query('dataAtualizacao=2016-12-10')
                 .query('placa=AAA-222')
                 .timeout(10000)
-                .expect(res => res.body["dt_atualizacao"] = new Date(res.body["dt_atualizacao"]))
-                .expect(200,veiculoTestDataBuilder.veiculo)
+                .expect(res => res.body[0]["dt_atualizacao"] = new Date(res.body[0]["dt_atualizacao"]))
+                .expect(200,[veiculoTestDataBuilder.veiculo])
                 .end(done);
     });
 

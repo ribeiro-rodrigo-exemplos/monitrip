@@ -18,6 +18,11 @@ consign({cwd:'app'})
     .then('rota')
     .into(app);
 
+app.use((error,req,res,next) => {
+    res.status(500)
+        .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde');
+})
+
 module.exports = () => app;
 
 

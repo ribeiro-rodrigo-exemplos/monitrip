@@ -1,6 +1,6 @@
 let util = require('../util/util.js')();
 
-class DispositivoDAO{
+class DispositivoRepository{
     constructor(connection){
         this.connection = connection;
     }
@@ -48,7 +48,6 @@ class DispositivoDAO{
         });
     }
 
-    
     verificaLicenca(cliente, licenca){
         return new Promise((resolve,reject) => {
             this.connection.query(`select count(*) from dispositivo where id_cliente = ${cliente} and fl_excluido = 0` ,(erro,retorno) => {
@@ -65,14 +64,12 @@ class DispositivoDAO{
         });
     }
 
-    
     cadastrar(dispositivo, licenca, cliente){
         return new Promise((resolve,reject) => {
             
             this.connection.query(`insert into dispositivo (nu_imei, tx_descricao, id_cliente, fl_excluido) values ('${dispositivo.imei}', '${dispositivo.descricao}', 
                                     ${cliente}, ${dispositivo.excluido})` ,(erro,retorno2) => {
-                console.log(dispositivo)
-                //console.log(erro);
+
                 if(erro){
                     reject(erro);
                 }else{
@@ -84,6 +81,4 @@ class DispositivoDAO{
     }
 }
 
-module.exports = function(){
-    return DispositivoDAO;
-}
+module.exports = () => DispositivoRepository;

@@ -1,23 +1,21 @@
 let request = require('supertest');
 let connection = require('mongodb').connect;
 let app = require('../../config/express-config')();
-<<<<<<< HEAD:test/controladores/linha.js
-=======
+
 let mongodbConfig = require('../../config/m2m-config')()['mongodb'];
->>>>>>> temp:test/integracao/linhaController.js
 
 let ValidadorDeAmbiente = require('../util/validadorDeAmbiente');
 let DatabaseCleaner = require('database-cleaner');
 
-describe('Testando controlador linha.js',() => {
+describe('Testando LinhaController',() => {
 
    before(() => {
      let validador = new ValidadorDeAmbiente();
      validador.validar();
    });
-   
+
    beforeEach((done) => {
-     connection(`mongodb://${mongodbConfig.host}:${mongodbConfig.port}/${mongodbConfig.database}`,
+     connection(mongodbConfig.url,
         (erro,db) => {
          
             let databaseCleaner = new DatabaseCleaner('mongodb');
@@ -71,7 +69,7 @@ describe('Testando controlador linha.js',() => {
                 .get('/v1/linhas')
                 .query(`numero=${numero}`)
                 .timeout(30000)
-                .expect((res) => res.body = {numero:res.body.numero})
+                .expect((res) => res.body = {numero:res.body[0].numero})
                 .expect(200,{numero:numero})
                 .expect('Content-Type',/json/)
                 .end(done); 
@@ -118,7 +116,7 @@ describe('Testando controlador linha.js',() => {
                 .query('dataAtualizacao=2016-03-20')
                 .query(`numero=${numero}`)
                 .timeout(30000)
-                .expect(res => res.body = {numero:numero})
+                .expect(res => res.body = {numero:res.body[0].numero})
                 .expect(200,{numero:numero})
                 .expect('Content-Type',/json/)
                 .end(done); 

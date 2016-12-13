@@ -1,12 +1,13 @@
 class MotoristaController{
     constructor(app){
-        this._connection = new app.database.mysqlConnectionFactory();
-        this._motoristaRepository = new app.repositorio.motoristaRepository(this._connection);
+        this._MysqlConnectionFactory = app.database.mysqlConnectionFactory;
+        this._MotoristaRepository = app.repositorio.motoristaRepository;
         this._validadorDeData = app.util.validadorDeData;
         this._cliente = 209;
     }
 
-    obter(req,res){
+    obter(req,res,next){
+        
         let cpf = req.query.cpf;
         let dataAtualizacao = req.query.dataAtualizacao;
 
@@ -15,7 +16,10 @@ class MotoristaController{
             return;
         }
 
-        this._motoristaRepository
+        let connection = new this._MysqlConnectionFactory();
+        let motoristaRepository = new this._MotoristaRepository(connection);
+
+        motoristaRepository
                 .filtrarMotoristas(this._cliente,cpf,dataAtualizacao)
                     .then(motoristas => {
                         if(!motoristas){
@@ -25,10 +29,7 @@ class MotoristaController{
 
                         res.json(motoristas);
                     })
-                    .catch(erro => 
-                                    res.status(500)
-                                        .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde')
-                          );
+                    .catch(erro => next(erro));
     }
 
     _dataValida(dataAtualizacao){
