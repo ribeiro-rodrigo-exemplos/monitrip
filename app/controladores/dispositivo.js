@@ -16,7 +16,7 @@ module.exports = function(app){
         let connection = new app.database.connectionFactory();
         let dispositivoDAO = new app.database.dispositivoDAO(connection);
 
-        var licenca = 1;
+        var licenca = 10;
         var cliente = 209;
         
         var objetoDispositivo = {
@@ -38,8 +38,8 @@ module.exports = function(app){
             
         }).catch(erro =>{
         
-            res.status(422) 
-                .send(erro.message);
+            res.status(422)
+                .send(erro);
             
         });
     }

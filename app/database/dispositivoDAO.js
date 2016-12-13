@@ -7,7 +7,7 @@ class DispositivoDAO{
 
     consultarImei(cliente, imei, licenca){
         return new Promise((resolve,reject) => {
-            this.connection.query(`select * from dispositivo where id_cliente = ${cliente} and nu_imei = ${imei}` ,(erro,retorno) => {
+            this.connection.query(`select * from dispositivo where id_cliente = ${cliente} and nu_imei = '${imei}'` ,(erro,retorno) => {
                 if(erro){
                     reject(erro);
                 }else{
@@ -38,7 +38,7 @@ class DispositivoDAO{
 
     atualizarImei(cliente, imei){
         return new Promise((resolve,reject) => {
-            this.connection.query(`update dispositivo set fl_excluido = ${util.excluido.NAO} where nu_imei = ${imei}` ,(erro,retorno) => {
+            this.connection.query(`update dispositivo set fl_excluido = ${util.excluido.NAO} where nu_imei = '${imei}'` ,(erro,retorno) => {
                 if(erro){
                     reject(erro);
                 }else{                    
@@ -68,8 +68,11 @@ class DispositivoDAO{
     
     cadastrar(dispositivo, licenca, cliente){
         return new Promise((resolve,reject) => {
-            this.connection.query(`insert into dispositivo values (${dispositivo.imei}, '${dispositivo.descricao}', 
+            
+            this.connection.query(`insert into dispositivo (nu_imei, tx_descricao, id_cliente, fl_excluido) values ('${dispositivo.imei}', '${dispositivo.descricao}', 
                                     ${cliente}, ${dispositivo.excluido})` ,(erro,retorno2) => {
+                console.log(dispositivo)
+                //console.log(erro);
                 if(erro){
                     reject(erro);
                 }else{
