@@ -1,4 +1,4 @@
-var request = require('supertest');
+/*var request = require('supertest');
 var assert = require('assert');
 var app = require('../../config/express-config')();
 
@@ -94,6 +94,7 @@ describe('Testando controlador dispositivo.js',function(){
                     .end(done);
     });
 
+<<<<<<< HEAD:test/controladores/dispositivo.js
 
     it('Cadastrando descrição vazia.', done =>{
 
@@ -114,4 +115,7 @@ describe('Testando controlador dispositivo.js',function(){
 
 
 });
+=======
+}); */
+>>>>>>> temp:test/integracao/dispositivo.js
 

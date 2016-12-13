@@ -1,10 +1,10 @@
 var mysql = require('mysql');
 var config = require('../../config/m2m-config')();
 
-function createDBConnection(url){
+function createDBConnection(){
   return mysql.createConnection({
-    host:config.mysql.url,
-    user:config.mysql.user,
+    host:config.mysql.host,
+    user:config.mysql.username,
     password:config.mysql.password,
     database:config.mysql.database
   });

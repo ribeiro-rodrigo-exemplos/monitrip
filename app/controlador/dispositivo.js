@@ -5,7 +5,6 @@ module.exports = function(app){
     controlador.cadastrar = (req,res) => {
         
         req.assert('imei', 'imei obrigatório').notEmpty();
-        req.assert('descricao', 'descrição é obrigatória').notEmpty();
 
         var errors = req.validationErrors();
 
@@ -14,10 +13,10 @@ module.exports = function(app){
             return;
         }
         
-        let connection = new app.database.connectionFactory();
+        let connection = new app.database.mysqlConnectionFactory();
         let dispositivoDAO = new app.database.dispositivoDAO(connection);
 
-        var licenca = 10;
+        var licenca = 1;
         var cliente = 209;
         
         var objetoDispositivo = {
@@ -39,8 +38,8 @@ module.exports = function(app){
             
         }).catch(erro =>{
         
-            res.status(422)
-                .send(erro);
+            res.status(422) 
+                .send(erro.message);
             
         });
     }

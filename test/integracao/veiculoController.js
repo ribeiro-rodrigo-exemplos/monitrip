@@ -2,15 +2,15 @@ let request = require('supertest');
 let DatabaseCleaner = require('database-cleaner');
 let app = require('../../config/express-config')();
 let connectionFactory = require('../../app/database/connectionFactory')();
-let VeiculoBuilder = require('../util/VeiculoBuilder');
-let ValidadorDeAmbiente = require('../util/ValidadorDeAmbiente');
+let VeiculoBuilder = require('../util/veiculoBuilder');
+let ValidadorDeAmbiente = require('../util/validadorDeAmbiente');
 
 let databaseCleaner;
 let veiculoTestDataBuilder; 
 
 let connection = new connectionFactory();
 
-describe('testando controlador veiculo.js',(done) => {
+describe('Testando controlador veiculo.js',(done) => {
     
     before(done => {
         
@@ -36,7 +36,7 @@ describe('testando controlador veiculo.js',(done) => {
         });
     });
     
-    it('consultando veiculo pela placa',done => {
+   it('#Consultando veiculo pela placa',done => {
         
          request(app)
                     .get('/v1/veiculos')
@@ -46,10 +46,9 @@ describe('testando controlador veiculo.js',(done) => {
                     .expect(res => res.body["dt_atualizacao"] = new Date(res.body["dt_atualizacao"]))
                     .expect(200,veiculoTestDataBuilder.veiculo)
                     .end(done);
-
     }); 
 
-    it('consultando veiculo cuja a placa não existe',done => {
+    it('#Consultando veiculo cuja a placa não existe',done => {
         request(app)
                     .get('/v1/veiculos')
                     .query('placa=0987a23')
@@ -58,7 +57,7 @@ describe('testando controlador veiculo.js',(done) => {
                     .end(done);
     });
 
-    it('consultando veiculo com modificação após a data',done => {
+    it('#Consultando veiculo com modificação após a data',done => {
                 
         request(app)
                 .get('/v1/veiculos')
@@ -71,7 +70,7 @@ describe('testando controlador veiculo.js',(done) => {
                 .end(done);
     });
 
-    it('listando veiculos por dataAtualizacao sem veículo modificado após a data',done => {
+    it('#Listando veiculos por dataAtualizacao sem veículo modificado após a data',done => {
         request(app)
                 .get('/v1/veiculos')
                 .query('dataAtualizacao=2018-02-01')
@@ -80,7 +79,7 @@ describe('testando controlador veiculo.js',(done) => {
                 .end(done);
     });
 
-    it('listando veículos por placa e dataAtualizacao',done => {
+    it('#Listando veículos por placa e dataAtualizacao',done => {
         request(app)
                 .get('/v1/veiculos')
                 .query('dataAtualizacao=2016-12-10')
@@ -91,7 +90,7 @@ describe('testando controlador veiculo.js',(done) => {
                 .end(done);
     });
 
-    it('listando veículo pela placa que não foi atualizado após a data de atualização',done => {
+    it('#Listando veículo pela placa que não foi atualizado após a data de atualização',done => {
         request(app)
                 .get('/v1/veiculos')
                 .query('dataAtualizacao=2016-12-11')
@@ -99,5 +98,5 @@ describe('testando controlador veiculo.js',(done) => {
                 .timeout(10000)
                 .expect(204)
                 .end(done);
-    });
+    }); 
 });

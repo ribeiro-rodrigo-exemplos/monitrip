@@ -3,25 +3,23 @@ let hom = require('./env/homologacao');
 let test = require('./env/teste');
 let prod = require('./env/producao');
 
-module.exports = function(){
-    
-    let env =  process.env['NODE_ENV'];
-
-    if(!env)
-        env = 'dev';
-
-    console.log(`Utilizando ambiente ${env}.`);
-    
-    if(env == 'test')
-        return test();
-        else
-            if(env == 'hom')
-                return hom();
-            else
-                if(env == 'prod')
-                    return prod();
-                else
-                    return dev();
-    
+const envs = {
+    dev:dev,
+    hom:hom,
+    test:test,
+    prod:prod
 }
+
+let envName = process.env['NODE_ENV'];
+
+if(envs[envName])
+    env = envs[envName];
+else{
+        envName = 'dev';
+        env = envs[envName];
+    }
+        
+console.log(`Utilizando ambiente ${envName}.`);
+
+module.exports = env
 

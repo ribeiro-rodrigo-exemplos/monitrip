@@ -1,6 +1,10 @@
 let request = require('supertest');
 let connection = require('mongodb').connect;
 let app = require('../../config/express-config')();
+<<<<<<< HEAD:test/controladores/linha.js
+=======
+let mongodbConfig = require('../../config/m2m-config')()['mongodb'];
+>>>>>>> temp:test/integracao/linhaController.js
 
 let ValidadorDeAmbiente = require('../util/validadorDeAmbiente');
 let DatabaseCleaner = require('database-cleaner');
@@ -13,22 +17,51 @@ describe('Testando controlador linha.js',() => {
    });
    
    beforeEach((done) => {
-     connection('mongodb://localhost/test',(erro,db) => {
+     connection(`mongodb://${mongodbConfig.host}:${mongodbConfig.port}/${mongodbConfig.database}`,
+        (erro,db) => {
          
-         let databaseCleaner = new DatabaseCleaner('mongodb');
+            let databaseCleaner = new DatabaseCleaner('mongodb');
 
-         databaseCleaner.clean(db,() => {
-            db.createCollection('Linha',null,(linhaErro,linhaCollection) => {
-                linhaCollection.insert([
-                    {numero:'8765',clienteId:209,descr:'Linha 8765',atualizacao:new Date('2016-03-21T19:46:19.338Z'),trajetos:{nome:'Penha/Alvorada',sentido:'ida'}},
-                    {numero:'8766',clienteId:209,descr:'Linha 8766',atualizacao:new Date('2016-03-21T19:46:19.338Z'),trajetos:{nome:'Madureira/Alvorada',sentido:'ida'}},
-                    {numero:'8767',clienteId:209,descr:'Linha 8767',atualizacao:new Date('2016-03-22T19:46:19.338Z'),trajetos:{nome:'Madureira/Alvorada',sentido:'volta'}},
-                    {numero:'8768',clienteId:209,descr:'Linha 8768',atualizacao:new Date('2016-03-23T19:46:19.338Z'),trajetos:{nome:'Fundao/Alvorada',sentido:'ida'}}
-                ],() => done());
+            databaseCleaner.clean(db,() => {
+                db.createCollection('Linha',null,(linhaErro,linhaCollection) => {
+                    linhaCollection.insert(
+                        [
+                            {   
+                                numero:'8765',
+                                clienteId:209,descr:'Linha 8765',
+                                atualizacao:new Date('2016-03-21T19:46:19.338Z'),
+                                trajetos:{nome:'Penha/Alvorada',sentido:'ida'}
+                            },
+                            {   
+                                numero:'8766',
+                                clienteId:209,
+                                descr:'Linha 8766',
+                                atualizacao:new Date('2016-03-21T19:46:19.338Z'),
+                                trajetos:{nome:'Madureira/Alvorada',
+                                sentido:'ida'}
+                            },
+                            {   
+                                numero:'8767',
+                                clienteId:209,
+                                descr:'Linha 8767',
+                                atualizacao:new Date('2016-03-22T19:46:19.338Z'),
+                                trajetos:{nome:'Madureira/Alvorada',
+                                sentido:'volta'}
+                            },
+                            {
+                                numero:'8768',
+                                clienteId:209,
+                                descr:'Linha 8768',
+                                atualizacao:new Date('2016-03-23T19:46:19.338Z'),
+                                trajetos:{nome:'Fundao/Alvorada',
+                                sentido:'ida'}
+                            }
+                        ],
+                    () => done());
+                });
             });
-         });
-     });
-   });
+        });
+    });
    
     it('#Consultando linha pelo número',done => {
         
@@ -38,9 +71,9 @@ describe('Testando controlador linha.js',() => {
                 .get('/v1/linhas')
                 .query(`numero=${numero}`)
                 .timeout(30000)
-                .expect('Content-Type',/json/)
                 .expect((res) => res.body = {numero:res.body.numero})
                 .expect(200,{numero:numero})
+                .expect('Content-Type',/json/)
                 .end(done); 
     }); 
     
@@ -58,12 +91,12 @@ describe('Testando controlador linha.js',() => {
                 .get('/v1/linhas')
                 .query('dataAtualizacao=2016-03-20')
                 .timeout(30000)
-                .expect('Content-Type',/json/)
                 .expect((res) => {
                     if(res.body.length < 4)
                         throw new Error('Quantidade de linhas inválidas');
                 })
                 .expect(200)
+                .expect('Content-Type',/json/)
                 .end(done); 
     });
 
@@ -85,9 +118,9 @@ describe('Testando controlador linha.js',() => {
                 .query('dataAtualizacao=2016-03-20')
                 .query(`numero=${numero}`)
                 .timeout(30000)
-                .expect('Content-Type',/json/)
                 .expect(res => res.body = {numero:numero})
                 .expect(200,{numero:numero})
+                .expect('Content-Type',/json/)
                 .end(done); 
     });
 
@@ -105,9 +138,9 @@ describe('Testando controlador linha.js',() => {
         request(app)
                 .get('/v1/linhas')
                 .timeout(30000)
-                .expect('Content-Type',/json/)
                 .expect(res => res.body = {total:res.body.length})
                 .expect(200,{total:4})
+                .expect('Content-Type',/json/)
                 .end(done);  
     });
 }); 

@@ -1,16 +1,14 @@
-
-module.exports = function(){
-    return {
-        
+const config = {
         mysql:{
-            url:'localhost',
-            user:'root',
-            password:'',
-            database:'frota_zn4',
+            host:'localhost',
+            username:'root',
+            password:'rodrigo007',
+            database:'frota_zn4_teste',
             port:3306
-        },
-        mongo:{
-            url:'mongodb://localhost/test'
+    },
+        mongodb:{
+            url:'mongodb://localhost:27017/m2mfrota'
         }
-    }
 }
+
+module.exports = () => config

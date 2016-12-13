@@ -10,11 +10,12 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(validator());
 
 consign({cwd:'app'})
-    .include('controladores')
-    .then('rotas')
+    .include('modelo')
     .then('database')
-    .then('modelo')
     .then('util')
+    .then('repositorio')
+    .then('controlador')
+    .then('rota')
     .into(app);
 
 module.exports = () => app;
