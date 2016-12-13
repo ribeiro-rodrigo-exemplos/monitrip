@@ -1,4 +1,4 @@
-var request = require('supertest');
+/*var request = require('supertest');
 var assert = require('assert');
 var app = require('../../config/express-config')();
 
@@ -114,5 +114,4 @@ describe('Testando controlador dispositivo.js',function(){
 
 
 });
-
-
+*/
