@@ -1,23 +1,16 @@
 class GenericRepository{
     
-    constructor(ModelClass){
-        this.ModelClass = ModelClass;
+    constructor(connection){
+        this._connection = connection;
     }
 
-    prepareResult(criteria){
+    prepareResult(query,params){
         return new Promise((resolve,reject) => 
-            this.ModelClass.find({where:criteria},(err,result) => 
-                this._prepare(err,(result && result.length==0 ? null:result),resolve,reject))
+            this._connection.query(query,params,(erro,result) => this.prepare(erro,result,resolve,reject))
         );
     }
 
-    prepareUniqueResult(criteria){
-        return new Promise((resolve,reject) => 
-            this.ModelClass.findOne({where:criteria},(err,result) => this._prepare(err,result,resolve,reject))
-        );
-    }
-
-    _prepare(err,result,resolve,reject){
+    prepare(err,result,resolve,reject){
         if(err)
             reject(err);
         else

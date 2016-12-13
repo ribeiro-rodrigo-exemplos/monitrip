@@ -1,8 +1,17 @@
 let GenericRepository = require('./genericRepository')();
+let mongoose = require('mongoose');
+
+let linhaSchema = mongoose.Schema({
+    ultimaAtualizacao:Date,
+    numero:String
+});
+
+mongoose.model('Linha',linhaSchema,'Linha');
 
 class LinhaRepository extends GenericRepository{
-    constructor(app){
-        super(app.modelo.linha);
+    constructor(){
+        super();
+        this._linha = mongoose.model('Linha');
     }
 
     filtrarLinhas(clienteId,numero,dataAtualizacao){
@@ -12,22 +21,20 @@ class LinhaRepository extends GenericRepository{
             criteria.clienteId = clienteId;
                 
         if(dataAtualizacao)
-            criteria.atualizacao = {gte:new Date(dataAtualizacao)};
+            criteria.atualizacao = {"$gte":new Date(dataAtualizacao)};
 
-        if(numero){
+        if(numero)
             criteria.numero = numero;
-            return this.prepareUniqueResult(criteria);
-        }
 
-        return this.prepareResult(criteria);
+        return this.prepareResult(criteria,{numero:1,descr:1,"trajetos.nome":1,"trajetos.sentido":1,atualizacao:1});
+    }
+
+    prepareResult(criteria,fields){
+        return new Promise((resolve,reject) => {
+            this._linha.find(criteria,fields,(erro,result) => this.prepare(erro,result,resolve,reject));
+        });
     }
 }
 
-let repository;
+module.exports = () => LinhaRepository;
 
-module.exports = (app) => {
-    if(!repository)
-        repository = new LinhaRepository(app);
-    
-    return repository;
-}

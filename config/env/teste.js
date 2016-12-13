@@ -7,9 +7,7 @@ const config = {
             port:3306
     },
         mongodb:{
-            host:'localhost',
-            port:'27017',
-            database:'test'
+            url:'mongodb://localhost:27017/m2mfrota'
         }
 }
 

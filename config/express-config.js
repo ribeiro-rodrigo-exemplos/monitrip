@@ -11,11 +11,11 @@ app.use(validator());
 
 consign({cwd:'app'})
     .include('modelo')
+    .then('database')
     .then('util')
     .then('repositorio')
     .then('controlador')
     .then('rota')
-    .then('database')
     .into(app);
 
 module.exports = () => app;

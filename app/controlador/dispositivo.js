@@ -13,7 +13,7 @@ module.exports = function(app){
             return;
         }
         
-        let connection = new app.database.connectionFactory();
+        let connection = new app.database.mysqlConnectionFactory();
         let dispositivoDAO = new app.database.dispositivoDAO(connection);
 
         var licenca = 1;

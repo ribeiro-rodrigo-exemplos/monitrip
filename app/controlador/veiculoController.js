@@ -1,6 +1,7 @@
 class VeiculoController{
     constructor(app){
-        this._veiculoRepository = app.repositorio.veiculoRepository;
+        this._connection = new app.database.mysqlConnectionFactory();
+        this._veiculoRepository = new app.repositorio.veiculoRepository(this._connection);
         this._validadorDeData = app.util.validadorDeData;
         this._idCliente = 154; // teste
     }
@@ -28,7 +29,6 @@ class VeiculoController{
                                         .status(500)
                                         .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde')
                             );
-
 
     }
 

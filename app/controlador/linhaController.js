@@ -1,6 +1,6 @@
 class LinhaController{
     constructor(app){
-        this._LinhaRepository = app.repositorio.linhaRepository;
+        this._linhaRepository = new app.repositorio.linhaRepository();
         this._validadorDeData = app.util.validadorDeData;
         this._clienteId = 209;
     }
@@ -14,28 +14,11 @@ class LinhaController{
             return;
         }
 
-        this._LinhaRepository
+        this._linhaRepository
                 .filtrarLinhas(this._clienteId,numero,dataAtualizacao)
                     .then(linhas => {
-                        if(linhas){
-                            
-                            if(!linhas.length)
-                                linhas.trajetos = linhas.trajetos.map(trajeto => {
-                                    return {nome:trajeto.nome,sentido:trajeto.sentido};
-                                })
-                            else{
-                                linhas = linhas.map(linha => {
-                                    let trajetos = linha.trajetos.map(trajeto => {
-                                        return {nome:trajeto.nome,sentido:trajeto.sentido};
-                                    })
-                                    linha.trajetos = trajetos
-                                    return linha;
-                                })
-                            }
-
-                            res.json(linhas);
-                        }
-                            
+                        if(linhas)
+                            res.json(linhas);  
                         else
                             res.sendStatus(204);
                     })

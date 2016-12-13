@@ -3,34 +3,33 @@ let GenericRepository = require('./genericRepository')();
 
 class VeiculoRepository extends GenericRepository{
     
-    constructor(app){
-        super(app.modelo.veiculo);
+    constructor(connection){
+        super(connection);
     }
 
     filtrarVeiculos(idCliente,placa,dataAtualizacao){
+              
+        if(!idCliente || dataAtualizacao || placa)
+            idCliente = `id_cliente like '%' or id_cliente is null`; 
+        else
+            idCliente = `id_cliente=${idCliente}`;
         
-        let criteria = {};
-                
-        if(dataAtualizacao)
-            criteria["dt_atualizacao"] = {gte:new Date(dataAtualizacao)};
-        
-        if(idCliente && !dataAtualizacao && !placa)
-            criteria["id_cliente"] = idCliente; 
+        if(!dataAtualizacao)
+            dataAtualizacao = `dt_atualizacao >= '0000-00-00' or dt_atualizacao is null`
+        else
+            dataAtualizacao = `dt_atualizacao >= '${dataAtualizacao}'`
 
-        if(placa){
-            criteria["vl_placa"] = placa;
-            return this.prepareUniqueResult(criteria);
-        }
+        if(!placa)
+            placa = `vl_placa like '%' or vl_placa is null`
+        else
+            placa = `vl_placa='${placa}'`;
 
-        return this.prepareResult(criteria);  
+        const query = `select id_veiculo, cod_veiculo, fl_ativo, vl_placa, dt_atualizacao, id_cliente 
+                from veiculo where (${dataAtualizacao}) and (${idCliente}) and (${placa})`
+
+        return this.prepareResult(query);  
     }
 }
 
-let repository;
+module.exports = () => VeiculoRepository;
 
-module.exports = app => {
-    if(!repository)
-        repository = new VeiculoRepository(app);
-
-    return repository;
-}

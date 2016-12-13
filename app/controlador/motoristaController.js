@@ -1,6 +1,7 @@
 class MotoristaController{
     constructor(app){
-        this._MotoristaRepository = app.repositorio.motoristaRepository;
+        this._connection = new app.database.mysqlConnectionFactory();
+        this._motoristaRepository = new app.repositorio.motoristaRepository(this._connection);
         this._validadorDeData = app.util.validadorDeData;
         this._cliente = 209;
     }
@@ -14,7 +15,7 @@ class MotoristaController{
             return;
         }
 
-        this._MotoristaRepository
+        this._motoristaRepository
                 .filtrarMotoristas(this._cliente,cpf,dataAtualizacao)
                     .then(motoristas => {
                         if(!motoristas){
