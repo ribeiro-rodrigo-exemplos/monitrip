@@ -5,6 +5,7 @@ module.exports = function(app){
     controlador.cadastrar = (req,res) => {
         
         req.assert('imei', 'imei obrigatório').notEmpty();
+        req.assert('descricao', 'descrição é obrigatória').notEmpty();
 
         var errors = req.validationErrors();
 

@@ -1,6 +1,6 @@
 let request = require('supertest');
 let connection = require('mongodb').connect;
-let app = require('../../app/config/express-config')();
+let app = require('../../config/express-config')();
 
 let ValidadorDeAmbiente = require('../util/validadorDeAmbiente');
 let DatabaseCleaner = require('database-cleaner');

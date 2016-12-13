@@ -1,6 +1,6 @@
 let request = require('supertest');
 let DatabaseCleaner = require('database-cleaner');
-let app = require('../../app/config/express-config')();
+let app = require('../../config/express-config')();
 let connectionFactory = require('../../app/database/connectionFactory')();
 let VeiculoBuilder = require('../util/VeiculoBuilder');
 let ValidadorDeAmbiente = require('../util/ValidadorDeAmbiente');

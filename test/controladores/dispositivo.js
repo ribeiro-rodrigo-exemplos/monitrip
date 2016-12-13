@@ -1,6 +1,6 @@
 var request = require('supertest');
 var assert = require('assert');
-var app = require('../../app/config/express-config')();
+var app = require('../../config/express-config')();
 
 describe('Testando controlador dispositivo.js',function(){
     
@@ -21,6 +21,13 @@ describe('Testando controlador dispositivo.js',function(){
                                 "descricao": "testando",
                                 "excluido": 0
                             }
+    
+    let dispositivo4 =      {
+                                "imei": "3",
+                                "descricao": "",
+                                "excluido": 0
+                            }
+
 
   
     it('Cadastrando imei válido e com licença.',done =>{
@@ -86,6 +93,25 @@ describe('Testando controlador dispositivo.js',function(){
                     .expect(422, expectativa)
                     .end(done);
     });
+
+
+    it('Cadastrando descrição vazia.', done =>{
+
+        let expectativa =   [
+                                {
+                                    "param": "descricao",
+                                    "msg": "descrição é obrigatória",
+                                    "value": ""
+                                }
+                            ]
+                            
+        request(app)
+                    .post('/v1/dispositivos')
+                    .send(dispositivo4)
+                    .expect(422, expectativa)
+                    .end(done);
+    });
+
 
 });
 
