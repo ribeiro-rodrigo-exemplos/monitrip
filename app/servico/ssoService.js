@@ -32,7 +32,6 @@ class SSOService{
     }
 
     possuiPermissaoParaOMonitrip(decoded){
-        decoded.funcionalidades.push('Monitrip');
         return decoded.funcionalidades.indexOf('Monitrip') >= 0 ? true:false;
     }
 
