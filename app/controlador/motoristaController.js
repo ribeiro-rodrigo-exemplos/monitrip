@@ -1,3 +1,5 @@
+let moment = require('moment');
+
 class MotoristaController{
     constructor(app){
         this._MysqlConnectionFactory = app.database.mysqlConnectionFactory;
@@ -21,13 +23,27 @@ class MotoristaController{
 
         motoristaRepository
                 .filtrarMotoristas(this._cliente,cpf,dataAtualizacao)
-                    .then(motoristas => {
-                        if(!motoristas){
+                    .then(data => {
+                        if(!data){
                             res.sendStatus(204);
                             return;
                         }
+                        
+                        let dataBusca = moment().format('DD-MM-YYYY');
+                        let motoristas = JSON.parse(JSON.stringify(data));
+                        let arrayMotorista = [];
+                        let objMotorista = {};
 
-                        res.json(motoristas);
+                        motoristas.forEach(mot => {
+                            arrayMotorista.push(mot);
+                        });
+
+                        objMotorista = {
+                            data: dataBusca,
+                            motorista: arrayMotorista
+                        }
+
+                        res.json(objMotorista);
                     })
                     .catch(erro => next(erro));
     }

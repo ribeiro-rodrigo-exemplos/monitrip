@@ -1,19 +1,24 @@
-/*var request = require('supertest');
+var request = require('supertest');
 var assert = require('assert');
+let moment = require('moment');
 var app = require('../../config/express-config')();
 
 describe('Testando controlador motorista.js',function(){
     
     it('Consultando motorista pelo cpf existente',done =>{
+        let dataBusca = moment().format('DD-MM-YYYY');
 
-        let motorista = [{
-                            "nm_matricula": "19810",
-                            "nm_nomeFuncionario": "Caroline Ferraira",
-                            "nm_cpf": "13818873763",
-                            "vl_sexo": "f",
-                            "dt_atualizacao": "2016-12-08T02:00:00.000Z",
-                            "fl_ativo": 0
-                        }]
+        let motorista = {
+                            "data": dataBusca,
+                            "motorista": [
+                                {
+                                    "nm_nomeFuncionario": "Caroline Ferraira",
+                                    "nm_cpf": "13818873763",
+                                    "dt_atualizacao": "2016-12-08T02:00:00.000Z",
+                                    "fl_ativo": 0
+                                }
+                            ]
+                        }
         
          request(app)
                     .get('/v1/motoristas')
@@ -54,4 +59,4 @@ describe('Testando controlador motorista.js',function(){
                     .end(done);
     });
     
-}); */
+}); 
