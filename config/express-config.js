@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(validator());
 
 consign({cwd:'app'})
-    .include('modelo')
+    .include('servico')
     .then('database')
     .then('util')
     .then('repositorio')

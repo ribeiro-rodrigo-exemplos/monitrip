@@ -8,6 +8,9 @@ const config = {
     },
         mongodb:{
             url:'mongodb://localhost:27017/m2mfrota'
+        },
+        sso:{
+            url:''
         }
 }
 
