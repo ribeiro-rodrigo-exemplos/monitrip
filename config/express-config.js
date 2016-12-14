@@ -9,8 +9,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(validator());
 
+app.set('jwt_key','M2MParceiroKey');
+
 consign({cwd:'app'})
-    .include('database')
+    .include('servico')
+    .then('database')
     .then('util')
     .then('repositorio')
     .then('controlador')
@@ -18,6 +21,13 @@ consign({cwd:'app'})
     .into(app);
 
 app.use((error,req,res,next) => {
+   
+    if(error.status){
+        res.status(error.status)
+            .send(error.message);
+        return;
+    }
+    
     res.status(500)
         .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde');
 })
