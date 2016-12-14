@@ -79,6 +79,18 @@ class DispositivoRepository{
             });
         });
     }
+
+    obterDispositivoPorImei(idCliente,imei){
+        return new Promise((resolve,reject) => {
+            this.connection.query('select * from dispositivo where id_cliente=? and nu_imei like ?',[idCliente,imei],(erro,result) => {
+                if(erro){
+                    reject(erro);
+                    return;
+                }
+                resolve(result.length == 0 ? null:result[0]);
+            });
+        });
+    }
 }
 
 module.exports = () => DispositivoRepository;
