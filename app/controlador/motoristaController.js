@@ -40,7 +40,7 @@ class MotoristaController{
 
                         objMotorista = {
                             data: dataBusca,
-                            motorista: arrayMotorista
+                            motoristas: arrayMotorista
                         }
 
                         res.json(objMotorista);

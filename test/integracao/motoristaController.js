@@ -10,7 +10,7 @@ describe('Testando controlador motorista.js',function(){
 
         let motorista = {
                             "data": dataBusca,
-                            "motorista": [
+                            "motoristas": [
                                 {
                                     "nm_nomeFuncionario": "Caroline Ferraira",
                                     "nm_cpf": "13818873763",
