@@ -51,9 +51,7 @@ describe('Testando VeiculoController',(done) => {
                     .query('placa=AAA-222')
                     .timeout(30000)
                     .expect('Content-Type', /json/)
-                    .expect(res => {
-                        res.body['dt_sincronismo'] = dateBuilder.extrairDataSincronismo(res.body);
-                    })
+                    .expect(res => res.body['dt_sincronismo'] = dateBuilder.extrairDataSincronismo(res.body))
                     .expect(200,dtoEsperado)
                     .end(done);
     }); 
@@ -73,9 +71,7 @@ describe('Testando VeiculoController',(done) => {
                 .get('/v1/veiculos')
                 .query('dataAtualizacao=2016-12-10')
                 .timeout(30000)
-                .expect(res => {
-                    res.body['dt_sincronismo'] = dateBuilder.extrairDataSincronismo(res.body);
-                })
+                .expect(res => res.body['dt_sincronismo'] = dateBuilder.extrairDataSincronismo(res.body))
                 .expect(200,dtoEsperado)
                 .end(done);
     });
