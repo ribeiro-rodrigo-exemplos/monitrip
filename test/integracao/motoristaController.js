@@ -2,31 +2,35 @@ var request = require('supertest');
 var assert = require('assert');
 let moment = require('moment');
 var app = require('../../config/express-config')();
-let preparaData = require('../util/preparaData')();
+let dateBuilder = require('../util/dateBuilder');
 let GenericDTO = require('../../app/util/dto/genericDTO')();
 
 describe('Testando controlador motorista.js',function(){
     
     it('Consultando motorista pelo cpf existente',done =>{
 
-        let motorista = [
-                            {
-                                "nm_nomeFuncionario": "Caroline Ferraira",
-                                "nm_cpf": "13818873763",
-                                "fl_ativo": 0
-                            }
-                        ]
+        let motorista = {
+                            "dt_sincronismo": "",
+                            "motoristas":
+                            [
+                                {
+                                    "nm_nomeFuncionario": "Caroline Ferraira",
+                                    "nm_cpf": "13818873763",
+                                    "fl_ativo": 0
+                                }
+                            ]
+                        }               
                         
 
-        let dtoEsperado = new GenericDTO(motorista,'veiculos');
-        dtoEsperado["dt_sincronismo"] = moment().format('YYYY-MM-DD')
+        dtoEsperado = new GenericDTO(motorista,'motoristas');
+        dtoEsperado["dt_sincronismo"] = dateBuilder.obterDataAtual();
 
         request(app)
                     .get('/v1/motoristas')
                     .query('cpf=13818873763')
                     .timeout(10000)
                     .expect('Content-Type', /json/)
-                    .expect(res.body["dt_sincronismo"] = new preparaData(res))
+                    .expect(res => res.body['dt_sincronismo'] = dateBuilder.extrairDataSincronismo(res.body))
                     .end(done);
 
     });
