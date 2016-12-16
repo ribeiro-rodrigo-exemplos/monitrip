@@ -8,7 +8,8 @@ let GenericDTO = require('../../app/util/dto/genericDTO')();
 let moment = require('moment');
 
 let databaseCleaner;
-let veiculoTestDataBuilder; 
+let veiculoTestDataBuilder;
+let dateBuilder = require('../util/dateBuilder');
 
 let connection = new connectionFactory();
 
@@ -41,7 +42,7 @@ describe('Testando VeiculoController',(done) => {
    it('#Consultando veiculo pela placa',done => {
         
         let dtoEsperado = new GenericDTO([veiculoTestDataBuilder.veiculo],'veiculos');
-        dtoEsperado["dt_sincronismo"] = moment().format('YYYY-MM-DD')
+        dtoEsperado["dt_sincronismo"] = dateBuilder.obterDataAtual()//moment().format('YYYY-MM-DD')
 
          request(app)
                     .get('/v1/veiculos')
@@ -49,8 +50,7 @@ describe('Testando VeiculoController',(done) => {
                     .timeout(30000)
                     .expect('Content-Type', /json/)
                     .expect(res => {
-                        let regexp = new RegExp(/[0-9]{4}-[0-9]{2}-[0-9]{2}/);
-                        res.body["dt_sincronismo"] = regexp.exec(res.body['dt_sincronismo']).toString();
+                        res.body['dt_sincronismo'] = res.bodydateBuilder.extrairDataSincronismo(res.body);
                     })
                     .expect(200,dtoEsperado)
                     .end(done);
