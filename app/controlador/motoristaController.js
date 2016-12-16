@@ -5,6 +5,7 @@ class MotoristaController{
         this._MysqlConnectionFactory = app.database.mysqlConnectionFactory;
         this._MotoristaRepository = app.repositorio.motoristaRepository;
         this._validadorDeData = app.util.validadorDeData;
+        this._GenericDTO = app.util.dto.genericDTO;
         this._cliente = 209;
     }
 
@@ -29,21 +30,9 @@ class MotoristaController{
                             return;
                         }
                         
-                        let dataBusca = moment().format('DD-MM-YYYY');
-                        let motoristas = JSON.parse(JSON.stringify(data));
-                        let arrayMotorista = [];
-                        let objMotorista = {};
+                        
 
-                        motoristas.forEach(mot => {
-                            arrayMotorista.push(mot);
-                        });
-
-                        objMotorista = {
-                            data: dataBusca,
-                            motoristas: arrayMotorista
-                        }
-
-                        res.json(objMotorista);
+                        res.json(new this._GenericDTO(data,'motoristas'));
                     })
                     .catch(erro => next(erro));
     }

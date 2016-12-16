@@ -22,7 +22,7 @@ class MotoristaRepository extends GenericRepository{
         else
             cpf = `nm_cpf='${cpf}'`;
 
-        const query = `select nm_nomeFuncionario, nm_cpf, dt_atualizacao, fl_ativo 
+        const query = `select nm_nomeFuncionario, nm_cpf, fl_ativo 
                 from funcionario where (${dataAtualizacao}) and (${clienteId}) and (${cpf})`
         
         return this.prepareResult(query);   
