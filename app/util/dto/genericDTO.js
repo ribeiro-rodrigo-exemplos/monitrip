@@ -6,3 +6,4 @@ class GenericDTO{
 }
 
 module.exports = () => GenericDTO;
+

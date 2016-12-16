@@ -4,9 +4,13 @@ let app = require('../../config/express-config')();
 let connectionFactory = require('../../app/database/mysqlConnectionFactory')();
 let VeiculoBuilder = require('../util/veiculoBuilder');
 let ValidadorDeAmbiente = require('../util/validadorDeAmbiente');
+let GenericDTO = require('../../app/util/dto/genericDTO')();
+let moment = require('moment');
 
 let databaseCleaner;
-let veiculoTestDataBuilder; 
+let veiculoTestDataBuilder;
+let dateBuilder = require('../util/dateBuilder');
+let dtoEsperado;
 
 let connection = new connectionFactory();
 
@@ -32,7 +36,11 @@ describe('Testando VeiculoController',(done) => {
                                 .descricaoDoTipo('Onibus novo')
                                 .ativo(true)
                                 .dataAtualizacao('2016-12-10')
-                                .construir(done);
+                                .construir(() => {
+                                    dtoEsperado = new GenericDTO([veiculoTestDataBuilder.veiculo],'veiculos');
+                                    dtoEsperado["dt_sincronismo"] = dateBuilder.obterDataAtual();
+                                    done();
+                                });
         });
     });
     
@@ -43,8 +51,8 @@ describe('Testando VeiculoController',(done) => {
                     .query('placa=AAA-222')
                     .timeout(30000)
                     .expect('Content-Type', /json/)
-                    .expect(res => res.body[0]["dt_atualizacao"] = new Date(res.body[0]["dt_atualizacao"]))
-                    .expect(200,[veiculoTestDataBuilder.veiculo])
+                    .expect(res => res.body['dt_sincronismo'] = dateBuilder.extrairDataSincronismo(res.body))
+                    .expect(200,dtoEsperado)
                     .end(done);
     }); 
 
@@ -63,10 +71,8 @@ describe('Testando VeiculoController',(done) => {
                 .get('/v1/veiculos')
                 .query('dataAtualizacao=2016-12-10')
                 .timeout(30000)
-                .expect(res => {
-                    res.body[0]["dt_atualizacao"] = new Date(res.body[0]["dt_atualizacao"]);
-                })
-                .expect(200,[veiculoTestDataBuilder.veiculo])
+                .expect(res => res.body['dt_sincronismo'] = dateBuilder.extrairDataSincronismo(res.body))
+                .expect(200,dtoEsperado)
                 .end(done);
     });
 
@@ -85,8 +91,8 @@ describe('Testando VeiculoController',(done) => {
                 .query('dataAtualizacao=2016-12-10')
                 .query('placa=AAA-222')
                 .timeout(10000)
-                .expect(res => res.body[0]["dt_atualizacao"] = new Date(res.body[0]["dt_atualizacao"]))
-                .expect(200,[veiculoTestDataBuilder.veiculo])
+                .expect(res => res.body['dt_sincronismo'] = dateBuilder.extrairDataSincronismo(res.body))
+                .expect(200,dtoEsperado)
                 .end(done);
     });
 
