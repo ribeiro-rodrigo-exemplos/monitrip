@@ -24,7 +24,7 @@ class VeiculoRepository extends GenericRepository{
         else
             placa = `vl_placa='${placa}'`;
 
-        const query = `select id_veiculo, cod_veiculo, fl_ativo, vl_placa, dt_atualizacao, id_cliente 
+        const query = `select fl_ativo, vl_placa 
                 from veiculo where (${dataAtualizacao}) and (${idCliente}) and (${placa})`
 
         return this.prepareResult(query);  
