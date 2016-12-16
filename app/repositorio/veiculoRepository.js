@@ -25,7 +25,7 @@ class VeiculoRepository extends GenericRepository{
             placa = `vl_placa='${placa}'`;
 
         const query = `select id_veiculo, cod_veiculo, fl_ativo, vl_placa, dt_atualizacao, id_cliente 
-                from veiculo where (${dataAtualizacao}) and (${idCliente}) and (${placa})`
+                       from veiculo where (${dataAtualizacao}) and (${idCliente}) and (${placa})`
 
         return this.prepareResult(query);  
     }

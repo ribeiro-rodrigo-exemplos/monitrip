@@ -11,6 +11,7 @@ app.use(validator());
 
 consign({cwd:'app'})
     .include('database')
+    .then('retorno')
     .then('util')
     .then('repositorio')
     .then('controlador')
