@@ -9,6 +9,16 @@ const CONSTANTES = {
     excluido: {
         NAO: 0,
         SIM: 1
+    },
+
+    tipoDeLinha : {
+        REGULARES: 1,
+        FRETADOS: 2
+    },
+
+    tipoRetorno : {
+        LINHA : 'linha',
+        VEICULO : 'veiculo'
     }
 }
 

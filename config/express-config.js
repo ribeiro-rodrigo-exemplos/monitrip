@@ -14,6 +14,7 @@ app.set('jwt_key','M2MParceiroKey');
 consign({cwd:'app'})
     .include('servico')
     .then('database')
+    .then('retorno')
     .then('util')
     .then('repositorio')
     .then('controlador')

@@ -21,12 +21,12 @@ class LinhaRepository extends GenericRepository{
             criteria.clienteId = clienteId;
                 
         if(dataAtualizacao)
-            criteria.atualizacao = {"$gte":new Date(dataAtualizacao)};
+            criteria.atualizacao = {"$gte": new Date(dataAtualizacao)};
 
         if(numero)
             criteria.numero = numero;
 
-        return this.prepareResult(criteria,{numero:1,descr:1,"trajetos.nome":1,"trajetos.sentido":1,atualizacao:1});
+        return this.prepareResult(criteria,{numero:1,descr:1,"trajetos.nome":1,"trajetos.sentido":1, "_id":0});
     }
 
     prepareResult(criteria,fields){
