@@ -6,7 +6,7 @@ class ValidadorDeData{
     validar(data){
         try{
                         
-            return moment(data,"YYYY-MM-DD",true).isValid();
+            return moment(data,"YYYY-MM-DD HH:mm:ss",true).isValid();
             
         }catch(e){
             return false;

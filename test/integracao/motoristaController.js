@@ -38,7 +38,7 @@ describe('Testando controlador motorista.js',function(){
     it('Consultando motorista pela data de atualização',done => {
          request(app)
                     .get('/v1/motoristas')
-                    .query('dataAtualizacao=2016-12-07')
+                    .query('dataAtualizacao=2016-12-07+17:29:54')
                     .timeout(10000)
                     .expect('Content-Type', /json/)
                     .expect(200)
