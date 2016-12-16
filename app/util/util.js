@@ -17,7 +17,7 @@ const CONSTANTES = {
     },
 
     tipoRetorno : {
-        LINHA : 'linha',
+        LINHA : 'linhas',
         VEICULO : 'veiculo'
     }
 }

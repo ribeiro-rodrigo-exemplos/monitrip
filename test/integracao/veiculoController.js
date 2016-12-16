@@ -69,7 +69,7 @@ describe('Testando VeiculoController',(done) => {
                 
         request(app)
                 .get('/v1/veiculos')
-                .query('dataAtualizacao=2016-12-10')
+                .query('dataAtualizacao=2016-12-10+00:00:00')
                 .timeout(30000)
                 .expect(res => res.body['dt_sincronismo'] = dateBuilder.extrairDataSincronismo(res.body))
                 .expect(200,dtoEsperado)
@@ -79,7 +79,7 @@ describe('Testando VeiculoController',(done) => {
     it('#Listando veiculos por dataAtualizacao sem veículo modificado após a data',done => {
         request(app)
                 .get('/v1/veiculos')
-                .query('dataAtualizacao=2018-02-01')
+                .query('dataAtualizacao=2018-02-01+00:00:00')
                 .timeout(10000)
                 .expect(204)
                 .end(done);
@@ -88,7 +88,7 @@ describe('Testando VeiculoController',(done) => {
     it('#Listando veículos por placa e dataAtualizacao',done => {
         request(app)
                 .get('/v1/veiculos')
-                .query('dataAtualizacao=2016-12-10')
+                .query('dataAtualizacao=2016-12-10+00:00:00')
                 .query('placa=AAA-222')
                 .timeout(10000)
                 .expect(res => res.body['dt_sincronismo'] = dateBuilder.extrairDataSincronismo(res.body))
@@ -99,7 +99,7 @@ describe('Testando VeiculoController',(done) => {
     it('#Listando veículo pela placa que não foi atualizado após a data de atualização',done => {
         request(app)
                 .get('/v1/veiculos')
-                .query('dataAtualizacao=2016-12-11')
+                .query('dataAtualizacao=2016-12-11+00:00:00')
                 .query('placa=AAA-222')
                 .timeout(10000)
                 .expect(204)

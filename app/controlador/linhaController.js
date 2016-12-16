@@ -4,6 +4,7 @@ class LinhaController{
         this._validadorDeData = app.util.validadorDeData;
         this._RetornoLinhaDTO = app.retorno.retornoLinhaDTO;
         this._Util = app.util.util;
+        this._GenericDTO = app.util.dto.genericDTO;
         this._clienteId = 209;
     }
 
@@ -23,7 +24,7 @@ class LinhaController{
                 .filtrarLinhas(this._clienteId,numero,dataAtualizacao)
                     .then(linhas => {
                         if(linhas){
-                           linhas = retorno.getRetornoDefault(this._Util.tipoRetorno.LINHA, linhas);
+                           linhas = new this._GenericDTO(linhas,'linhas');
 
                             res.json(linhas);  
                         }

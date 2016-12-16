@@ -69,7 +69,7 @@ describe('Testando LinhaController',() => {
                 .get('/v1/linhas')
                 .query(`numero=${numero}`)
                 .timeout(30000)
-                .expect((res) => res.body = {numero:res.body[0].numero})
+                .expect((res) => res.body = {numero:res.body.linhas[0].numero})
                 .expect(200,{numero:numero})
                 .expect('Content-Type',/json/)
                 .end(done); 
@@ -87,7 +87,7 @@ describe('Testando LinhaController',() => {
     it('#Consultando linhas com modificação após a data',done => {
         request(app)
                 .get('/v1/linhas')
-                .query('dataAtualizacao=2016-03-20')
+                .query('dataAtualizacao=2016-03-20+00:00:00')
                 .timeout(30000)
                 .expect((res) => {
                     if(res.body.length < 4)
@@ -101,7 +101,7 @@ describe('Testando LinhaController',() => {
     it('#Listando linhas por dataAtualizacao sem linha modificada após a data',done => {
         request(app)
                 .get('/v1/linhas')
-                .query('dataAtualizacao=2020-03-25')
+                .query('dataAtualizacao=2020-03-25+00:00:00')
                 .timeout(30000)
                 .expect(204)
                 .end(done); 
@@ -113,10 +113,10 @@ describe('Testando LinhaController',() => {
         
         request(app)
                 .get('/v1/linhas')
-                .query('dataAtualizacao=2016-03-20')
+                .query('dataAtualizacao=2016-03-20+00:00:00')
                 .query(`numero=${numero}`)
                 .timeout(30000)
-                .expect(res => res.body = {numero:res.body[0].numero})
+                .expect(res => res.body = {numero:res.body.linhas[0].numero})
                 .expect(200,{numero:numero})
                 .expect('Content-Type',/json/)
                 .end(done); 
@@ -125,7 +125,7 @@ describe('Testando LinhaController',() => {
     it('#Listando linha pelo número e data de atualização, que não foi atualizada após a data',done => {
         request(app)
                 .get('/v1/linhas')
-                .query('dataAtualizacao=2020-03-25')
+                .query('dataAtualizacao=2020-03-25+00:00:00')
                 .query('numero=8766')
                 .timeout(30000)
                 .expect(204)
@@ -136,7 +136,7 @@ describe('Testando LinhaController',() => {
         request(app)
                 .get('/v1/linhas')
                 .timeout(30000)
-                .expect(res => res.body = {total:res.body.length})
+                .expect(res => res.body = {total:res.body.linhas.length})
                 .expect(200,{total:4})
                 .expect('Content-Type',/json/)
                 .end(done);  
