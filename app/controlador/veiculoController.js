@@ -4,7 +4,7 @@ class VeiculoController{
         this._VeiculoRepository = app.repositorio.veiculoRepository;
         this._validadorDeData = app.util.validadorDeData;
         this._GenericDTO = app.util.dto.genericDTO;
-        this._idCliente = 154; // teste
+        this._idCliente = 159; // teste
     }
 
     obter(req,res,next){
