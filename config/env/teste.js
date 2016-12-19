@@ -10,7 +10,7 @@ const config = {
             url:'mongodb://localhost:27017/m2mfrota'
         },
         sso:{
-            url:'http://172.16.196.38:3000'
+            url:'http://10.0.1.165:3000'
         }
 }
 
