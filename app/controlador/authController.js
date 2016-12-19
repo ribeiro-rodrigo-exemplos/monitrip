@@ -28,7 +28,7 @@ class AuthController{
                                             let connection = new this._MysqlConnectionFactory();
                                             let dispositivoRepository = new this._DispositivoRepository(connection);
 
-                                            dispositivoRepository.obterDispositivoPorImei(decoded.idCliente,credenciais.imei)
+                                            dispositivoRepository.obterDispositivoHabilitadoPorImei(decoded.idCliente,credenciais.imei)
                                                                     .then(dispositivo => {
                                                                         if(dispositivo)
                                                                             res.json(authResult);

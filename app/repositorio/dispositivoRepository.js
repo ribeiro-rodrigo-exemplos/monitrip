@@ -80,9 +80,9 @@ class DispositivoRepository{
         });
     }
 
-    obterDispositivoPorImei(idCliente,imei){
+    obterDispositivoHabilitadoPorImei(idCliente,imei){
         return new Promise((resolve,reject) => {
-            this.connection.query('select * from dispositivo where id_cliente=? and nu_imei like ?',[idCliente,imei],(erro,result) => {
+            this.connection.query('select * from dispositivo where id_cliente=? and nu_imei like ? and fl_excluido=0',[idCliente,imei],(erro,result) => {
                 if(erro){
                     reject(erro);
                     return;
