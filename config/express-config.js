@@ -3,6 +3,8 @@ let bodyParser = require('body-parser');
 let consign = require('consign');
 let validator = require('express-validator');
 
+let errorInterceptor = require('../app/middleware/errorInterceptor')();
+
 let app = express();
 
 app.use(bodyParser.json());
@@ -23,17 +25,7 @@ consign({cwd:'app'})
     .then('rota')
     .into(app);
 
-app.use((error,req,res,next) => {
-    
-    if(error.status){
-        res.status(error.status)
-            .send(error.message);
-        return;
-    }
-    
-    res.status(500)
-        .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde');
-})
+app.use(errorInterceptor.intercept.bind(errorInterceptor));
 
 module.exports = () => app;
 
