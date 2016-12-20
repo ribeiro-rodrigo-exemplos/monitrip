@@ -6,12 +6,25 @@ let mongodbConfig = require('../../config/m2m-config')()['mongodb'];
 
 let ValidadorDeAmbiente = require('../util/validadorDeAmbiente');
 let DatabaseCleaner = require('database-cleaner');
+let token = '';
+let ssoService = require('../../app/servico/ssoService')();
 
 describe('Testando LinhaController',() => {
 
-   before(() => {
+   before(done => {
+     
      let validador = new ValidadorDeAmbiente();
      validador.validar();
+
+     ssoService.autenticar({usuario:'teste',senha:'123456'})
+                .then(result => {
+                    token = result.IdentificacaoLogin;
+                    done();
+                })
+                .catch(erro => {
+                    throw new Error(erro.message);
+                });
+
    });
 
    beforeEach((done) => {
@@ -67,6 +80,7 @@ describe('Testando LinhaController',() => {
         
         request(app)
                 .get('/v1/linhas')
+                .set('X-AUTH-TOKEN',token)
                 .query(`numero=${numero}`)
                 .timeout(30000)
                 .expect((res) => res.body = {numero:res.body.linhas[0].numero})
@@ -78,6 +92,7 @@ describe('Testando LinhaController',() => {
     it('#Consultando linha cujo o número não existe',done => {
         request(app)
                 .get('/v1/linhas')
+                .set('X-AUTH-TOKEN',token)
                 .query('numero=000987')
                 .timeout(30000)
                 .expect(204)
@@ -87,6 +102,7 @@ describe('Testando LinhaController',() => {
     it('#Consultando linhas com modificação após a data',done => {
         request(app)
                 .get('/v1/linhas')
+                .set('X-AUTH-TOKEN',token)
                 .query('dataAtualizacao=2016-03-20+00:00:00')
                 .timeout(30000)
                 .expect((res) => {
@@ -101,6 +117,7 @@ describe('Testando LinhaController',() => {
     it('#Listando linhas por dataAtualizacao sem linha modificada após a data',done => {
         request(app)
                 .get('/v1/linhas')
+                .set('X-AUTH-TOKEN',token)
                 .query('dataAtualizacao=2020-03-25+00:00:00')
                 .timeout(30000)
                 .expect(204)
@@ -113,6 +130,7 @@ describe('Testando LinhaController',() => {
         
         request(app)
                 .get('/v1/linhas')
+                .set('X-AUTH-TOKEN',token)
                 .query('dataAtualizacao=2016-03-20+00:00:00')
                 .query(`numero=${numero}`)
                 .timeout(30000)
@@ -125,6 +143,7 @@ describe('Testando LinhaController',() => {
     it('#Listando linha pelo número e data de atualização, que não foi atualizada após a data',done => {
         request(app)
                 .get('/v1/linhas')
+                .set('X-AUTH-TOKEN',token)
                 .query('dataAtualizacao=2020-03-25+00:00:00')
                 .query('numero=8766')
                 .timeout(30000)
@@ -135,6 +154,7 @@ describe('Testando LinhaController',() => {
     it('#Listando todas as linhas do cliente',done => {
         request(app)
                 .get('/v1/linhas')
+                .set('X-AUTH-TOKEN',token)
                 .timeout(30000)
                 .expect(res => res.body = {total:res.body.linhas.length})
                 .expect(200,{total:4})

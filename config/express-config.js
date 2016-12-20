@@ -17,13 +17,14 @@ consign({cwd:'app'})
     .then('retorno')
     .then('util')
     .then('repositorio')
+    .then('middleware')
     .then('controlador')
+    .then('rota/authRoutes')
     .then('rota')
     .into(app);
 
 app.use((error,req,res,next) => {
-    console.log(error);
-
+    
     if(error.status){
         res.status(error.status)
             .send(error.message);

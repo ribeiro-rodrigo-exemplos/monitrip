@@ -14,6 +14,9 @@ let dtoEsperado;
 
 let connection = new connectionFactory();
 
+let token = '';
+let ssoService = require('../../app/servico/ssoService')();
+
 describe('Testando VeiculoController',(done) => {
     
     before(done => {
@@ -22,7 +25,15 @@ describe('Testando VeiculoController',(done) => {
         validador.validar();
         
         databaseCleaner = new DatabaseCleaner('mysql');
-        done();
+
+        ssoService.autenticar({usuario:'teste',senha:'123456'})
+                    .then(result => {
+                        token = result.IdentificacaoLogin;
+                        done();
+                    })
+                    .catch(erro => {
+                        throw new Error(erro.message);
+                    });
     });
 
     beforeEach(done => {
@@ -48,6 +59,7 @@ describe('Testando VeiculoController',(done) => {
         
          request(app)
                     .get('/v1/veiculos')
+                    .set('X-AUTH-TOKEN',token)
                     .query('placa=AAA-222')
                     .timeout(30000)
                     .expect('Content-Type', /json/)
@@ -59,6 +71,7 @@ describe('Testando VeiculoController',(done) => {
     it('#Consultando veiculo cuja a placa não existe',done => {
         request(app)
                     .get('/v1/veiculos')
+                    .set('X-AUTH-TOKEN',token)
                     .query('placa=0987a23')
                     .timeout(30000)
                     .expect(204)
@@ -69,6 +82,7 @@ describe('Testando VeiculoController',(done) => {
                 
         request(app)
                 .get('/v1/veiculos')
+                .set('X-AUTH-TOKEN',token)
                 .query('dataAtualizacao=2016-12-10+00:00:00')
                 .timeout(30000)
                 .expect(res => res.body['dt_sincronismo'] = dateBuilder.extrairDataSincronismo(res.body))
@@ -79,6 +93,7 @@ describe('Testando VeiculoController',(done) => {
     it('#Listando veiculos por dataAtualizacao sem veículo modificado após a data',done => {
         request(app)
                 .get('/v1/veiculos')
+                .set('X-AUTH-TOKEN',token)
                 .query('dataAtualizacao=2018-02-01+00:00:00')
                 .timeout(10000)
                 .expect(204)
@@ -88,6 +103,7 @@ describe('Testando VeiculoController',(done) => {
     it('#Listando veículos por placa e dataAtualizacao',done => {
         request(app)
                 .get('/v1/veiculos')
+                .set('X-AUTH-TOKEN',token)
                 .query('dataAtualizacao=2016-12-10+00:00:00')
                 .query('placa=AAA-222')
                 .timeout(10000)
@@ -99,6 +115,7 @@ describe('Testando VeiculoController',(done) => {
     it('#Listando veículo pela placa que não foi atualizado após a data de atualização',done => {
         request(app)
                 .get('/v1/veiculos')
+                .set('X-AUTH-TOKEN',token)
                 .query('dataAtualizacao=2016-12-11+00:00:00')
                 .query('placa=AAA-222')
                 .timeout(10000)
