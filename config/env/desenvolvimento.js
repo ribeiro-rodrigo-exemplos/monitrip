@@ -11,6 +11,10 @@ const config = {
         },
         sso:{
             url:'http://10.0.1.165:3000'
+        },
+        amqp:{
+            url:'amqp://admin:admin@172.16.193.13',
+            queue:'SERVICOONLINE'
         }
 }
 

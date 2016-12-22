@@ -2,5 +2,9 @@ module.exports = function(app){
     
     let controlador = app.controlador.logController;
 
-    app.get('/v1/logs',controlador.criar);
+    app.post('/v1/logs/viagens/fretadas',controlador.inserirLogDeViagemFretada.bind(controlador));
+    app.post('/v1/logs/viagens/regulares',controlador.inserirLogDeViagemRegular.bind(controlador));
+    app.post('/v1/logs/viagens/detectorParada',controlador.inserirLogDeDetectorDeParada.bind(controlador));
+    app.post('/v1/logs/jornadas/motoristas',controlador.inserirLogDeJornadaDeTrabalho.bind(controlador));
+    app.post('/v1/logs/velocidadeTempoLocalizacao',controlador.inserirLogDeVelocidadeELocalizacao.bind(controlador));
 }
