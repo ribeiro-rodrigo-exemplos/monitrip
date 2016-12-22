@@ -4,7 +4,6 @@ class VeiculoController{
         this._VeiculoRepository = app.repositorio.veiculoRepository;
         this._validadorDeData = app.util.validadorDeData;
         this._GenericDTO = app.util.dto.genericDTO;
-        this._idCliente = 159; // teste
     }
 
     obter(req,res,next){
@@ -19,9 +18,10 @@ class VeiculoController{
 
         let connection = new this._MysqlConnectionFactory();
         let veiculoRepository = new this._VeiculoRepository(connection);
+        let cliente = req.idCliente;
 
         veiculoRepository
-                .filtrarVeiculos(this._idCliente,placa,dataAtualizacao)
+                .filtrarVeiculos(this.cliente,placa,dataAtualizacao)
                     .then( veiculos => {
                             if(veiculos)
                                 res.json(new this._GenericDTO(veiculos,'veiculos'));

@@ -1,4 +1,8 @@
 const config = {
+        databases:{
+            frota:'frota_zn4',
+            sso:'sso'
+        },
         mysql:{
             host:'172.16.193.32',
             username:'frota',

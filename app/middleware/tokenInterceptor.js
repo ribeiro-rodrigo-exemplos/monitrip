@@ -14,8 +14,10 @@ class TokenInterceptor{
 
         this._ssoService.decodificarToken(token)
                 .then(decoded => {
-                    if(this._ssoService.possuiPermissaoParaOMonitrip(decoded))
+                    if(this._ssoService.possuiPermissaoParaOMonitrip(decoded)){
+                        req.idCliente = decoded.idCliente;
                         next();
+                    }
                     else
                         res.status(403)
                             .send('A credencial informada não possui autorização para consumir o recurso.');

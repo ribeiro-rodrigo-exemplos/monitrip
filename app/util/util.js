@@ -19,6 +19,10 @@ const CONSTANTES = {
     tipoRetorno : {
         LINHA : 'linhas',
         VEICULO : 'veiculo'
+    },
+
+    funcionalidade: {
+        MONITRIP: 26
     }
 }
 

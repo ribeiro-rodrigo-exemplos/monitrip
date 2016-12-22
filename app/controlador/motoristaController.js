@@ -6,13 +6,13 @@ class MotoristaController{
         this._MotoristaRepository = app.repositorio.motoristaRepository;
         this._validadorDeData = app.util.validadorDeData;
         this._GenericDTO = app.util.dto.genericDTO;
-        this._cliente = 209;
     }
 
     obter(req,res,next){
         
         let cpf = req.query.cpf;
         let dataAtualizacao = req.query.dataAtualizacao;
+        let cliente = req.idCliente;
 
         if(dataAtualizacao && !this._dataValida(dataAtualizacao)){
             res.sendStatus(204);
@@ -23,7 +23,7 @@ class MotoristaController{
         let motoristaRepository = new this._MotoristaRepository(connection);
 
         motoristaRepository
-                .filtrarMotoristas(this._cliente,cpf,dataAtualizacao)
+                .filtrarMotoristas(this.cliente,cpf,dataAtualizacao)
                     .then(data => {
                         if(!data){
                             res.sendStatus(204);

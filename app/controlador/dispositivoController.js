@@ -2,6 +2,7 @@ class DispositivoController{
     constructor(app){
         this._MysqlConnectionFactory = app.database.mysqlConnectionFactory;
         this._DispositivoRepository = app.repositorio.dispositivoRepository;
+        this._SsoMysqlConnectionFactory = app.database.ssoMysqlConnectionFactory
     }
 
     cadastrar(req,res,next){
@@ -14,12 +15,13 @@ class DispositivoController{
             return;
         }
         
-        let connection = new this._MysqlConnectionFactory();
-        let dispositivoRepository = new this._DispositivoRepository(connection);
+        let connection_zn4 = new this._MysqlConnectionFactory();
+        let connection_sso = new this._SsoMysqlConnectionFactory();
 
-        let licenca = 35;
-        let cliente = 209;
-
+        let dispositivoRepository = new this._DispositivoRepository(connection_zn4, connection_sso);
+        
+        let cliente = req.idCliente;
+        
         let objetoDispositivo = {
             imei: req.body.imei,
             descricao: req.body.descricao,
@@ -27,10 +29,10 @@ class DispositivoController{
         };
 
         Promise.all([
-            dispositivoRepository.consultarImei(cliente, objetoDispositivo.imei, licenca),
-            dispositivoRepository.verificaLicenca(cliente, licenca)
+            dispositivoRepository.consultarImei(cliente, objetoDispositivo.imei),
+            dispositivoRepository.verificaLicenca(cliente)
         ]).then(imei => {
-            dispositivoRepository.cadastrar(objetoDispositivo, licenca, cliente)
+            dispositivoRepository.cadastrar(objetoDispositivo, cliente)
                 .then(dispositivo => res.sendStatus(200));
             
         }).catch(erro =>{
