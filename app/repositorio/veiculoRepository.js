@@ -1,35 +1,32 @@
 
 let GenericRepository = require('./genericRepository')();
 
-class VeiculoRepository extends GenericRepository{
+class VeiculoRepository{
     
-    constructor(connection){
-        super(connection);
+    constructor(app){
+        this._Veiculo = app.modelo.veiculo;
     }
 
     filtrarVeiculos(idCliente,placa,dataAtualizacao){
-              
-        if(!idCliente || dataAtualizacao || placa)
-            idCliente = `id_cliente like '%' or id_cliente is null`; 
-        else
-            idCliente = `id_cliente=${idCliente}`;
+
+       let filtro = {};
+       
+       if(idCliente && !placa && !dataAtualizacao)
+            filtro["id_cliente"] = idCliente; 
         
-        if(!dataAtualizacao)
-            dataAtualizacao = `dt_atualizacao >= '0000-00-00' or dt_atualizacao is null`
-        else
-            dataAtualizacao = `dt_atualizacao >= '${dataAtualizacao}'`
+        if(dataAtualizacao)
+            filtro["dt_atualizacao"] = {$gte:dataAtualizacao}; 
 
-        if(!placa)
-            placa = `vl_placa like '%' or vl_placa is null`
-        else
-            placa = `vl_placa='${placa}'`;
+        if(placa)
+            filtro["vl_placa"] = placa; 
 
-        const query = `select fl_ativo, vl_placa 
-                from veiculo where (${dataAtualizacao}) and (${idCliente}) and (${placa})`
-
-        return this.prepareResult(query);  
+        return new Promise((resolve,reject) => {
+            this._Veiculo.findAll({where:filtro,attributes:['vl_placa','fl_ativo']})    
+                            .then(result => resolve(result.length ? result:null))
+                            .catch(erro => reject(erro))
+        });
     }
 }
 
-module.exports = () => VeiculoRepository;
+module.exports = app => new VeiculoRepository(app);
 

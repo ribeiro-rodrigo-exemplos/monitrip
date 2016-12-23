@@ -80,4 +80,4 @@ describe('Testando authController',() => {
             .expect(401)
             .end(done);
     });
-})
+}); 

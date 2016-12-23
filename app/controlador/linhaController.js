@@ -2,9 +2,8 @@ class LinhaController{
     constructor(app){
         this._LinhaRepository = app.repositorio.linhaRepository;
         this._validadorDeData = app.util.validadorDeData;
-        this._RetornoLinhaDTO = app.retorno.retornoLinhaDTO;
         this._Util = app.util.util;
-        this._GenericDTO = app.util.dto.genericDTO;
+        this._RetornoDTO = app.util.dto.retornoDTO;
         this._clienteId = 209;
     }
 
@@ -18,13 +17,12 @@ class LinhaController{
         }
 
         let linhaRepository = new this._LinhaRepository();
-        let retorno = new this._RetornoLinhaDTO();
 
         linhaRepository
                 .filtrarLinhas(this._clienteId,numero,dataAtualizacao)
                     .then(linhas => {
                         if(linhas){
-                           linhas = new this._GenericDTO(linhas,'linhas');
+                           linhas = new this._RetornoDTO(linhas,'linhas');
 
                             res.json(linhas);  
                         }

@@ -1,33 +1,30 @@
 let GenericRepository = require('./genericRepository')();
 
-class MotoristaRepository extends GenericRepository{
-    constructor(connection){
-        super(connection);
+class MotoristaRepository{
+    constructor(app){
+        this._Motorista = app.modelo.motorista;
     }
 
     filtrarMotoristas(clienteId,cpf,dataAtualizacao){
 
-        if(!clienteId || dataAtualizacao || cpf)
-            clienteId = `id_cliente like '%' or id_cliente is null`; 
-        else
-            clienteId = `id_cliente=${clienteId}`;
-        
-        if(!dataAtualizacao)
-            dataAtualizacao = `dt_atualizacao >= '0000-00-00' or dt_atualizacao is null`
-        else
-            dataAtualizacao = `dt_atualizacao >= '${dataAtualizacao}'`
+        let criteria = {};
 
-        if(!cpf)
-            cpf = `nm_cpf like '%' or nm_cpf is null`
-        else
-            cpf = `nm_cpf='${cpf}'`;
+        if(clienteId)
+            criteria["id_cliente"] = clienteId;
 
-        const query = `select nm_nomeFuncionario, nm_cpf, fl_ativo 
-                from funcionario where (${dataAtualizacao}) and (${clienteId}) and (${cpf})`
-        
-        return this.prepareResult(query);   
+        if(dataAtualizacao)
+            criteria["dt_atualizacao"] = {$gte:dataAtualizacao}; 
+
+        if(cpf)
+            criteria["nm_cpf"] = cpf;
+
+        return new Promise((resolve,reject) =>{
+            this._Motorista.findAll({where:criteria,attributes:['dt_atualizacao','nm_cpf']})
+                            .then(result => resolve(result))
+                            .catch(erro => reject(erro));
+        });  
     }
 }
 
-module.exports = () =>  MotoristaRepository;
+module.exports = app =>  new MotoristaRepository(app);
 

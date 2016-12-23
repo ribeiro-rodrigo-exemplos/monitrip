@@ -1,9 +1,8 @@
 class VeiculoController{
     constructor(app){
-        this._MysqlConnectionFactory = app.database.mysqlConnectionFactory;
-        this._VeiculoRepository = app.repositorio.veiculoRepository;
+        this._veiculoRepository = app.repositorio.veiculoRepository;
         this._validadorDeData = app.util.validadorDeData;
-        this._GenericDTO = app.util.dto.genericDTO;
+        this._RetornoDTO = app.util.dto.retornoDTO;
         this._idCliente = 159; // teste
     }
 
@@ -17,20 +16,15 @@ class VeiculoController{
             return;
         }
 
-        let connection = new this._MysqlConnectionFactory();
-        let veiculoRepository = new this._VeiculoRepository(connection);
-
-        veiculoRepository
+        this._veiculoRepository
                 .filtrarVeiculos(this._idCliente,placa,dataAtualizacao)
                     .then( veiculos => {
                             if(veiculos)
-                                res.json(new this._GenericDTO(veiculos,'veiculos'));
+                                res.json(new this._RetornoDTO(veiculos,'veiculos'));
                             else
                                 res.sendStatus(204);
                         })
                         .catch(erro => next(erro));
-
-        connection.end();
     }
 
     _dataValida(dataAtualizacao){

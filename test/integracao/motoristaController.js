@@ -1,4 +1,4 @@
-var request = require('supertest');
+/*var request = require('supertest');
 var assert = require('assert');
 let moment = require('moment');
 var app = require('../../config/express-config')();
@@ -82,4 +82,4 @@ describe('Testando controlador motorista.js',function(){
                     .end(done);
     });
     
-}); 
+}); */
