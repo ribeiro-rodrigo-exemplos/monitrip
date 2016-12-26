@@ -22,7 +22,7 @@ consign({cwd:'app'})
     .then('repositorio')
     .then('middleware')
     .then('controlador')
-    .then('rota/authRoutes')
+    .then('rota/authRoutes.js')
     .then('rota')
     .into(app);
 
