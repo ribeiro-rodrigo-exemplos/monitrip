@@ -4,7 +4,7 @@ let app = require('../../config/express-config')();
 let connectionFactory = require('../../app/database/mysqlConnectionFactory')();
 let VeiculoBuilder = require('../util/veiculoBuilder');
 let ValidadorDeAmbiente = require('../util/validadorDeAmbiente');
-let GenericDTO = require('../../app/util/dto/genericDTO')();
+let RetornoDTO = require('../../app/util/dto/retornoDTO')();
 let moment = require('moment');
 
 let databaseCleaner;
@@ -48,7 +48,7 @@ describe('Testando VeiculoController',(done) => {
                                 .ativo(true)
                                 .dataAtualizacao('2016-12-10')
                                 .construir(() => {
-                                    dtoEsperado = new GenericDTO([veiculoTestDataBuilder.veiculo],'veiculos');
+                                    dtoEsperado = new RetornoDTO([veiculoTestDataBuilder.veiculo],'veiculos');
                                     dtoEsperado["dt_sincronismo"] = dateBuilder.obterDataAtual();
                                     done();
                                 });

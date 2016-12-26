@@ -1,4 +1,4 @@
-/*let request = require('supertest');
+let request = require('supertest');
 let app = require('../../config/express-config')();
 
 let token = '';
@@ -45,4 +45,4 @@ describe('Testando TokenInterceptor',() => {
             .expect(204)
             .end(done);
     });
-});*/
+});

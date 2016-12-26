@@ -1,9 +1,9 @@
-/*var request = require('supertest');
+var request = require('supertest');
 var assert = require('assert');
 let moment = require('moment');
 var app = require('../../config/express-config')();
 let dateBuilder = require('../util/dateBuilder');
-let GenericDTO = require('../../app/util/dto/genericDTO')();
+let RetornoDTO = require('../../app/util/dto/RetornoDTO')();
 
 let token = '';
 let ssoService = require('../../app/servico/ssoService')();
@@ -36,7 +36,7 @@ describe('Testando controlador motorista.js',function(){
                         }               
                         
 
-        dtoEsperado = new GenericDTO(motorista,'motoristas');
+        dtoEsperado = new RetornoDTO(motorista,'motoristas');
         dtoEsperado["dt_sincronismo"] = dateBuilder.obterDataAtual();
 
         request(app)
@@ -82,4 +82,4 @@ describe('Testando controlador motorista.js',function(){
                     .end(done);
     });
     
-}); */
+}); 
