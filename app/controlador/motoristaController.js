@@ -6,7 +6,6 @@ class MotoristaController{
         this._validadorDeData = app.util.validadorDeData;
 
         this._RetornoDTO = app.util.dto.retornoDTO;
-        this._cliente = 209;
 
     }
 
@@ -14,15 +13,14 @@ class MotoristaController{
         
         let cpf = req.query.cpf;
         let dataAtualizacao = req.query.dataAtualizacao;
-        let cliente = req.idCliente;
-
+        
         if(dataAtualizacao && !this._dataValida(dataAtualizacao)){
             res.sendStatus(204);
             return;
         }
 
         this._motoristaRepository
-                .filtrarMotoristas(this._cliente,cpf,dataAtualizacao)
+                .filtrarMotoristas(req.idCliente,cpf,dataAtualizacao)
                     .then(data => {
                         if(!data){
                             res.sendStatus(204);

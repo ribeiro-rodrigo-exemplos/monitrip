@@ -16,10 +16,8 @@ class VeiculoController{
             return;
         }
 
-        let cliente = req.idCliente;
-
         this._veiculoRepository
-                .filtrarVeiculos(this._idCliente,placa,dataAtualizacao)
+                .filtrarVeiculos(req.idCliente,placa,dataAtualizacao)
                     .then( veiculos => {
                             if(veiculos)
                                 res.json(new this._RetornoDTO(veiculos,'veiculos'));
