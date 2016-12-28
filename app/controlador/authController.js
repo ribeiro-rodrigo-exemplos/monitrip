@@ -1,8 +1,7 @@
 class AuthController{
     constructor(app){
         this._ssoService = app.servico.ssoService;
-        this._DispositivoRepository = app.repositorio.dispositivoRepository;
-        this._MysqlConnectionFactory = app.database.mysqlConnectionFactory
+        this._dispositivoRepository = app.repositorio.dispositivoRepository;
     }
 
     autenticar(req,res,next){
@@ -25,18 +24,14 @@ class AuthController{
                                                 return;
                                             }
 
-                                            let connection = new this._MysqlConnectionFactory();
-                                            let dispositivoRepository = new this._DispositivoRepository(connection);
-
-                                            dispositivoRepository.obterDispositivoHabilitadoPorImei(decoded.idCliente,credenciais.imei)
-                                                                    .then(dispositivo => {
-                                                                        if(dispositivo)
-                                                                            res.json(authResult);
-                                                                        else
-                                                                            this._sendError('O imei informado não existe ou o dispositivo não possui permissão para se autenticar com o mesmo.',401,next);
-                                                                    })
-                                                                    .catch(erro => next(erro));
-                                            connection.end();
+                                            this._dispositivoRepository.obterDispositivoHabilitadoPorImei(decoded.idCliente,credenciais.imei)
+                                                                        .then(dispositivo => {
+                                                                            if(dispositivo)
+                                                                                res.json(authResult);
+                                                                            else
+                                                                                this._sendError('O imei informado não existe ou o dispositivo não possui permissão para se autenticar com o mesmo.',401,next);
+                                                                        })
+                                                                        .catch(erro => next(erro));
                                         }); 
                             })
                             .catch(erro => {

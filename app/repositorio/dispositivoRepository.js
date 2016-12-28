@@ -3,9 +3,9 @@
          this._Dispositivo = app.modelo.dispositivo;
      }
 
-     obterDispositivoHabilitadoPorImei(imei){
+     obterDispositivoHabilitadoPorImei(idCliente,imei){
          return new Promise((resolve,reject) => {
-             this._Dispositivo.findOne({where:{imei:imei,excluido:0}})
+             this._Dispositivo.findOne({where:{imei:imei,excluido:0,idCliente:idCliente}})
                                 .then(dispositivo => resolve(dispositivo ? dispositivo.dataValues:null))
                                 .then(erro => reject(erro));
          });
