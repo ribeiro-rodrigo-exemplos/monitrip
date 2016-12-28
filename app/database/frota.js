@@ -1,4 +1,4 @@
-var mysqlConfig = require('../../config/m2m-config')()["mysql"]
+var mysqlConfig = require('../bootstrap/config-bootstrap')()["mysql"]
 const Sequelize = require('sequelize');
 
 let sequelize = new Sequelize(mysqlConfig.databases.frota,mysqlConfig.username,mysqlConfig.password,{

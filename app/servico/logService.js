@@ -1,5 +1,5 @@
 let amqp = require('amqplib/callback_api');
-let amqpConfig = require('../../config/m2m-config')()['amqp'];
+let amqpConfig = require('../bootstrap/config-bootstrap')()['amqp'];
 
 class LogService{
     constructor(app){

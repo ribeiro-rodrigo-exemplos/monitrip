@@ -3,8 +3,8 @@ let bodyParser = require('body-parser');
 let consign = require('consign');
 let validator = require('express-validator');
 
-let errorInterceptor = require('../app/middleware/errorInterceptor')();
-let corsInterceptor = require('../app/middleware/corsInterceptor')();
+let errorInterceptor = require('../middleware/errorInterceptor')();
+let corsInterceptor = require('../middleware/corsInterceptor')();
 
 let app = express();
 

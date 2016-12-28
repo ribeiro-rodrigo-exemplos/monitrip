@@ -1,4 +1,4 @@
-const url = require('../../config/m2m-config')()['sso']['url'];
+const url = require('../bootstrap/config-bootstrap')()['sso']['url'];
 let restify = require('restify');
 let jwt = require('jsonwebtoken');
 
