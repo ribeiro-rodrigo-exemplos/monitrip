@@ -1,12 +1,11 @@
 class DispositivoController{
     constructor(app){
-        this._MysqlConnectionFactory = app.database.mysqlConnectionFactory;
-        this._DispositivoRepository = app.repositorio.dispositivoRepository;
-        this._SsoMysqlConnectionFactory = app.database.ssoMysqlConnectionFactory
+        this._dispositivoService = app.servico.dispositivoService;
+        this._ssoService = app.servico.ssoService;
     }
 
     cadastrar(req,res,next){
-        
+
         let erros = this._validarDispositivo(req);
 
         if(erros){
@@ -14,42 +13,25 @@ class DispositivoController{
                 .json(erros);
             return;
         }
-        
-        let connection_zn4 = new this._MysqlConnectionFactory();
-        let connection_sso = new this._SsoMysqlConnectionFactory();
 
-        let dispositivoRepository = new this._DispositivoRepository(connection_zn4, connection_sso);
-        
-        let cliente = req.idCliente;
-        
-        let objetoDispositivo = {
-            imei: req.body.imei,
-            descricao: req.body.descricao,
-            excluido: req.body.excluido
-        };
+        this._ssoService.autenticar(req.body.credenciais)
+                            .then(authResult => this._ssoService.decodificarToken(authResult.IdentificacaoLogin))
+                            .then(decoded => this._dispositivoService.cadastrar(req.body.dispositivo,decoded.idCliente))
+                            .then(() => res.sendStatus(200))
+                            .catch(erro => next(erro));
 
-        Promise.all([
-            dispositivoRepository.consultarImei(cliente, objetoDispositivo.imei),
-            dispositivoRepository.verificaLicenca(cliente)
-        ]).then(imei => {
-            dispositivoRepository.cadastrar(objetoDispositivo, cliente)
-                .then(dispositivo => res.sendStatus(200));
-            
-        }).catch(erro =>{
-            
-            if(erro.msg)
-                res.status(422) 
-                    .send(erro);
-            else
-                next(erro);
-        });
     }
 
     _validarDispositivo(req){
-        req.assert('imei', 'imei obrigatório').notEmpty();
-        req.assert('descricao', 'descrição é obrigatória').notEmpty();
-        return req.validationErrors();
-    }
+        delete req.body.dispositivo.excluido;
+        delete req.body.dispositivo.id;
+
+        req.assert('dispositivo.imei', 'imei obrigatório').notEmpty();
+        req.assert('dispositivo.descricao', 'descrição é obrigatória').notEmpty();
+        req.assert('credenciais.usuario','nome de usuário é obrigatório').notEmpty();
+        req.assert('credenciais.senha','senha é obrigatória').notEmpty();
+        return req.validationErrors(); 
+    } 
 }
 
 module.exports = app => new DispositivoController(app);

@@ -1,7 +1,7 @@
 var mysqlConfig = require('../../config/m2m-config')()["mysql"]
 const Sequelize = require('sequelize');
 
-let sequelize = new Sequelize(mysqlConfig.databases.frota,mysqlConfig.username,mysqlConfig.password,{
+let sequelize = new Sequelize(mysqlConfig.databases.sso,mysqlConfig.username,mysqlConfig.password,{
     host:mysqlConfig.host,
     dialect:'mysql',
     logging:false,
@@ -12,4 +12,4 @@ let sequelize = new Sequelize(mysqlConfig.databases.frota,mysqlConfig.username,m
     }
 });
 
-module.exports = () => sequelize;
+module.exports = () => sequelize; 

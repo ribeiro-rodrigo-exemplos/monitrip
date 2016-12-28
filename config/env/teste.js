@@ -3,8 +3,11 @@ const config = {
             host:'localhost',
             username:'root',
             password:'',
-            database:'frota_zn4',
-            port:3306
+            port:3306,
+            databases:{
+                frota:'frota_zn4',
+                sso:'sso'
+            }
     },
         mongodb:{
             url:'mongodb://localhost:27017/m2mfrota'

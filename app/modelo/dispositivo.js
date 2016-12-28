@@ -16,12 +16,18 @@ module.exports = app => {
     },
     excluido:{
         type:Sequelize.BIGINT,
-        field:'fl_excluido'
+        field:'fl_excluido',
+        defaultValue:0
     },
     id:{
         type:Sequelize.BIGINT,
-        field:'id_cliente',
+        field:'id_dispositivo',
+        autoIncrement:true,
         primaryKey:true
+    },
+    idCliente:{
+        type:Sequelize.BIGINT,
+        field:'id_cliente'
     }
 
 },{
@@ -30,7 +36,7 @@ module.exports = app => {
     timestamps:false
 });
     
-    Dispositivo.belongsTo(app.modelo.cliente,{as:'Cliente',foreignKey:'id_cliente'});
+    Dispositivo.belongsTo(app.modelo.cliente,{as:'Cliente',foreignKey:'idCliente'});
 
     return Dispositivo;
 }

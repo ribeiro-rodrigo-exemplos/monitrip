@@ -1,14 +1,13 @@
 const config = {
-        databases:{
-            frota:'frota_zn4',
-            sso:'sso'
-        },
         mysql:{
             host:'172.16.193.32',
             username:'frota',
             password:'frota',
-            database:'frota_zn4',
-            port:3306
+            port:3306,
+            databases:{
+                frota:'frota_zn4',
+                sso:'sso'
+            }
     },
         mongodb:{
             url:'mongodb://172.16.193.9:27017/m2mfrota'
