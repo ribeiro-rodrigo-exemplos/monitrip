@@ -1,5 +1,3 @@
-let moment = require('moment');
-
 class MotoristaController{
     constructor(app){
         this._motoristaRepository = app.repositorio.motoristaRepository;
