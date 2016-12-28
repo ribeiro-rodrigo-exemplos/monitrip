@@ -4,11 +4,14 @@ let consign = require('consign');
 let validator = require('express-validator');
 
 let errorInterceptor = require('../app/middleware/errorInterceptor')();
+let corsInterceptor = require('../app/middleware/corsInterceptor')();
 
 let app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+
+app.use(corsInterceptor.intercept.bind(corsInterceptor));
 app.use(validator());
 
 app.set('jwt_key','M2MParceiroKey');
