@@ -1,10 +1,9 @@
 
-let GenericRepository = require('./genericRepository')();
-
-class VeiculoRepository{
+module.exports = () => 
+    class VeiculoRepository{
     
-    constructor(app){
-        this._Veiculo = app.modelo.veiculo;
+    constructor(veiculo){
+        this._Veiculo = veiculo;
     }
 
     filtrarVeiculos(idCliente,placa,dataAtualizacao){
@@ -27,6 +26,4 @@ class VeiculoRepository{
         });
     }
 }
-
-module.exports = app => new VeiculoRepository(app);
 

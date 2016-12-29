@@ -1,6 +1,7 @@
 module.exports = app => {
-    let controlador = app.controlador.authController;
-    let tokenInterceptor = app.middleware.tokenInterceptor;
+    
+    let controlador = app.beans.factory.authController;
+    let tokenInterceptor = app.beans.factory.tokenInterceptor;
 
     app.post('/auth',controlador.autenticar.bind(controlador));
     app.use(tokenInterceptor.intercept.bind(tokenInterceptor));

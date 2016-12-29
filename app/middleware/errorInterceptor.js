@@ -1,16 +1,15 @@
-class ErrorInterceptor{
-    constructor(){}
+module.exports = () =>
+    class ErrorInterceptor{
+        constructor(){}
 
-    intercept(error,req,res,next){
-        if(error.status){
-            res.status(error.status)
-                .send(error.message);
-            return;
+        static intercept(error,req,res,next){
+            if(error.status){
+                res.status(error.status)
+                    .send(error.message);
+                return;
+            }
+            
+            res.status(500)
+                .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde');
         }
-        
-        res.status(500)
-            .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde');
     }
-}
-
-module.exports = () => new ErrorInterceptor();

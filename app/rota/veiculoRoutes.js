@@ -1,6 +1,6 @@
-module.exports = function(app){
+module.exports = app => {
     
-    let controlador = app.controlador.veiculoController;
+    let controlador = app.beans.factory.veiculoController;
 
     app.get('/v1/veiculos',controlador.obter.bind(controlador));
 }

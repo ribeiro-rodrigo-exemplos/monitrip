@@ -1,6 +1,6 @@
 module.exports = function(app){
     
-    let controlador = app.controlador.logController;
+    let controlador = app.beans.factory.logController;
 
     app.post('/v1/logs/viagens/fretadas',controlador.inserirLogDeViagemFretada.bind(controlador));
     app.post('/v1/logs/viagens/regulares',controlador.inserirLogDeViagemRegular.bind(controlador));

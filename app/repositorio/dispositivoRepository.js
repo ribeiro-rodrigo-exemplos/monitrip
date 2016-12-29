@@ -1,6 +1,7 @@
+module.exports = () =>
  class DispositivoRepository{
-     constructor(app){
-         this._Dispositivo = app.modelo.dispositivo;
+     constructor(dispositivo){
+         this._Dispositivo = dispositivo;
      }
 
      obterDispositivoHabilitadoPorImei(idCliente,imei){
@@ -37,5 +38,3 @@
          });
      }
  }
-
-module.exports = app => new DispositivoRepository(app);

@@ -3,15 +3,15 @@ let bodyParser = require('body-parser');
 let consign = require('consign');
 let validator = require('express-validator');
 
-let errorInterceptor = require('../middleware/errorInterceptor')();
-let corsInterceptor = require('../middleware/corsInterceptor')();
+let ErrorInterceptor = require('../middleware/errorInterceptor')();
+let CorsInterceptor = require('../middleware/corsInterceptor')();
 
 let app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-app.use(corsInterceptor.intercept.bind(corsInterceptor));
+app.use(CorsInterceptor.intercept);
 app.use(validator());
 
 app.set('jwt_key','M2MParceiroKey');
@@ -25,11 +25,12 @@ consign({cwd:'app'})
     .then('servico')
     .then('middleware')
     .then('controlador')
+    .then('beans')
     .then('rota/authRoutes.js')
     .then('rota')
     .into(app);
 
-app.use(errorInterceptor.intercept.bind(errorInterceptor));
+app.use(ErrorInterceptor.intercept);
 
 module.exports = () => app;
 
