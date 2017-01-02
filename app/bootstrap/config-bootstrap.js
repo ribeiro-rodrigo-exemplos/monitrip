@@ -3,9 +3,9 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 
 const envs = {
-    dev:'./config/dev.yml',
-    hml:'./config/hml.yml',
-    test:'./config/test.yml'
+    dev:'./config/env/dev.yml',
+    hml:'./config/env/hml.yml',
+    test:'./config/env/test.yml'
 }
 
 let envName = process.env['NODE_ENV'];
