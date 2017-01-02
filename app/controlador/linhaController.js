@@ -15,9 +15,8 @@ module.exports = () =>
                 return;
             }
 
-            let linhaRepository = new this._LinhaRepository();
 
-            linhaRepository
+            this._LinhaRepository
                     .filtrarLinhas(req.idCliente,numero,dataAtualizacao)
                         .then(linhas => {
                             if(linhas){
