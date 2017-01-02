@@ -6,7 +6,8 @@ module.exports = app =>
     class SSOService{
         constructor(){
             this._client = restify.createJsonClient({url:url});
-            this._tokenPass = app.get('jwt_key');
+            this._apiTokenPass = app.get('jwt_api_key');
+            this._webTokenPass = app.get('jwt_web_key');
         }
 
         autenticar(credenciais){
@@ -21,9 +22,22 @@ module.exports = app =>
             });
         }
 
+
+        possuiPermissaoParaOMonitrip(decoded){
+            return decoded.funcionalidades.indexOf('Monitrip') >= 0 ? true:false;
+        }
+
         decodificarToken(token){
+            return this._decodificarToken(token,this._apiTokenPass);
+        }
+
+        decodificarWebToken(token){
+            return this._decodificarToken(token,this._webTokenPass)
+        }
+
+        _decodificarToken(token,tokenPass){
             return new Promise((resolve,reject) => {
-                jwt.verify(token,this._tokenPass,(erro,decoded) => {                 
+                jwt.verify(token,tokenPass,(erro,decoded) => {                 
                     if(erro)
                         reject(erro);
                     else   
@@ -31,11 +45,7 @@ module.exports = app =>
                 });
             });
         }
-
-        possuiPermissaoParaOMonitrip(decoded){
-            return decoded.funcionalidades.indexOf('Monitrip') >= 0 ? true:false;
-        }
-
+    
         _resolveError(erro,resolve,reject){
             if(!erro.body.RetornoOk){
                 erro = new Error('Usuário ou senha incorretos');

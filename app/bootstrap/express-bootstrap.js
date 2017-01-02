@@ -14,7 +14,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(CorsInterceptor.intercept);
 app.use(validator());
 
-app.set('jwt_key','M2MParceiroKey');
+app.set('jwt_api_key','M2MParceiroKey');
+app.set('jwt_web_key','m2m');
 
 consign({cwd:'app'})
     .include('util')
@@ -23,6 +24,7 @@ consign({cwd:'app'})
     .then('modelo')
     .then('repositorio')
     .then('servico')
+    .then('middleware/GenericTokenInterceptor.js')
     .then('middleware')
     .then('controlador')
     .then('beans')

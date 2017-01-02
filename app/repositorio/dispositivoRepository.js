@@ -23,7 +23,7 @@ module.exports = () =>
      atualizar(dispositivo){
         return new Promise((resolve,reject) => {
             this._Dispositivo
-                    .update(dispositivo,{where:{imei:dispositivo.imei}})
+                    .update(dispositivo,{where:{id:dispositivo.id}})
                     .then(result => resolve(result[0] ? true:false))
                     .catch(erro => reject(erro));
          });
@@ -37,4 +37,23 @@ module.exports = () =>
                         .catch(erro => reject(erro));
          });
      }
+
+     listarDispositivosDoCliente(idCliente){
+         return this._Dispositivo
+                        .findAll({where:{idCliente:idCliente}})
+                        .then(result => result.length ? result : null);
+     }
+
+     obter(idCliente,idDispositivo){
+         return this._Dispositivo
+                        .findOne({where:{idCliente:idCliente,id:idDispositivo}})
+                        .then(result => result ? result.dataValues : null)
+     }
+
+     excluir(idCliente,idDispositivo,excluido){
+         return this._Dispositivo
+                        .update({excluido:excluido},{where:{idCliente:idCliente,id:idDispositivo}})
+                        .then(result => result[0]);
+     }
+
  }

@@ -1,23 +1,19 @@
-module.exports = () =>
-    class TokenInterceptor{
+module.exports = app =>
+    class ApiTokenInterceptor extends app.middleware.GenericTokenInterceptor{
         constructor(ssoService){
+            super();
             this._ssoService = ssoService;
-            this._recursosLiberados = [
-                {
-                    method:'POST',
-                    path:'/v1/dispositivos'
-                }
-            ];
+            this.liberar({method:['POST'],path:/api\/v1\/dispositivo/});
         }
 
         intercept(req,res,next){
-            
-            if(this._recursoLiberado(req)){
+
+            if(this.recursoLiberado(req)){
                 next();
                 return;
             }
 
-            let token = req.get('X-AUTH-TOKEN');
+            let token = this.obterToken(req);
 
             if(!token){
                 res.status(401)
@@ -40,9 +36,5 @@ module.exports = () =>
                                 res.status(401)
                                     .send('Token inválido. O recurso requisitado exige autenticação.')
                         ); 
-        }
-
-        _recursoLiberado(req){
-            return this._recursosLiberados.some(recurso => recurso.method == req.method && recurso.path == req.path);
         }
     }

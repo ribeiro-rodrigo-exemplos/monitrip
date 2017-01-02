@@ -30,7 +30,7 @@ module.exports = app => {
         },
 
         get clienteRepository(){
-            return new app.repositorio.clienteRepository(this.cliente);
+            return new app.repositorio.clienteRepository(this.cliente,this.dispositivo);
         },
 
         get dispositivoRepository(){
@@ -54,7 +54,7 @@ module.exports = app => {
         },
 
         get dispositivoController(){
-            return new app.controlador.dispositivoController(this.dispositivoService,this.ssoService);
+            return new app.controlador.dispositivoController(this.dispositivoService,this.dispositivoRepository,this.ssoService);
         },
 
         get linhaController(){
@@ -93,8 +93,12 @@ module.exports = app => {
             return new app.util.validadorDeData();
         },
 
-        get tokenInterceptor(){
-            return new app.middleware.tokenInterceptor(this.ssoService);
+        get apiTokenInterceptor(){
+            return new app.middleware.apiTokenInterceptor(this.ssoService);
+        },
+
+        get webTokenInterceptor(){
+            return new app.middleware.webTokenInterceptor(this.ssoService);
         }
     }
 }

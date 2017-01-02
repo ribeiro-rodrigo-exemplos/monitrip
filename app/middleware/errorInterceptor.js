@@ -8,7 +8,9 @@ module.exports = () =>
                     .send(error.message);
                 return;
             }
-            
+           
+            console.log(error);
+             
             res.status(500)
                 .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde');
         }
