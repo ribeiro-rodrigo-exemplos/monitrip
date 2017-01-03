@@ -69,8 +69,6 @@ module.exports = () =>
             
             let ativo = req.query.ativo == 'true' ? 0:1
 
-            console.log(ativo);
-
             this._dispositivoRepository
                     .excluir(req.idCliente,req.params.id,ativo)
                     .then(result => res.sendStatus(204))
