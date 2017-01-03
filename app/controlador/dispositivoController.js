@@ -92,12 +92,8 @@ module.exports = () =>
 
         _validarDispositivoWeb(req){
             
-            if("excluido" in req.body)
-                delete req.body.excluido;
+            this._excluirCamposSomenteLeitura(req.body);
             
-            if("id" in req.body)
-                delete req.body.id;
-
             req.assert('imei','imei obrigatório').notEmpty();
             req.assert('descricao','descrição é obrigatória').notEmpty();
 
@@ -106,11 +102,7 @@ module.exports = () =>
 
         _validarDispositivoApi(req){
             if(req.body.dispositivo){
-                if("excluido" in req.body.dispositivo)
-                    delete req.body.dispositivo.excluido;
-                
-                if("id" in req.body.dispositivo)
-                    delete req.body.dispositivo.id;
+                this._excluirCamposSomenteLeitura(req.body.dispositivo)
             }
             
             req.assert('dispositivo.imei', 'imei obrigatório').notEmpty();
