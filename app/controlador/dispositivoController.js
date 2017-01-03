@@ -92,7 +92,7 @@ module.exports = () =>
 
         _validarDispositivoWeb(req){
             
-            this._excluirCamposSomenteLeitura(req);
+            this._excluirCamposSomenteLeitura(Object.assign(req.body));
             
             req.assert('imei','imei obrigatório').notEmpty();
             req.assert('descricao','descrição é obrigatória').notEmpty();
