@@ -74,7 +74,7 @@ module.exports = app => {
         },
 
         get logService(){
-            return new app.servico.logService()
+            return new app.servico.logService(this.logDTO)
         },
 
         get ssoService(){

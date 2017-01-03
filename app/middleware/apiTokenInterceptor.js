@@ -3,7 +3,7 @@ module.exports = app =>
         constructor(ssoService){
             super();
             this._ssoService = ssoService;
-            this.liberar({method:['POST'],path:/api\/v1\/dispositivo/});
+            this.liberar({method:['POST'],path:/api\/v1\/dispositivos/});
         }
 
         intercept(req,res,next){

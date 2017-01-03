@@ -23,7 +23,7 @@ module.exports = () =>
             }
             
             return this._recursosLiberados.some(recurso => 
-                recurso.method.includes(req.method) && recurso.path.test(req.path)
+                recurso.method.includes(req.method) && recurso.path.test(req.baseUrl)
             );
         }
     }
