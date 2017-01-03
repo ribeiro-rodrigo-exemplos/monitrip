@@ -25,7 +25,10 @@ module.exports = () =>
             this._Dispositivo
                     .update(dispositivo,{where:{id:dispositivo.id}})
                     .then(result => resolve(result[0] ? true:false))
-                    .catch(erro => reject(erro));
+                    .catch(erro => {
+                        erro = this._obterErro(erro);
+                        reject(erro);
+                    });
          });
      }
 
@@ -34,7 +37,10 @@ module.exports = () =>
             this._Dispositivo
                     .create(dispositivo)
                         .then(result => resolve(result.dataValues))
-                        .catch(erro => reject(erro));
+                        .catch(erro => {
+                            erro = this._obterErro(erro);
+                            reject(erro);
+                        });
          });
      }
 
@@ -54,6 +60,15 @@ module.exports = () =>
          return this._Dispositivo
                         .update({excluido:excluido},{where:{idCliente:idCliente,id:idDispositivo}})
                         .then(result => result[0]);
+     }
+
+     _obterErro(erro){
+        if(erro.name == 'SequelizeUniqueConstraintError'){
+            erro = new Error('O Imei informado já está em uso');
+            erro.status = 422;
+        }
+
+        return erro;
      }
 
  }

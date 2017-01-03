@@ -49,7 +49,9 @@ module.exports = () =>
 
         editar(req,res,next){   
 
-            let dispositivo = req.body;          
+            let dispositivo = req.body;
+
+            this._excluirCamposSomenteLeitura(dispositivo);          
             
             dispositivo.id = req.params.id;
 
@@ -116,6 +118,17 @@ module.exports = () =>
             req.assert('credenciais.usuario','nome de usuário é obrigatório').notEmpty();
             req.assert('credenciais.senha','senha é obrigatória').notEmpty();
             return req.validationErrors(); 
+        }
+
+        _excluirCamposSomenteLeitura(dispositivo){
+            if("excluido" in dispositivo)
+                delete dispositivo.excluido;
+                
+            if("id" in dispositivo)
+                delete dispositivo.id;
+            
+            if("idCliente" in dispositivo)
+                delete dispositivo.idCliente;
         } 
     }
 
