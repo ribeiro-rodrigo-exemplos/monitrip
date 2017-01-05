@@ -44,18 +44,33 @@ module.exports = () =>
          });
      }
 
+     obterQuantidadeDeDispositivosAtivosDoCliente(idCliente){
+         return this._Dispositivo
+                        .count({where:{idCliente:idCliente,excluido:0}})
+                        .catch(erro => {
+                            throw this._obterErro(erro);
+                        });
+
+     }
+
      listarDispositivosDoCliente(idCliente){
          return this._Dispositivo
                         .findAll({where:{idCliente:idCliente}})
                         .then(result => result.length ? result : null);
      }
 
-     filtrarDispositivosDoCliente(idCliente,excluido){
+     filtrarDispositivosDoCliente(idCliente,excluido,imei,descricao){
 
          let filtro = {idCliente:idCliente};
 
          if(excluido)
              filtro.excluido = excluido == 'true' ? 0 : 1;
+
+         if(imei)
+             filtro.imei = imei;
+
+         if(descricao)
+             filtro.descricao = descricao;
 
          return this._Dispositivo
                         .findAll({where:filtro})

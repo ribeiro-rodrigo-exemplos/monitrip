@@ -69,12 +69,20 @@ module.exports = app => {
             return new app.controlador.motoristaController(this.motoristaRepository,this.validadorDeData,this.retornoDTO);
         },
 
+        get licencaController(){
+          return new app.controlador.licencaController(this.licencaService);
+        },
+
         get dispositivoService(){
             return new app.servico.dispositivoService(this.dispositivoRepository,this.clienteRepository);
         },
 
         get logService(){
             return new app.servico.logService(this.logDTO)
+        },
+
+        get licencaService(){
+            return new app.servico.licencaService(this.dispositivoRepository,this.clienteRepository);
         },
 
         get ssoService(){

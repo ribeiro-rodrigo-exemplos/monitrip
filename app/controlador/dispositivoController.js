@@ -77,9 +77,9 @@ module.exports = () =>
                     .catch(erro => next(erro));
         }
 
-        listar(req,res,next){
+        listar(req,res){
             this._dispositivoRepository
-                    .filtrarDispositivosDoCliente(req.idCliente,req.query.ativo)
+                    .filtrarDispositivosDoCliente(req.idCliente,req.query.ativo,req.query.imei,req.query.descricao)
                     .then(dispositivos => {
                         if(dispositivos)
                             res.json(dispositivos);
