@@ -78,9 +78,8 @@ module.exports = () =>
         }
 
         listar(req,res,next){
-            
             this._dispositivoRepository
-                    .listarDispositivosDoCliente(req.idCliente)
+                    .filtrarDispositivosDoCliente(req.idCliente,req.query.ativo)
                     .then(dispositivos => {
                         if(dispositivos)
                             res.json(dispositivos);

@@ -18,7 +18,7 @@ module.exports = () =>
                 criteria["nm_cpf"] = cpf;
 
             return new Promise((resolve,reject) =>{
-                this._Motorista.findAll({where:criteria,attributes:['dt_atualizacao','nm_cpf']})
+                this._Motorista.findAll({where:criteria,attributes:['nm_cpf','nm_nomeFuncionario','fl_ativo']})
                                 .then(result => resolve(result))
                                 .catch(erro => reject(erro));
             });  

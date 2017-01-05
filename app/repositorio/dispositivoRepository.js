@@ -23,7 +23,7 @@ module.exports = () =>
      atualizar(dispositivo){
         return new Promise((resolve,reject) => {
             this._Dispositivo
-                    .update(dispositivo,{where:{id:dispositivo.id}})
+                    .update({imei:dispositivo.imei,descricao:dispositivo.descricao},{where:{id:dispositivo.id}})
                     .then(result => resolve(result[0] ? true:false))
                     .catch(erro => {
                         erro = this._obterErro(erro);
@@ -47,6 +47,18 @@ module.exports = () =>
      listarDispositivosDoCliente(idCliente){
          return this._Dispositivo
                         .findAll({where:{idCliente:idCliente}})
+                        .then(result => result.length ? result : null);
+     }
+
+     filtrarDispositivosDoCliente(idCliente,excluido){
+
+         let filtro = {idCliente:idCliente};
+
+         if(excluido)
+             filtro.excluido = excluido == 'true' ? 0 : 1;
+
+         return this._Dispositivo
+                        .findAll({where:filtro})
                         .then(result => result.length ? result : null);
      }
 

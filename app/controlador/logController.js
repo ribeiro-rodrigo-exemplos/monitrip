@@ -4,44 +4,8 @@ module.exports = () =>
             this._logService = logService;
         }
 
-        inserirLogDeViagemFretada(req,res,next){
+        inserirLog(req,res,next){
             
-            if(this._possuiErrosDeValidacao(req,res))
-                return;
-
-            this._logService.salvar(req.body)
-                                .then(() => res.sendStatus(202))
-                                .catch(erro => next(erro));
-        }
-
-        inserirLogDeViagemRegular(req,res,next){
-            if(this._possuiErrosDeValidacao(req,res))
-                return;
-
-            this._logService.salvar(req.body)
-                                .then(() => res.sendStatus(202))
-                                .catch(erro => next(erro));
-        }
-
-        inserirLogDeDetectorDeParada(req,res,next){
-            if(this._possuiErrosDeValidacao(req,res))
-                return;
-
-            this._logService.salvar(req.body)
-                                .then(() => res.sendStatus(202))
-                                .catch(erro => next(erro));
-        }
-
-        inserirLogDeJornadaDeTrabalho(req,res,next){
-            if(this._possuiErrosDeValidacao(req,res))
-                return;
-
-            this._logService.salvar(req.body)
-                                .then(() => res.sendStatus(202))
-                                .catch(erro => next(erro));
-        }
-
-        inserirLogDeVelocidadeELocalizacao(req,res,next){
             if(this._possuiErrosDeValidacao(req,res))
                 return;
 

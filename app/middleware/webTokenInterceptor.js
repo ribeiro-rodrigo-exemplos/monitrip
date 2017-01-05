@@ -20,6 +20,8 @@ module.exports = app =>
                 return;
             }
 
+            token = token.replace("Bearer ","");
+
             this._ssoService.decodificarWebToken(token)
                                 .then(decoded => req.idCliente = decoded.idCliente)
                                 .then(() => next())
