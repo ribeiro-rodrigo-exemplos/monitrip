@@ -23,7 +23,7 @@ module.exports = () =>
      atualizar(dispositivo){
         return new Promise((resolve,reject) => {
             this._Dispositivo
-                    .update({imei:dispositivo.imei,descricao:dispositivo.descricao},{where:{id:dispositivo.id}})
+                    .update({imei:dispositivo.imei,descricao:dispositivo.descricao,excluido:dispositivo.excluido},{where:{id:dispositivo.id}})
                     .then(result => resolve(result[0] ? true:false))
                     .catch(erro => {
                         erro = this._obterErro(erro);

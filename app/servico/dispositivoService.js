@@ -6,11 +6,21 @@ module.exports = () =>
         }
 
         cadastrar(dispositivo,idCliente){
-        return this._clienteRepository
-                        .obterQuantidadeMaximaDeLicencasDoCliente(idCliente)
-                        .then(qtMaximaDeLicencas => this._verificaSePossuiLicencasDisponiveis(qtMaximaDeLicencas,idCliente))
-                        .then(() => this._dispositivoRepository.obterDispositivoPorImei(dispositivo.imei,idCliente))
-                        .then(dispositivoEncontrado => this._atualizarOuCadastrarDispositivo(dispositivoEncontrado || dispositivo,idCliente))
+            return this._clienteRepository
+                            .obterQuantidadeMaximaDeLicencasDoCliente(idCliente)
+                            .then(qtMaximaDeLicencas => this._verificaSePossuiLicencasDisponiveis(qtMaximaDeLicencas,idCliente))
+                            .then(() => this._dispositivoRepository.obterDispositivoPorImei(dispositivo.imei,idCliente))
+                            .then(dispositivoEncontrado => this._mesclaDispositivoEncontradoComDadosDeCadastro(dispositivoEncontrado,dispositivo))
+                            .then(dispositivoMesclado => this._atualizarOuCadastrarDispositivo(dispositivoMesclado || dispositivo,idCliente))
+        }
+
+        _mesclaDispositivoEncontradoComDadosDeCadastro(dispositivoEncontrado,dispositivoCadastrado){
+            if(dispositivoEncontrado)
+                dispositivoEncontrado.descricao = dispositivoCadastrado.descricao;
+            else
+                dispositivoEncontrado = dispositivoCadastrado;
+
+            return dispositivoEncontrado;
         }
 
         _verificaSePossuiLicencasDisponiveis(qtMaximaLicencas,idCliente){
