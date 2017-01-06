@@ -16,7 +16,7 @@ module.exports = () =>
                         .obterQuantidadeDeDispositivosAtivosDoCliente(idCliente)
                         .then(quantidade => licencas.usadas = quantidade)
                         .then(() => this._clienteRepository.obterQuantidadeMaximaDeLicencasDoCliente(idCliente))
-                        .then(quantidadeMaxima => licencas.disponiveis = quantidadeMaxima - licencas.usadas)
+                        .then(quantidadeMaxima => licencas.disponiveis = quantidadeMaxima >= licencas.usadas ? quantidadeMaxima - licencas.usadas : quantidadeMaxima)
                         .then(() => licencas);
         }
     }
