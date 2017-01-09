@@ -19,7 +19,7 @@ module.exports = () =>
 
             return new Promise((resolve,reject) =>{
                 this._Motorista.findAll({where:criteria,attributes:['nm_cpf','nm_nomeFuncionario','fl_ativo']})
-                                .then(result => resolve(result))
+                                .then(result => resolve(result.length ? result : null))
                                 .catch(erro => reject(erro));
             });  
         }
