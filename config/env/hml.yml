@@ -16,3 +16,11 @@ sso:
 amqp:
     url: amqp://admin:admin@172.16.193.13
     queue: SERVICOONLINE
+
+cache:
+  linha:
+    seconds: 10
+  motorista:
+    seconds: 10
+  veiculo:
+    seconds: 10
