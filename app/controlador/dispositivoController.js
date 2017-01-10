@@ -69,7 +69,7 @@ module.exports = () =>
                 return;
             }
             
-            let ativo = req.query.ativo == 'true' ? 0:1
+            let ativo = req.query.ativo == 'true' ? 0:1;
 
             this._dispositivoRepository
                     .excluir(req.idCliente,req.params.id,ativo)

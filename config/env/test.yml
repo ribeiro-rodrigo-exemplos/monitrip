@@ -24,3 +24,6 @@ cache:
     seconds: 0
   veiculo:
     seconds: 0
+
+server:
+  port: 3000
