@@ -19,7 +19,7 @@ class LinhaRepository extends GenericRepository{
         if(numero)
             criteria.numero = numero;
 
-        return this.prepareResult(criteria,{numero:1,descr:1,"trajetos.nome":1,"trajetos.sentido":1, "_id":0});
+        return this.prepareResult(criteria,{numero:1,descr:1,"trajetos.nome":1,"trajetos.sentido":1,"tags":1,"_id":0});
     }
 
     prepareResult(criteria,fields){
