@@ -21,7 +21,8 @@ module.exports = () =>
                         .then(linhas =>
                             linhas.map(linha => {
                                 if(linha.tags)
-                                linha.tipo = linha.tags.some(trajeto => trajeto.NAME == "FRETADA") ? "FRETADA" : "REGULAR";
+                                    linha.tipo = linha.tags.some(trajeto => trajeto.NAME == "FRETADA") ? "FRETADA" : "REGULAR";
+
                                 delete linha.tags;
                                 return linha;
                             })
