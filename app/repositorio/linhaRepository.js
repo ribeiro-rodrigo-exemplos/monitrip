@@ -1,8 +1,7 @@
 let mongoose = require('mongoose');
 
-class LinhaRepository extends GenericRepository{
+class LinhaRepository{
     constructor(){
-        super();
         this._linha = mongoose.model('Linha');
     }
 
