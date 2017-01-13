@@ -1,4 +1,3 @@
-let GenericRepository = require('./genericRepository')();
 let mongoose = require('mongoose');
 
 class LinhaRepository extends GenericRepository{
@@ -19,13 +18,13 @@ class LinhaRepository extends GenericRepository{
         if(numero)
             criteria.numero = numero;
 
-        return this.prepareResult(criteria,{numero:1,descr:1,"trajetos.nome":1,"trajetos.sentido":1,"tags":1,"_id":0});
+        criteria["tags.NAME"] = {"$in":["FRETADA","REGULAR","ALIMENTADORA"]};
+
+        return this.prepareResult(criteria,{numero:1,descr:1,"trajetos.nome":1,"trajetos.sentido":1,"tags.NAME":1,"_id":0})
     }
 
     prepareResult(criteria,fields){
-        return new Promise((resolve,reject) => {
-            this._linha.find(criteria,fields,(erro,result) => this.prepare(erro,result,resolve,reject));
-        });
+        return this._linha.find(criteria,fields).lean().exec();
     }
 }
 
