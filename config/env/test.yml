@@ -15,7 +15,7 @@ sso:
 
 amqp:
     url: amqp://admin:admin@localhost
-    queue: SERVICOONLINE
+    queue: lazypersistence
 
 cache:
   linha:
