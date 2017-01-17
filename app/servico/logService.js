@@ -35,7 +35,7 @@ module.exports = () =>
         }
 
         _converterMensagem(log){
-            let dto = this._LogDTO.toDTO('logs','insert',log);
+            let dto = this._LogDTO.toDTO('logsMonitrip','insert',log);
             return JSON.stringify(dto);
         }
 
