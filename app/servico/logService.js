@@ -23,7 +23,7 @@ module.exports = () =>
                         
                         let queue = amqpConfig.queue;
 
-                        channel.assertQueue(queue,{durable:false});
+                        channel.assertQueue(queue,{durable:true});
                         channel.sendToQueue(queue,Buffer.from(this._converterMensagem(log)),{persistent:true,contentType:'text/plain',contentEncoding: 'utf-8'});
                         this._fechar(connection);
 
