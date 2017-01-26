@@ -1,7 +1,7 @@
-var mysqlConfig = require('../bootstrap/config-bootstrap')()["mysql"]
+var mysqlConfig = require('../bootstrap/config-bootstrap')()["mysql"]["sso"];
 const Sequelize = require('sequelize');
 
-let sequelize = new Sequelize(mysqlConfig.databases.sso,mysqlConfig.username,mysqlConfig.password,{
+let sequelize = new Sequelize(mysqlConfig.database,mysqlConfig.username,mysqlConfig.password,{
     host:mysqlConfig.host,
     dialect:'mysql',
     logging:false,
