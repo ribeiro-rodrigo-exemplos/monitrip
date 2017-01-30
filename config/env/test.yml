@@ -1,0 +1,34 @@
+mysql:
+  frota:
+    host: localhost
+    database: frota_zn4
+    username: frota
+    password: frota
+    port: 3306
+  sso:
+    host: localhost
+    database: sso
+    username: frota
+    password: frota
+    port: 3306
+
+mongodb:
+    url: mongodb://localhost:27017/m2mfrota
+
+sso:
+    url: http://10.0.1.165:3000
+
+amqp:
+    url: amqp://localhost
+    queue: lazypersistence
+
+cache:
+  linha:
+    seconds: 0
+  motorista:
+    seconds: 0
+  veiculo:
+    seconds: 0
+
+server:
+  port: 3000

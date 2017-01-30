@@ -1,5 +1,17 @@
-let app = require('./app/config/express-config.js')();
+const app = require('./app/bootstrap/express-bootstrap')();
+const config = require('./app/bootstrap/config-bootstrap')();
 
-app.listen(3000,function(){
-    console.log('servidor rodando');
+app.listen(config.server.port, function () {
+    console.log(`Servidor rodando na porta ${config.server.port}`);
 });
+
+
+
+
+
+
+
+
+
+
+
