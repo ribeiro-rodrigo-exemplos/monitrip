@@ -2,14 +2,14 @@ mysql:
   frota:
     host: localhost
     database: frota_zn4
-    username: frota
-    password: frota
+    username: root
+    password:
     port: 3306
   sso:
     host: localhost
     database: sso
-    username: frota
-    password: frota
+    username: root
+    password:
     port: 3306
 
 mongodb:
