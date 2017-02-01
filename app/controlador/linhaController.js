@@ -15,7 +15,6 @@ module.exports = () =>
                 return;
             }
 
-
             this._LinhaRepository
                     .filtrarLinhas(req.idCliente,numero,dataAtualizacao)
                         .then(linhas =>
@@ -28,7 +27,7 @@ module.exports = () =>
                             })
                         )
                         .then(linhas => {
-                            if(linhas){
+                            if(linhas.length){
                                 linhas = new this._RetornoDTO(linhas,'linhas');
                                 res.json(linhas);  
                             }

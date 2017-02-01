@@ -54,6 +54,7 @@ module.exports = () =>
             this._excluirCamposSomenteLeitura(dispositivo);          
             
             dispositivo.id = req.params.id;
+            dispositivo.idCliente = req.idCliente;
 
             this._dispositivoRepository
                     .atualizar(dispositivo)
@@ -117,9 +118,6 @@ module.exports = () =>
                 
             if("id" in dispositivo)
                 delete dispositivo.id;
-            
-            if("idCliente" in dispositivo)
-                delete dispositivo.idCliente;
         } 
     }
 
