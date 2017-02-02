@@ -25,6 +25,7 @@ module.exports = app =>
                     .then(decoded => {
                         if(this._ssoService.possuiPermissaoParaOMonitrip(decoded)){
                             req.idCliente = decoded.idCliente;
+                            req.gmtCliente = decoded.gmtCliente;
                             next();
                         }
                         else

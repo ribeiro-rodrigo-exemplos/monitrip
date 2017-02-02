@@ -33,6 +33,10 @@ module.exports = app => {
             return new app.repositorio.clienteRepository(this.cliente,this.dispositivo);
         },
 
+        get logRepository(){
+            return new app.repositorio.logRepository();
+        },
+
         get dispositivoRepository(){
             return new app.repositorio.dispositivoRepository(this.dispositivo);
         },
@@ -62,7 +66,7 @@ module.exports = app => {
         },
 
         get logController(){
-            return new app.controlador.logController(this.logService);
+            return new app.controlador.logController(this.logService, this.logRepository);
         },
 
         get motoristaController(){
