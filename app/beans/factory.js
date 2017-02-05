@@ -66,7 +66,7 @@ module.exports = app => {
         },
 
         get logController(){
-            return new app.controlador.logController(this.logService, this.logRepository);
+            return new app.controlador.logController(this.logService, this.logRepository, this.util, this.dateUtil);
         },
 
         get motoristaController(){
@@ -95,6 +95,14 @@ module.exports = app => {
 
         get retornoDTO(){
             return app.util.dto.retornoDTO; 
+        },
+
+        get util(){
+            return app.util.util;
+        },
+
+        get dateUtil(){
+            return new app.util.dateUtil;
         },
 
         get logDTO(){

@@ -1,24 +1,25 @@
+let mongoose = require('mongoose');
+
 module.exports = () =>
     class LogRepository{
         constructor(){
             this._log = mongoose.model('Log');
         }
 
-    obterLogs(clienteId, idLog, placaVeiculo, dataIni, dataFim ){
-        let criteria = {};
+    obterLogs(clienteId, idLog, placaVeiculo, dataIni, dataFim){
+        let criteria = {
+            "idCliente" : clienteId,
+            "placaVeiculo" : placaVeiculo,
+            $and: [ { "dataHoraEvento": { $gte: dataIni } }, 
+                    { "dataHoraEvento": { $lte: dataFim } } ]
+        };
 
-        if(clienteId && !numero && !dataAtualizacao)
-            criteria.clienteId = clienteId;
-                
-        if(dataAtualizacao)
-            criteria.atualizacao = {"$gte": new Date(dataAtualizacao)};
+        if(idLog)
+            criteria.idLog = idLog;
 
-        if(numero)
-            criteria.numero = numero;
+        let fields = {"_class":0, "_id":0};    
 
-        criteria["tags.NAME"] = {"$in":["FRETADA","REGULAR","ALIMENTADORA"]};
-
-        return this.prepareResult(criteria,{numero:1,descr:1,"trajetos.nome":1,"trajetos.sentido":1,"tags.NAME":1,"_id":0})
+        return this.prepareResult(criteria, fields);
     }
 
     prepareResult(criteria, fields){

@@ -1,8 +1,9 @@
 let mongoose = require('mongoose');
+mongoose.set('debug', false);
 
 let logSchema = mongoose.Schema({
-    dataHoraEvento : Date,
-    idLog : String,
+    dataHoraEvento : String,
+    idLog : Number,
     placaVeiculo : String
 });
 

@@ -6,15 +6,15 @@ const formato = {
     DATA_DMA_TRACO: 'DD-MM-YYYY',
     DATA_AMD_BARRA: 'YYYY/MM/DD',
     DATA_AMD_TRACO: 'YYYY-MM-DD',
-    DATAHORA_DMA_BARRA: 'DD/MM/YYYY hh:mm:ss',
-    DATAHORA_DMA_TRACO: 'DD-MM-YYYY hh:mm:ss',
-    DATAHORA_AMD_BARRA: 'YYYY/MM/DD hh:mm:ss',
-    DATAHORA_AMD_TRACO: 'YYYY-MM-DD hh:mm:ss',
-    DATA_COMPLETA_MDA_BARRA: 'DD/MM/YYYY hh:mm:ss:sss',
-    DATA_COMPLETA_AMD_BARRA: 'YYYY/MM/DD hh:mm:ss:sss',
-    HORA_MIN: 'hh:mm:ss',
-    HORA_MIN_SEG: 'hh:mm:ss',
-    HORA_COMPLETA: 'hh:mm:ss:sss'
+    DATAHORA_DMA_BARRA: 'DD/MM/YYYY HH:mm:ss',
+    DATAHORA_DMA_TRACO: 'DD-MM-YYYY HH:mm:ss',
+    DATAHORA_AMD_BARRA: 'YYYY/MM/DD HH:mm:ss',
+    DATAHORA_AMD_TRACO: 'YYYY-MM-DD HH:mm:ss',
+    DATA_COMPLETA_MDA_BARRA: 'DD/MM/YYYY HH:mm:ss:sss',
+    DATA_COMPLETA_AMD_BARRA: 'YYYY/MM/DD HH:mm:ss:sss',
+    HORA_MIN: 'HH:mm:ss',
+    HORA_MIN_SEG: 'HH:mm:ss',
+    HORA_COMPLETA: 'HH:mm:ss:sss'
 }
 
 const tipoRetorno = {
@@ -40,7 +40,7 @@ class DateUtil{
     }
 
     formataDataHora(dataHora, format, timezone, tipo) {
-        if(!format) format = formato.DATAHORA_AMD_BARRA;
+        if(!format) format = formato.DATAHORA_DMA_BARRA;
         if(!timezone) timezone = 'America/Sao_Paulo';
         if(!tipo) tipo = tipoRetorno.STRING;
 
