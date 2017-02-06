@@ -14,6 +14,7 @@ module.exports = () =>
                 return;
 
             req.body.idCliente = req.idCliente;
+            req.body.placaVeiculo = req.body.placaVeiculo.toUpperCase();
             this._logService.salvar(req.body)
                                 .then(() => res.sendStatus(202))
                                 .catch(erro => next(erro));

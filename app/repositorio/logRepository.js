@@ -9,7 +9,7 @@ module.exports = () =>
     obterLogs(clienteId, idLog, placaVeiculo, dataIni, dataFim){
         let criteria = {
             "idCliente" : clienteId,
-            "placaVeiculo" : placaVeiculo,
+            "placaVeiculo" : placaVeiculo.toUpperCase(),
             $and: [ { "dataHoraEvento": { $gte: dataIni } }, 
                     { "dataHoraEvento": { $lte: dataFim } } ]
         };
