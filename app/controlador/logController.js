@@ -27,9 +27,6 @@ module.exports = () =>
             if(this._possuiErrosDeValidacao(req,res))
                 return;
 
-            let util = this._Util;
-            let dateUtil = this._DateUtil;
-
             this._LogRepository
                 .obterLogs(req.idCliente, 
                            req.query.idLog,
@@ -38,9 +35,9 @@ module.exports = () =>
                            req.query.dataFim
                 )
                 .then(logs => {
-                    logs.map(function(item){
-                        item.evento = util.descLogs[item.idLog];     
-                        item.dataHoraFormatada = dateUtil.formataDataHora(item.dataHoraEvento);
+                    logs.map(item => {
+                        item.evento = this._Util.descLogs[item.idLog];     
+                        item.dataHoraFormatada = this._DateUtil.formataDataHora(item.dataHoraEvento, req.gmtCliente);
                     })
 
                     return res.json(logs);

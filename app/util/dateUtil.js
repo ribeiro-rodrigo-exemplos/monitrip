@@ -39,7 +39,7 @@ class DateUtil{
         }
     }
 
-    formataDataHora(dataHora, format, timezone, tipo) {
+    formataDataHora(dataHora, timezone, format, tipo) {
         if(!format) format = formato.DATAHORA_DMA_BARRA;
         if(!timezone) timezone = 'America/Sao_Paulo';
         if(!tipo) tipo = tipoRetorno.STRING;
