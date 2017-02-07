@@ -1,4 +1,5 @@
 let moment = require('moment');
+let log = require('./app/util/log');
 
 const formato = {
     DATA_DMA_BARRA: 'dd/MM/yyyy',
@@ -31,7 +32,8 @@ class DateUtil{
             return moment(data, "YYYY-MM-DD", true).isValid();           
         }
         catch(e){
-            console.log(e);
+            log.debug(e);
+            log.info(e);
 
             return false;
         }

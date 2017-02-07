@@ -1,3 +1,5 @@
+let log = require('./app/util/log');
+
 module.exports = () =>
     class ErrorInterceptor{
         constructor(){}
@@ -9,7 +11,9 @@ module.exports = () =>
                 return;
             }
            
-            console.log(error);
+            log.debug(error);
+            log.info(error);
+    
              
             res.status(500)
                 .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde');
