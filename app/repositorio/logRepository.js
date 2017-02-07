@@ -14,7 +14,7 @@ module.exports = () =>
                     { "dataHoraEvento": { $lte: dataFim } } ]
         };
 
-        if(idLog)
+        if(idLog || idLog === 0)
             criteria.idLog = idLog;
 
         let fields = {"_class":0, "_id":0};    
