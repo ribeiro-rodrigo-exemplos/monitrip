@@ -1,6 +1,6 @@
 let moment = require('moment');
 let momentTimezone = require('moment-timezone');
-
+let log = require('./app/util/log');
 const formato = {
     DATA_DMA_BARRA: 'DD/MM/YYYY',
     DATA_DMA_TRACO: 'DD-MM-YYYY',
@@ -33,7 +33,8 @@ class DateUtil{
             return moment(data, formato, true).isValid();           
         }
         catch(e){
-            console.log(e);
+            log.debug(e);
+            log.info(e);
 
             return false;
         }
