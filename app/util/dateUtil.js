@@ -1,6 +1,7 @@
 let moment = require('moment');
 let momentTimezone = require('moment-timezone');
-let log = require('./app/util/log');
+let log = require('./log');
+
 const formato = {
     DATA_DMA_BARRA: 'DD/MM/YYYY',
     DATA_DMA_TRACO: 'DD-MM-YYYY',
