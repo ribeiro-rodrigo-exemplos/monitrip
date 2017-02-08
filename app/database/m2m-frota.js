@@ -1,5 +1,5 @@
 let mongoose = require('mongoose');
-let log = require('./app/util/log');
+//let log = require('./app/util/log');
 var config = require('../bootstrap/config-bootstrap')();
 
 if(mongoose.connection.readyState)

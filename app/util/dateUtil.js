@@ -1,5 +1,5 @@
 let moment = require('moment');
-let log = require('./app/util/log');
+let log = require('./log');
 
 const formato = {
     DATA_DMA_BARRA: 'dd/MM/yyyy',
