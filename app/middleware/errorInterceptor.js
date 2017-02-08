@@ -1,4 +1,4 @@
-//let log = require('./app/util/log');
+let log = require('../util/log');
 
 module.exports = () =>
     class ErrorInterceptor{
