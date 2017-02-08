@@ -34,4 +34,4 @@ server:
   port: 3000
 
 log:
-  path: var/log/monitrip.log
+  path: /var/log/monitrip.log
