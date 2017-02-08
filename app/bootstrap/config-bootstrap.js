@@ -23,7 +23,7 @@ try{
     
     var config = yaml.safeLoad(fs.readFileSync(file));
 
-    log.debug(`Utilizando ambiente ${envName}.`);
+    log.info(`Utilizando ambiente ${envName}.`);
     log.info(`Utilizando ambiente ${envName}.`);
 
 }catch(e){
