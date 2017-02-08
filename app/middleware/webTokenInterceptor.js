@@ -23,7 +23,9 @@ module.exports = app =>
             token = token.replace("Bearer ","");
 
             this._ssoService.decodificarWebToken(token)
-                                .then(decoded => req.idCliente = decoded.idCliente)
+                                .then(decoded => {req.idCliente = decoded.idCliente; 
+                                                  req.gmtCliente = decoded.gmtCliente
+                                })
                                 .then(() => next())
                                 .catch(erro => res.status(401).send('Token inválido. O recurso requisitado exige autenticação.')); 
 
