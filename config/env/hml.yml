@@ -34,14 +34,12 @@ server:
   port: 3000
 
 log:
-  info:
-    path: var/log/monitrip-info.log
-    maxSize: 100000
-    maxFiles: 10
-  erro:
-    path: var/log/monitrip-erro.log
-    maxSize: 100000
-    maxFiles: 10
+  path: var/log
+  maxSize: 100000
+  maxFiles: 10
+  files:
+    erro: monitriip-erro.log
+    info: monitriip-info.log
 
 
 

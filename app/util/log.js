@@ -1,5 +1,11 @@
 let winston = require('winston');
 let config = require('../bootstrap/config-bootstrap')();
+let mkdirp = require('mkdirp');
+
+mkdirp(config.log.path,err => {
+    if (err) 
+        console.error(err);
+});
 
 winston.emitErrs = true;
 
@@ -8,11 +14,11 @@ let logger = new winston.Logger({
         new winston.transports.File({
             name: 'info-file',
             level: 'info',
-            filename: config.log.info.path,
+            filename: `${config.log.path}/${config.log.files.info}`,
             handleExceptions: true,
             json: true,
-            maxsize: config.log.info.maxSize,
-            maxFiles: config.log.info.maxFiles,
+            maxsize: config.log.maxSize,
+            maxFiles: config.log.maxFiles,
             colorize: false
         }),
         new winston.transports.Console({
@@ -25,11 +31,11 @@ let logger = new winston.Logger({
         new winston.transports.File({
             name: 'erro-file',
             level: 'error',
-            filename: config.log.erro.path,
+            filename: `${config.log.path}/${config.log.files.erro}`,
             handleExceptions: true,
             json: true,
-            maxsize: config.log.erro.maxSize,
-            maxFiles: config.log.erro.maxFiles,
+            maxsize: config.log.maxSize,
+            maxFiles: config.log.maxFiles,
             colorize: false
         }),
          new winston.transports.Console({
