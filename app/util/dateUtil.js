@@ -34,8 +34,7 @@ class DateUtil{
             return moment(data, formato, true).isValid();           
         }
         catch(e){
-            log.debug(e);
-            log.info(e);
+            log.erro(e);
 
             return false;
         }

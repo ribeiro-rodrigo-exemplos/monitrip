@@ -1,7 +1,6 @@
 
 const yaml = require('js-yaml');
 const fs = require('fs');
-let log = require('../util/log');
 
 const envs = {
     dev:'./config/env/dev.yml',
@@ -23,9 +22,8 @@ try{
     
     var config = yaml.safeLoad(fs.readFileSync(file));
 
-    log.info(`Utilizando ambiente ${envName}.`);
-    log.info(`Utilizando ambiente ${envName}.`);
-
+    console.log(`Utilizando ambiente ${envName}.`);
+    
 }catch(e){
     console.error(e);
 }

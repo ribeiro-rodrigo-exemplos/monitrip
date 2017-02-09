@@ -11,8 +11,7 @@ module.exports = () =>
                 return;
             }
            
-            log.debug(error);
-            log.info(error);
+            log.erro(error);
     
              
             res.status(500)
