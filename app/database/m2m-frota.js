@@ -19,8 +19,6 @@ function connect(){
     }});
 }
 
-
-
 mongoose.connection.on('connecting',() => {
     log.info('conectando ao mongodb');
 });
@@ -30,8 +28,8 @@ mongoose.connection.on('connected',() => {
 });
 
 mongoose.connection.on('error',() => {
-    log.error('Erro ao conectar com o mongodb');    
-    connect();
+    log.error('Erro ao conectar com o mongodb');
+    setTimeout(connect,2000);
 });
 
 mongoose.connection.on('reconnected',() => {
@@ -42,9 +40,9 @@ mongoose.connection.on('disconnected',() => {
     log.info('finalizando conexão com o mongodb');
 });
 
-connect();
-
 process.on('SIGINT',() => {
     log.info('encerrando o Monitriip');
     mongoose.connection.close(() => process.exit(0));
-})
+});
+
+connect();
