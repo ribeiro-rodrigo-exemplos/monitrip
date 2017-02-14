@@ -12,7 +12,7 @@ let app = express();
 
 app.use(morgan("common",{
     stream:{
-        write:function(mensagem){
+        write(mensagem){
             log.info(mensagem);
         }
     }
