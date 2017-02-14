@@ -2,11 +2,21 @@ let express = require('express');
 let bodyParser = require('body-parser');
 let consign = require('consign');
 let validator = require('express-validator');
+let log = require('../util/log');
+let morgan = require('morgan');
 
 let ErrorInterceptor = require('../middleware/errorInterceptor')();
 let CorsInterceptor = require('../middleware/corsInterceptor')();
 
 let app = express();
+
+app.use(morgan("common",{
+    stream:{
+        write:function(mensagem){
+            log.info(mensagem);
+        }
+    }
+}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
