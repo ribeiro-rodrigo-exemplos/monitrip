@@ -7,6 +7,7 @@ let morgan = require('morgan');
 
 let ErrorInterceptor = require('../middleware/errorInterceptor')();
 let CorsInterceptor = require('../middleware/corsInterceptor')();
+let customValidations = require('../util/customValidations')();
 
 let app = express();
 
@@ -22,7 +23,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(CorsInterceptor.intercept);
-app.use(validator());
+app.use(validator({
+    customValidators:customValidations
+}));
 
 app.set('jwt_api_key','M2MParceiroKey');
 app.set('jwt_web_key','m2m');

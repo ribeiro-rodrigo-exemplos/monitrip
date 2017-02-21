@@ -30,7 +30,7 @@ module.exports = () =>
         }
 
         _dataValida(dataAtualizacao){
-            return this._validadorDeData.validar(dataAtualizacao);
+            return this._validadorDeData.validarDataEHora(dataAtualizacao);
         }
     }
 

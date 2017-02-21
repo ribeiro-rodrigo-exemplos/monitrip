@@ -49,8 +49,16 @@ module.exports = app => {
             return new app.repositorio.motoristaRepository(this.motorista);
         },
 
+        get servicoRepository(){
+            return new app.repositorio.servicoRepository();
+        },
+
         get veiculoController(){
             return new app.controlador.veiculoController(this.veiculoRepository,this.validadorDeData,this.retornoDTO);
+        },
+
+        get servicoController(){
+          return new app.controlador.servicoController(this.servicoRepository,this.validadorDeData);
         },
 
         get authController(){

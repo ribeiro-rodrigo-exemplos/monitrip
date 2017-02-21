@@ -4,10 +4,18 @@ module.exports = () =>
     class ValidadorDeData{
         constructor(){}
 
-        validar(data){
+        validarData(data){
+            return this._validar(data,"YYYY-MM-DD");
+        }
+
+        validarDataEHora(data){
+            return this._validar(data,"YYYY-MM-DD HH:mm:ss");
+        }
+
+        _validar(data,pattern){
             try{
                             
-                return moment(data,"YYYY-MM-DD HH:mm:ss",true).isValid();
+                return moment(data,pattern,true).isValid();
                 
             }catch(e){
                 return false;
