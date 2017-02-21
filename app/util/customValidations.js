@@ -3,7 +3,6 @@
  */
 
 let validadorDeData = new (require('./validadorDeData')());
-console.log(validadorDeData._validar);
 
 module.exports = () => {
     return {
