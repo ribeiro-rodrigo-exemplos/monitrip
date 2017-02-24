@@ -21,12 +21,20 @@ module.exports = app => {
             return app.modelo.licenca;
         },
 
+        get bilhete(){
+            return app.modelo.bilhete;
+        },
+
         get motorista(){
             return app.modelo.motorista
         },
         
         get veiculoRepository(){
             return new app.repositorio.veiculoRepository(this.veiculo);
+        },
+
+        get bilheteRepository(){
+            return new app.repositorio.bilheteRepository(this.bilhete);
         },
 
         get clienteRepository(){
@@ -58,7 +66,10 @@ module.exports = app => {
         },
 
         get servicoController(){
-          return new app.controlador.servicoController(this.servicoRepository,this.validadorDeData);
+            return new app.controlador.servicoController(this.servicoRepository, this.validadorDeData);
+        },
+        get bilheteController(){
+            return new app.controlador.bilheteController(this.bilheteRepository);
         },
 
         get authController(){
