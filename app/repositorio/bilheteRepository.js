@@ -1,28 +1,34 @@
 /**
  * Created by rodrigo on 23/02/17.
  */
+const logger = require('../util/log');
+const mongoose = require('mongoose');
+
 module.exports = () =>
     class BilheteRepository{
-        constructor(Bilhete){
-            this._Bilhete = Bilhete
+        constructor(){
+            this._Bilhete = mongoose.model('Bilhete');
         }
 
-        filtrarBilhetes(clienteId,codigo,dataAtualizacao){
+        filtrarBilhetes(numero,dataAtualizacao,clienteId){
+
+            logger.info(`BilheteRepository - filtrarBilhetes(${numero},${dataAtualizacao},${clienteId})`);
+
             let criteria = {};
 
-            if(clienteId && !codigo && !dataAtualizacao)
+            if(clienteId)
                 criteria.clienteId = clienteId;
 
             if(dataAtualizacao)
-                criteria.dt_atualizacao = {"$gte": new Date(dataAtualizacao)};
+                criteria.dt_atualizacao = {"$gte": dataAtualizacao};
 
-            if(codigo)
-                criteria.numeroBilheteEmbarque = codigo;
+            if(numero)
+                criteria.numeroBilheteEmbarque = numero;
 
-            return BilheteRepository._prepareResult(criteria);
+            return this._prepareResult(criteria,{"_id":0,clienteId:0});
         }
 
-        static _prepareResult(criteria,fields){
+        _prepareResult(criteria,fields){
             return this._Bilhete.find(criteria,fields);
         }
     }

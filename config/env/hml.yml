@@ -13,10 +13,10 @@ mysql:
     database: sso
 
 mongodb:
-    url: mongodb://172.16.193.9:27017/m2mfrota
+    url: mongodb://172.18.107.204:27017/m2mfrota
 
 sso:
-    url: http://m2m.m2mfacil.com.br/api
+    url: 172.18.107.240
 
 amqp:
     url: amqp://admin:admin@172.16.193.13

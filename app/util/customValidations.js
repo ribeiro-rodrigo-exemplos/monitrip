@@ -6,6 +6,7 @@ let validadorDeData = new (require('./validadorDeData')());
 
 module.exports = () => {
     return {
-        isDate: value => validadorDeData.validarData(value)
+        isDate: value => validadorDeData.validarData(value),
+        isDateTime: value => validadorDeData.validarDataEHora(value) || validadorDeData.validarData(value)
     }
 }

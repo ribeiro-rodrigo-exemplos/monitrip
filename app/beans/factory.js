@@ -69,7 +69,7 @@ module.exports = app => {
             return new app.controlador.servicoController(this.servicoRepository, this.validadorDeData);
         },
         get bilheteController(){
-            return new app.controlador.bilheteController(this.bilheteRepository);
+            return new app.controlador.bilheteController(this.bilheteRepository,this.retornoDTO);
         },
 
         get authController(){

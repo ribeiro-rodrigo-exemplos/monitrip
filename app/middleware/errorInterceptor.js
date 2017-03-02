@@ -11,7 +11,7 @@ module.exports = () =>
                 return;
             }
            
-            log.erro(error);
+            log.error(error);
 
             res.status(500)
                 .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde');
