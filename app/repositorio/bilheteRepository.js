@@ -10,9 +10,9 @@ module.exports = () =>
             this._Bilhete = mongoose.model('Bilhete');
         }
 
-        filtrarBilhetes(numero,dataAtualizacao,clienteId){
+        filtrarBilhetes(numero,dataAtualizacao,identificacaoLinha,clienteId){
 
-            logger.info(`BilheteRepository - filtrarBilhetes(${numero},${dataAtualizacao},${clienteId})`);
+            logger.info(`BilheteRepository - filtrarBilhetes(${numero},${dataAtualizacao},${identificacaoLinha}, ${clienteId})`);
 
             let criteria = {};
 
@@ -24,6 +24,9 @@ module.exports = () =>
 
             if(numero)
                 criteria.numeroBilheteEmbarque = numero;
+
+            if(identificacaoLinha)
+                criteria.identificacaoLinha = identificacaoLinha;
 
             return this._prepareResult(criteria,{"_id":0,clienteId:0});
         }

@@ -24,11 +24,12 @@ module.exports = () =>
 
             const dataAtualizacao = req.query.dataAtualizacao;
             const numeroBilhete = req.query.numero;
+            const identificacaoLinha = req.query.identificacaoLinha;
 
-            logger.info(`BilheteController - obterBilhetes ${req.idCliente} ${dataAtualizacao} ${numeroBilhete}`);
+            logger.info(`BilheteController - obterBilhetes ${req.idCliente} ${dataAtualizacao} ${numeroBilhete} ${identificacaoLinha}`);
 
             this._bilheteRepository
-                    .filtrarBilhetes(numeroBilhete,dataAtualizacao,req.idCliente)
+                    .filtrarBilhetes(numeroBilhete,dataAtualizacao,identificacaoLinha,req.idCliente)
                     .then(bilhetes => bilhetes ? res.json(new this._RetornoDTO(bilhetes,'bilhetes')) : res.sendStatus(204))
                     .catch(erro => next(erro));
         }
