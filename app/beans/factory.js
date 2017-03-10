@@ -96,6 +96,10 @@ module.exports = app => {
           return new app.controlador.licencaController(this.licencaService);
         },
 
+        get infoController(){
+          return new app.controlador.infoController();
+        },
+
         get dispositivoService(){
             return new app.servico.dispositivoService(this.dispositivoRepository,this.clienteRepository);
         },
@@ -138,6 +142,10 @@ module.exports = app => {
 
         get webTokenInterceptor(){
             return new app.middleware.webTokenInterceptor(this.ssoService);
+        },
+
+        get basicAuthInterceptor(){
+            return new app.middleware.basicAuthInterceptor();
         }
     }
 }
