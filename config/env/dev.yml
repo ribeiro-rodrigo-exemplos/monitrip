@@ -1,34 +1,34 @@
 mysql:
   frota:
-    host: localhost
-    database: frota_zn4
+    host: 172.16.193.32
     username: frota
     password: frota
     port: 3306
+    database: frota_zn4
   sso:
-    host: localhost
-    database: sso
-    username: root
-    password:
+    host: 172.16.193.32
+    username: frota
+    password: frota
     port: 3306
+    database: sso
 
 mongodb:
-    url: mongodb://localhost:27017/m2mfrota
+    url: mongodb://172.18.107.204:27017/frota_znh
 
 sso:
-    url: http://172.18.107.240:3000
+    url: 172.18.107.240
 
 amqp:
-    url: amqp://localhost
+    url: amqp://admin:admin@172.16.193.13
     queue: lazypersistence
 
 cache:
   linha:
-    seconds: 0
+    seconds: 10
   motorista:
-    seconds: 0
+    seconds: 10
   veiculo:
-    seconds: 0
+    seconds: 10
 
 server:
   port: 3000
@@ -40,3 +40,6 @@ log:
   files:
     erro: monitriip-erro.log
     info: monitriip-info.log
+
+
+
