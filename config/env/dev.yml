@@ -1,6 +1,6 @@
 mysql:
   frota:
-    host: 172.16.193.32
+    host: localhost
     username: frota
     password: frota
     port: 3306
@@ -16,7 +16,7 @@ mongodb:
     url: mongodb://172.18.107.204:27017/frota_znh
 
 sso:
-    url: 172.18.107.240
+    url: http://172.18.107.240:3000
 
 amqp:
     url: amqp://admin:admin@172.16.193.13

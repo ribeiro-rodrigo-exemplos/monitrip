@@ -16,7 +16,7 @@ mongodb:
     url: mongodb://localhost:27017/m2mfrota
 
 sso:
-    url: http://10.0.1.165:3000
+    url: http://172.18.107.240:3000
 
 amqp:
     url: amqp://localhost
