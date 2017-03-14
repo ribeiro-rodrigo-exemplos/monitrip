@@ -38,7 +38,7 @@ const CONSTANTES = {
         '9':  'Log do Leitor de Bilhete de Embarque',
         '10': 'Log do Leitor de Cartão RFID'
     }
-}
+};
 
 module.exports = () => CONSTANTES;    
 

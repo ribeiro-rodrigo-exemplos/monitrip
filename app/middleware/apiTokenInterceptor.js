@@ -1,3 +1,5 @@
+let logger = require('../util/log');
+
 module.exports = app =>
     class ApiTokenInterceptor extends app.middleware.GenericTokenInterceptor{
         constructor(ssoService){
@@ -38,4 +40,4 @@ module.exports = app =>
                                     .send('Token inválido. O recurso requisitado exige autenticação.')
                         ); 
         }
-    }
+    };

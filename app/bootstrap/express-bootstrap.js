@@ -2,7 +2,7 @@ let express = require('express');
 let bodyParser = require('body-parser');
 let consign = require('consign');
 let validator = require('express-validator');
-let log = require('../util/log');
+let logger = require('../util/log');
 let morgan = require('morgan');
 
 let ErrorInterceptor = require('../middleware/errorInterceptor')();
@@ -14,7 +14,7 @@ let app = express();
 app.use(morgan("common",{
     stream:{
         write(mensagem){
-            log.info(mensagem);
+            logger.info(mensagem);
         }
     }
 }));

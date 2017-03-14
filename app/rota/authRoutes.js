@@ -11,4 +11,4 @@ module.exports = app => {
     app.use('/api/*',apiTokenInterceptor.intercept.bind(apiTokenInterceptor));
     app.use('/web/*',webTokenInterceptor.intercept.bind(webTokenInterceptor));
     app.use('/info',basicAuthInterceptor.intercept.bind(basicAuthInterceptor));
-}
+};

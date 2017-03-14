@@ -1,3 +1,5 @@
+let logger = require('../util/log');
+
 module.exports = () =>
     class LinhaController{
         constructor(linhaRepository,validadorDeData,retornoDTO){
@@ -14,6 +16,8 @@ module.exports = () =>
                 res.sendStatus(204);
                 return;
             }
+
+            logger.info(`LinhaController - obter  - numero: ${req.query.numero} - dataAtualizacao: ${req.query.dataAtualizacao}`);
 
             this._LinhaRepository
                     .filtrarLinhas(req.idCliente,numero,dataAtualizacao)
@@ -40,6 +44,6 @@ module.exports = () =>
         _dataValida(dataAtualizacao){
             return this._validadorDeData.validarDataEHora(dataAtualizacao);
         }
-    }
+    };
 
 
