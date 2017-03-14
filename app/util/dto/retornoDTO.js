@@ -6,6 +6,6 @@ module.exports = () =>
             this["dt_sincronismo"] = moment().format('YYYY-MM-DD HH:mm:ss');
             this[labelResult] = result;
         }
-    }
+    };
 
 

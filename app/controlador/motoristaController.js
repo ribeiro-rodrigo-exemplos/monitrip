@@ -1,9 +1,10 @@
+let logger = require('../util/log');
+
 module.exports = () =>
     class MotoristaController{
         constructor(motoristaRepository,validadorDeData,retornoDTO){
             this._motoristaRepository = motoristaRepository;
             this._validadorDeData = validadorDeData;
-
             this._RetornoDTO = retornoDTO;
         }
 
@@ -16,6 +17,8 @@ module.exports = () =>
                 res.sendStatus(204);
                 return;
             }
+
+            logger.info(`MotoristaController - obter  - cpf: ${cpf} - dataAtualizacao: ${dataAtualizacao}`);
 
             this._motoristaRepository
                     .filtrarMotoristas(req.idCliente,cpf,dataAtualizacao)
@@ -33,6 +36,6 @@ module.exports = () =>
         _dataValida(dataAtualizacao){
             return this._validadorDeData.validarDataEHora(dataAtualizacao);
         }
-    }
+    };
 
 

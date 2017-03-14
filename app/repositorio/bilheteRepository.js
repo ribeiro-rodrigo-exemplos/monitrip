@@ -5,33 +5,33 @@ const logger = require('../util/log');
 const mongoose = require('mongoose');
 
 module.exports = () =>
-    class BilheteRepository{
-        constructor(){
+    class BilheteRepository {
+        constructor() {
             this._Bilhete = mongoose.model('Bilhete');
         }
 
-        filtrarBilhetes(numero,dataAtualizacao,identificacaoLinha,clienteId){
+        filtrarBilhetes(numero, dataAtualizacao, identificacaoLinha, clienteId) {
 
             logger.info(`BilheteRepository - filtrarBilhetes(${numero},${dataAtualizacao},${identificacaoLinha}, ${clienteId})`);
 
             let criteria = {};
 
-            if(clienteId)
+            if (clienteId)
                 criteria.clienteId = clienteId;
 
-            if(dataAtualizacao)
+            if (dataAtualizacao)
                 criteria.dt_atualizacao = {"$gte": dataAtualizacao};
 
-            if(numero)
+            if (numero)
                 criteria.numeroBilheteEmbarque = numero;
 
-            if(identificacaoLinha)
+            if (identificacaoLinha)
                 criteria.identificacaoLinha = identificacaoLinha;
 
-            return this._prepareResult(criteria,{"_id":0,clienteId:0});
+            return this._prepareResult(criteria, {"_id": 0, clienteId: 0});
         }
 
-        _prepareResult(criteria,fields){
-            return this._Bilhete.find(criteria,fields);
+        _prepareResult(criteria, fields) {
+            return this._Bilhete.find(criteria, fields);
         }
-    }
+    };

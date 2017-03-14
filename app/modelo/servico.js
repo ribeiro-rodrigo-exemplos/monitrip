@@ -4,11 +4,11 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
-    dataServico:String,
-    idCliente:Number,
-    createDate:Date
+    dataServico: String,
+    idCliente: Number,
+    createDate: Date
 });
 
-schema.index({createDate:1},{expireAfterSeconds:864000});
+schema.index({createDate: 1}, {expireAfterSeconds: 864000});
 
-mongoose.model('Servico',schema,'ServicosMonitriip');
+mongoose.model('Servico', schema, 'ServicosMonitriip');

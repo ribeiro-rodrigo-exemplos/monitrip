@@ -6,4 +6,4 @@ module.exports = app => {
 
     app.route('/api/v1/servicos')
         .get(controlador.obter.bind(controlador));
-}
+};

@@ -1,3 +1,5 @@
+let logger = require('../util/log');
+
 module.exports = () =>
     class LogController{
         constructor(logService, logRepository, util, dateUtil){
@@ -15,6 +17,9 @@ module.exports = () =>
 
             req.body.idCliente = req.idCliente;
             req.body.placaVeiculo = req.body.placaVeiculo ? req.body.placaVeiculo.toUpperCase() : null;
+
+            logger.info(`LogController - inserirLog  - idCliente: ${req.idCliente} - placaVeiculo: ${req.body.placaVeiculo.toUpperCase()}`);
+
             this._logService.salvar(req.body)
                                 .then(() => res.sendStatus(202))
                                 .catch(erro => next(erro));
@@ -28,6 +33,8 @@ module.exports = () =>
             if(this._possuiErrosDeValidacao(req,res))
                 return;
 
+            logger.info(`LogController - obterLogs  - idCliente: ${req.idCliente} - idLog: ${req.query.idLog} - dataInicial: ${req.idCliente} - dataFim: ${req.idCliente} - placaVeiculo: ${req.body.placaVeiculo.toUpperCase()}`);
+
             this._LogRepository
                 .obterLogs(req.idCliente, 
                            req.query.idLog,
@@ -39,7 +46,7 @@ module.exports = () =>
                     logs.map(item => {
                         item.evento = this._Util.descLogs[item.idLog];     
                         item.dataHoraFormatada = this._DateUtil.formataDataHora(item.dataHoraEvento, req.gmtCliente);
-                    })
+                    });
 
                     return res.json(logs);
                 })
@@ -59,4 +66,4 @@ module.exports = () =>
                 return true;
             }
         }
-    }
+    };
