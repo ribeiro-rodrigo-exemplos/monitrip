@@ -8,7 +8,6 @@ module.exports = app =>
         }
 
         intercept(req, res, next) {
-
             if (this.recursoLiberado(req)) {
                 next();
                 return;
@@ -17,6 +16,8 @@ module.exports = app =>
             let token = this.obterToken(req);
 
             if (!token) {
+                logger.error(`WebTokenInterceptor - intercept - O recurso exige autenticação`);
+
                 res.status(401)
                     .send('O recurso exige autenticação');
                 return;

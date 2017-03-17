@@ -12,6 +12,8 @@ module.exports = () =>
                 return;
             }
 
+            logger.error(`ErrorInterceptor - intercept - errorStatus: ${error.status} - errorMessage: ${error.message}`);
+
             res.status(500)
                 .send('Ocorreu um erro ao processar a requisição solicitada, tente novamente mais tarde');
         }
