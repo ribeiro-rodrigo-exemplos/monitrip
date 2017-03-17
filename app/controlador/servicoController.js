@@ -5,8 +5,9 @@ let logger = require('../util/log');
 
 module.exports = () =>
     class ServicoController{
-        constructor(servicoRepository){
+        constructor(servicoRepository,retornoDTO){
             this._servicoRepository = servicoRepository;
+            this._RetornoDTO = retornoDTO;
         }
 
         obter(req,res,next){
@@ -28,7 +29,7 @@ module.exports = () =>
                 .obterServicos(req.idCliente,dataInicio,dataFim)
                 .then(servicos => {
                     logger.info(`ServicoController - obter ${req.idCliente} de ${dataInicio} a ${dataFim} - sucesso`)
-                    servicos ? res.json(servicos) : res.sendStatus(204)
+                    servicos ? res.json(new this._RetornoDTO(servicos,servicos)) : res.sendStatus(204)
                 })
                 .catch(erro => next(erro));
         }
