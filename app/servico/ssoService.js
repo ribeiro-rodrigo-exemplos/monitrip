@@ -27,23 +27,19 @@ module.exports = app =>
 
 
         possuiPermissaoParaOMonitrip(decoded) {
-            logger.info(`SSOService - possuiPermissaoParaOMonitrip - decoded: ${decoded}`);
+            logger.info(`SSOService - possuiPermissaoParaOMonitrip: ${decoded.funcionalidades.indexOf('Monitrip') >= 0 ? true : false}`);
             return decoded.funcionalidades.indexOf('Monitrip') >= 0 ? true : false;
         }
 
         decodificarToken(token) {
-            logger.info(`SSOService - decodificarToken - token: ${token}`);
             return this._decodificarToken(token, this._apiTokenPass);
         }
 
         decodificarWebToken(token) {
-            logger.info(`SSOService - decodificarWebToken - token: ${token}`);
             return this._decodificarToken(token, this._webTokenPass)
         }
 
         _decodificarToken(token, tokenPass) {
-            logger.info(`SSOService - _decodificarToken - token: ${token} - tokenPass: ${tokenPass}`);
-
             return new Promise((resolve, reject) => {
                 jwt.verify(token, tokenPass, (erro, decoded) => {
                     if (erro)
