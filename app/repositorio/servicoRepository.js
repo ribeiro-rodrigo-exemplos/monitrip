@@ -22,6 +22,6 @@ module.exports = () =>
                 }
             };
 
-            return this._Servico.find(criteria, {"_id": 0});
+            return this._Servico.find(criteria, {"_id": 0,"_class":0});
         }
     };
