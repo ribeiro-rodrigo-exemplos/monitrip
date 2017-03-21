@@ -20,8 +20,8 @@ module.exports = () =>
             const erros = this._validarParametrosDeConsulta(req);
 
             if (erros) {
-                res.json(erros)
-                    .status(400);
+                res.status(400);
+                res.json(erros);
                 return;
             }
 
