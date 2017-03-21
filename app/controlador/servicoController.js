@@ -29,7 +29,7 @@ module.exports = () =>
                 .obterServicos(req.idCliente, dataInicio, dataFim)
                 .then(servicos => {
                     logger.info(`ServicoController - obter ${req.idCliente} de ${dataInicio} a ${dataFim} - sucesso`)
-                    servicos ? res.json(new this._RetornoDTO(servicos,servicos)) : res.sendStatus(204)
+                    servicos ? res.json(new this._RetornoDTO(servicos,'servicos')) : res.sendStatus(204)
                 })
                 .catch(erro => next(erro));
         }
