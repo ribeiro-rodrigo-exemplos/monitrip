@@ -29,7 +29,7 @@ module.exports = () =>
 
             this._bilheteRepository
                 .filtrarBilhetes(numeroBilhete, dataAtualizacao, identificacaoLinha, req.idCliente)
-                .then(bilhetes => bilhetes ? res.json(new this._RetornoDTO(bilhetes, 'bilhetes')) : res.sendStatus(204))
+                .then(bilhetes => bilhetes.length ? res.json(new this._RetornoDTO(bilhetes, 'bilhetes')) : res.sendStatus(204))
                 .catch(erro => next(erro));
         }
 
