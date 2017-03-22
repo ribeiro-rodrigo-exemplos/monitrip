@@ -6,7 +6,7 @@ mysql:
     port: 3306
     database: frota_znh
   sso:
-    host: 172.16.193.32
+    host: 172.18.107.248
     username: frota
     password: frota
     port: 3306

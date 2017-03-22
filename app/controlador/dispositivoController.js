@@ -18,9 +18,11 @@ module.exports = () =>
                 return;
             }
 
+            const credenciais = req.body.credenciais;
+
             logger.info(`DispositivoController - cadastrarPelaApi  - credenciais: ${credenciais.usuario} - imei: ${credenciais.imei}`);
 
-            this._ssoService.autenticar(req.body.credenciais)
+            this._ssoService.autenticar(credenciais)
                 .then(authResult => this._ssoService.decodificarToken(authResult.IdentificacaoLogin))
                 .then(decoded => this._dispositivoService.cadastrar(req.body.dispositivo, decoded.idCliente))
                 .then(() => res.sendStatus(200))
