@@ -33,12 +33,14 @@ module.exports = () =>
             if(this._possuiErrosDeValidacao(req,res))
                 return;
 
-            logger.info(`LogController - obterLogs  - idCliente: ${req.idCliente} - idLog: ${req.query.idLog} - dataInicial: ${req.idCliente} - dataFim: ${req.idCliente} - placaVeiculo: ${req.body.placaVeiculo.toUpperCase()}`);
+            let placaVeiculo = req.query.placaVeiculo ? req.query.placaVeiculo.toUpperCase() : null;
+
+            logger.info(`LogController - obterLogs  - idCliente: ${req.idCliente} - idLog: ${req.query.idLog} - dataInicial: ${req.idCliente} - dataFim: ${req.idCliente} - placaVeiculo: ${placaVeiculo}`);
 
             this._LogRepository
                 .obterLogs(req.idCliente, 
                            req.query.idLog,
-                           req.query.placaVeiculo,
+                           placaVeiculo,
                            req.query.dataIni,
                            req.query.dataFim
                 )
