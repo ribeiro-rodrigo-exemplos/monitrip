@@ -19,7 +19,7 @@ sso:
     url: http://172.18.107.240:3000
 
 amqp:
-    url: amqp://admin:admin@172.16.193.13
+    url: amqp://admin:admin@172.18.107.201
     queue: lazypersistence
 
 cache:
