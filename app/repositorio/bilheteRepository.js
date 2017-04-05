@@ -23,10 +23,9 @@ module.exports = () =>
             if (dataVenda){
                 let data = moment(dataVenda);
                 const formato = 'YYYY-MM-DD'
-                criteria.dt_atualizacao = {"$gte": data.format(formato),"$lte":data.add(1,'days').format("formato")};
+                criteria.dt_atualizacao = {"$gte": data.format(formato),"$lte":data.add(1,'days').format(formato)};
             }
                 
-
             if (numero)
                 criteria.numeroBilheteEmbarque = numero;
 
