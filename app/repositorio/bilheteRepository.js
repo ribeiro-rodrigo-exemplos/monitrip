@@ -3,6 +3,7 @@
  */
 const logger = require('../util/log');
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 module.exports = () =>
     class BilheteRepository {
@@ -19,8 +20,12 @@ module.exports = () =>
             if (clienteId)
                 criteria.clienteId = clienteId;
 
-            if (dataVenda)
-                criteria.dt_atualizacao = {"$gte": dataVenda,"$lte":dataVenda};
+            if (dataVenda){
+                let data = moment(dataVenda);
+                const formato = 'YYYY-MM-DD'
+                criteria.dt_atualizacao = {"$gte": data.format(formato),"$lte":data.add(1,'days').format("formato")};
+            }
+                
 
             if (numero)
                 criteria.numeroBilheteEmbarque = numero;

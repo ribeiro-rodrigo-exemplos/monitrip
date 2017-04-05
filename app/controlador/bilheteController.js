@@ -35,7 +35,7 @@ module.exports = () =>
 
         _validarParametrosDeConsulta(req) {
             if (req.query.dataAtualizacao)
-                req.checkQuery('dataAtualizacao', 'deve estar no formato ISO').isDateTime();
+                req.checkQuery('dataVenda', 'deve estar no formato ISO').isDate();
 
             return req.validationErrors();
         }
