@@ -21,14 +21,14 @@ module.exports = () =>
                 return;
             }
 
-            const dataAtualizacao = req.query.dataAtualizacao;
+            const dataVenda = req.query.dataVenda;
             const numeroBilhete = req.query.numero;
             const identificacaoLinha = req.query.identificacaoLinha;
 
-            logger.info(`BilheteController - obterBilhetes - idCliente: ${req.idCliente} - dataAtualizacao: ${dataAtualizacao} - numeroBilhete: ${numeroBilhete} - identificacaoLinha: ${identificacaoLinha}`);
+            logger.info(`BilheteController - obterBilhetes - idCliente: ${req.idCliente} - dataVenda: ${dataVenda} - numeroBilhete: ${numeroBilhete} - identificacaoLinha: ${identificacaoLinha}`);
 
             this._bilheteRepository
-                .filtrarBilhetes(numeroBilhete, dataAtualizacao, identificacaoLinha, req.idCliente)
+                .filtrarBilhetes(numeroBilhete, dataVenda, identificacaoLinha, req.idCliente)
                 .then(bilhetes => bilhetes.length ? res.json(new this._RetornoDTO(bilhetes, 'bilhetes')) : res.sendStatus(204))
                 .catch(erro => next(erro));
         }

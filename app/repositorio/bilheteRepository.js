@@ -10,17 +10,17 @@ module.exports = () =>
             this._Bilhete = mongoose.model('Bilhete');
         }
 
-        filtrarBilhetes(numero, dataAtualizacao, identificacaoLinha, clienteId) {
+        filtrarBilhetes(numero, dataVenda, identificacaoLinha, clienteId) {
 
-            logger.info(`BilheteRepository - filtrarBilhetes(${numero},${dataAtualizacao},${identificacaoLinha}, ${clienteId})`);
+            logger.info(`BilheteRepository - filtrarBilhetes(${numero},${dataVenda},${identificacaoLinha}, ${clienteId})`);
 
             let criteria = {};
 
             if (clienteId)
                 criteria.clienteId = clienteId;
 
-            if (dataAtualizacao)
-                criteria.dt_atualizacao = {"$gte": dataAtualizacao};
+            if (dataVenda)
+                criteria.dt_atualizacao = {"$gte": dataVenda,"$lte":dataVenda};
 
             if (numero)
                 criteria.numeroBilheteEmbarque = numero;
