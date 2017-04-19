@@ -21,21 +21,26 @@ module.exports = () =>
                 return;
             }
 
-            const dataVenda = req.query.dataVenda;
+            const dataHoraInicioViagem = req.query.dataHoraInicioViagem;
+
             const numeroBilhete = req.query.numero;
             const identificacaoLinha = req.query.identificacaoLinha;
 
-            logger.info(`BilheteController - obterBilhetes - idCliente: ${req.idCliente} - dataVenda: ${dataVenda} - numeroBilhete: ${numeroBilhete} - identificacaoLinha: ${identificacaoLinha}`);
+            logger.info(`BilheteController - obterBilhetes - idCliente: ${req.idCliente} - dataHoraInicioViagem: ${dataHoraInicioViagem} - numeroBilhete: ${numeroBilhete} - identificacaoLinha: ${identificacaoLinha}`);
 
             this._bilheteRepository
-                .filtrarBilhetes(numeroBilhete, dataVenda, identificacaoLinha, req.idCliente)
+                .filtrarBilhetes(numeroBilhete, dataHoraInicioViagem, identificacaoLinha, req.idCliente)
                 .then(bilhetes => bilhetes.length ? res.json(new this._RetornoDTO(bilhetes, 'bilhetes')) : res.sendStatus(204))
                 .catch(erro => next(erro));
         }
 
         _validarParametrosDeConsulta(req) {
-            if (req.query.dataAtualizacao)
-                req.checkQuery('dataVenda', 'deve estar no formato ISO').isDate();
+
+            
+            if (req.query.dataHoraInicioViagem)
+                req.checkQuery('dataHoraInicioViagem', 'deve estar no formato ISO').isDateTime();
+            
+            req.checkQuery('identificacaoLinha','campo obrigatório').notEmpty();
 
             return req.validationErrors();
         }

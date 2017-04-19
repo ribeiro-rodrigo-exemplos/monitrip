@@ -9,21 +9,24 @@ module.exports = () =>
     class BilheteRepository {
         constructor() {
             this._Bilhete = mongoose.model('Bilhete');
+            this._formatoData = 'YYYYMMDD';
+            this._formatoHora = 'HHmmss';
         }
 
-        filtrarBilhetes(numero, dataVenda, identificacaoLinha, clienteId) {
+        filtrarBilhetes(numero, dataHoraInicioViagem,identificacaoLinha, clienteId) {
 
-            logger.info(`BilheteRepository - filtrarBilhetes(${numero},${dataVenda},${identificacaoLinha}, ${clienteId})`);
+            logger.info(`BilheteRepository - filtrarBilhetes(${numero},${dataHoraInicioViagem},${identificacaoLinha}, ${clienteId})`);
 
             let criteria = {};
 
             if (clienteId)
                 criteria.clienteId = clienteId;
 
-            if (dataVenda){
-                let data = moment(dataVenda);
-                const formato = 'YYYY-MM-DD'
-                criteria.dt_atualizacao = {"$gte": data.format(formato),"$lte":data.add(1,'days').format(formato)};
+            if(dataHoraInicioViagem){
+                
+                dataHoraInicioViagem = moment(dataHoraInicioViagem);
+                criteria.dataViagem = dataHoraInicioViagem.format(this._formatoData);
+                criteria.horaViagem = dataHoraInicioViagem.format(this._formatoHora);
             }
                 
             if (numero)
