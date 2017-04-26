@@ -10,6 +10,7 @@ module.exports = () =>
         }
 
         inserirLog(req,res,next){
+
             req.assert('idLog','Id do log é obrigatório').notEmpty();
 
             if(this._possuiErrosDeValidacao(req,res))
@@ -18,7 +19,7 @@ module.exports = () =>
             req.body.idCliente = req.idCliente;
 
             req.body.idViagem = req.header('idViagem');
-            req.body.idTransbordo = req.header('idTransbordo');
+            req.body.idServico = req.header('idServico') ? req.header('idServico').split(',') : [];
             req.body.idJornada = req.header('idJornada');
 
             req.body.placaVeiculo = req.body.placaVeiculo ? req.body.placaVeiculo.toUpperCase() : null;
