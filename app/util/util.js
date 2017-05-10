@@ -26,7 +26,7 @@ const CONSTANTES = {
     },
 
     descLogs : {
-        '0':  'Log de Venda de Passagens',
+        '00':  'Log de Venda de Passagens',
         '1':  'Log de Cartões Emitidos & Recargas Efetuadas',
         '2':  'Log de Registro de Ocorrências Rodoviário',
         '3':  'Log de Registro de Ocorrências Semiurbano',

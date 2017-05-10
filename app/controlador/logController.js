@@ -34,31 +34,39 @@ module.exports = () =>
         obterLogs(req,res,next){
             req.checkQuery('dataIni', 'A data inicial não é válida').notEmpty();
             req.checkQuery('dataFim', 'A data final não é válida').notEmpty();
-            req.checkQuery('placaVeiculo', 'A placa do veiculo não é válida').notEmpty();
-
+            
             if(this._possuiErrosDeValidacao(req,res))
                 return;
-
+            
+            let objetoRetorno={};
             let placaVeiculo = req.query.placaVeiculo ? req.query.placaVeiculo.toUpperCase() : null;
 
             logger.info(`LogController - obterLogs  - idCliente: ${req.idCliente} - idLog: ${req.query.idLog} - dataInicial: ${req.idCliente} - dataFim: ${req.idCliente} - placaVeiculo: ${placaVeiculo}`);
 
-            this._LogRepository
-                .obterLogs(req.idCliente, 
-                           req.query.idLog,
-                           placaVeiculo,
-                           req.query.dataIni,
-                           req.query.dataFim
-                )
-                .then(logs => {
-                    logs.map(item => {
+            let promises = [
+                this._LogRepository.obterLogs(req.idCliente, req.query.idLog, placaVeiculo, req.query.dataIni, req.query.dataFim),
+                this._LogRepository.obterLogsBilhete(req.idCliente, req.query.idLog, placaVeiculo, req.query.dataIni, req.query.dataFim)
+            ];
+
+            
+            Promise.all(promises)
+                .then(result => {
+                    objetoRetorno.logs = result[0];
+                    objetoRetorno.logsBilhete = result[1];
+
+                    objetoRetorno.logsBilhete.forEach(item => {
+                        objetoRetorno.logs.push(item);
+                    });
+
+                    objetoRetorno.logs.map(item => {
                         item.evento = this._Util.descLogs[item.idLog];     
                         item.dataHoraFormatada = this._DateUtil.formataDataHora(item.dataHoraEvento, req.gmtCliente);
                     });
-
-                    return res.json(logs);
-                })
-                .catch(erro => next(erro));           
+                    
+                }).then(() => {
+                    res.json(objetoRetorno.logs);
+                }).catch(erro => next(erro));
+                
         }
 
         obterComboLogs(req,res,next){
