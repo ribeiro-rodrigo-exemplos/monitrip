@@ -1,5 +1,6 @@
 let moment = require('moment');
 let momentTimezone = require('moment-timezone');
+let log = require('./log');
 
 const formato = {
     DATA_DMA_BARRA: 'DD/MM/YYYY',
@@ -15,12 +16,12 @@ const formato = {
     HORA_MIN: 'HH:mm:ss',
     HORA_MIN_SEG: 'HH:mm:ss',
     HORA_COMPLETA: 'HH:mm:ss:sss'
-}
+};
 
 const tipoRetorno = {
     DATA: 1,
     STRING: 2
-}
+};
 
 class DateUtil{
     constructor(){
@@ -33,7 +34,7 @@ class DateUtil{
             return moment(data, formato, true).isValid();           
         }
         catch(e){
-            console.log(e);
+            log.erro(e);
 
             return false;
         }

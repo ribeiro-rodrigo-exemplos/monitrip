@@ -2,17 +2,30 @@ let express = require('express');
 let bodyParser = require('body-parser');
 let consign = require('consign');
 let validator = require('express-validator');
+let logger = require('../util/log');
+let morgan = require('morgan');
 
 let ErrorInterceptor = require('../middleware/errorInterceptor')();
 let CorsInterceptor = require('../middleware/corsInterceptor')();
+let customValidations = require('../util/customValidations')();
 
 let app = express();
+
+app.use(morgan("common",{
+    stream:{
+        write(mensagem){
+            logger.info(mensagem);
+        }
+    }
+}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(CorsInterceptor.intercept);
-app.use(validator());
+app.use(validator({
+    customValidators:customValidations
+}));
 
 app.set('jwt_api_key','M2MParceiroKey');
 app.set('jwt_web_key','m2m');

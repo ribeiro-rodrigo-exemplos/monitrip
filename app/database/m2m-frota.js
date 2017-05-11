@@ -1,4 +1,5 @@
 let mongoose = require('mongoose');
+let log = require('../util/log');
 var config = require('../bootstrap/config-bootstrap')();
 
 if(mongoose.connection.readyState)
@@ -18,18 +19,30 @@ function connect(){
     }});
 }
 
-mongoose.connection.on('connecting',() => console.log('conectando ao mongodb'));
-mongoose.connection.on('connected',() => console.log('conectado ao mongodb'));
-mongoose.connection.on('error',() => {
-   console.log('Erro ao conectar com o mongodb');
-    connect();
+mongoose.connection.on('connecting',() => {
+    log.info('conectando ao mongodb');
 });
-mongoose.connection.on('reconnected',() => console.log('reconectado ao mongodb'));
-mongoose.connection.on('disconnected',() => console.log('finalizando conexão com o mongodb'));
 
-connect();
+mongoose.connection.on('connected',() => {
+    log.info('conectado ao mongodb');
+});
+
+mongoose.connection.on('error',() => {
+    log.error('Erro ao conectar com o mongodb');
+    setTimeout(connect,2000);
+});
+
+mongoose.connection.on('reconnected',() => {
+    log.info('reconectado ao mongodb');
+});
+
+mongoose.connection.on('disconnected',() => {
+    log.info('finalizando conexão com o mongodb');
+});
 
 process.on('SIGINT',() => {
-    console.log('encerrando o Monitriip');
+    log.info('encerrando o Monitriip');
     mongoose.connection.close(() => process.exit(0));
-})
+});
+
+connect();
