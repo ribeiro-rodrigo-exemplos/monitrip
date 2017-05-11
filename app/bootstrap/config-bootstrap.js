@@ -1,31 +1,31 @@
-
 const yaml = require('js-yaml');
 const fs = require('fs');
+let logger = require('../util/log');
 
 const envs = {
-    dev:'./config/env/dev.yml',
-    hml:'./config/env/hml.yml',
-    test:'./config/env/test.yml'
-}
+    dev: './config/env/dev.yml',
+    hml: './config/env/hml.yml',
+    test: './config/env/test.yml'
+};
 
 let envName = process.env['NODE_ENV'];
 let file = null;
 
-try{
+try {
 
-    if(envs[envName])
+    if (envs[envName])
         file = envs[envName];
-    else{
+    else {
         envName = 'dev';
-        file = envs[envName];   
+        file = envs[envName];
     }
-    
+
     var config = yaml.safeLoad(fs.readFileSync(file));
 
-    console.log(`Utilizando ambiente ${envName}.`);
+   console.log(`Utilizando ambiente ${envName}.`);
 
-}catch(e){
-    console.error(e);
+} catch (e) {
+    console.log(e);
 }
 
 module.exports = () => config;

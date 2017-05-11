@@ -8,5 +8,5 @@ module.exports = () =>
             res.header("Access-Control-Allow-Methods", "GET, PUT, POST, PUT, DELETE, OPTIONS, HEAD, PATCH");
             next();
         }
-    }
+    };
 
