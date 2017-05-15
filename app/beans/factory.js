@@ -84,7 +84,7 @@ module.exports = app => {
         },
 
         get logController() {
-            return new app.controlador.logController(this.logService, this.logRepository, this.util, this.dateUtil);
+            return new app.controlador.logController(this.logService, this.logRepository, this.bilheteRepository, this.util, this.dateUtil);
         },
 
         get motoristaController() {

@@ -1,10 +1,12 @@
 let logger = require('../util/log');
+let util = require('../util/util')();
 
 module.exports = () =>
     class LogController{
-        constructor(logService, logRepository, util, dateUtil){
+        constructor(logService, logRepository, bilheteRepository, util, dateUtil){
             this._logService = logService;
             this._LogRepository = logRepository;
+            this._bilheteRepository = bilheteRepository;
             this._Util = util;
             this._DateUtil = dateUtil;
         }
@@ -41,32 +43,62 @@ module.exports = () =>
             let objetoRetorno={};
             let placaVeiculo = req.query.placaVeiculo ? req.query.placaVeiculo.toUpperCase() : null;
 
-            logger.info(`LogController - obterLogs  - idCliente: ${req.idCliente} - idLog: ${req.query.idLog} - dataInicial: ${req.idCliente} - dataFim: ${req.idCliente} - placaVeiculo: ${placaVeiculo}`);
-
-            let promises = [
-                this._LogRepository.obterLogs(req.idCliente, req.query.idLog, placaVeiculo, req.query.dataIni, req.query.dataFim),
-                this._LogRepository.obterLogsBilhete(req.idCliente, req.query.idLog, placaVeiculo, req.query.dataIni, req.query.dataFim)
-            ];
-
+            logger.info(`LogController - obterLogs - idCliente: ${req.idCliente} - idLog: ${req.query.idLog} - dataInicial: ${req.idCliente} - dataFim: ${req.idCliente} - placaVeiculo: ${placaVeiculo}`);
             
-            Promise.all(promises)
-                .then(result => {
-                    objetoRetorno.logs = result[0];
-                    objetoRetorno.logsBilhete = result[1];
-
-                    objetoRetorno.logsBilhete.forEach(item => {
-                        objetoRetorno.logs.push(item);
-                    });
-
-                    objetoRetorno.logs.map(item => {
-                        item.evento = this._Util.descLogs[item.idLog];     
-                        item.dataHoraFormatada = this._DateUtil.formataDataHora(item.dataHoraEvento, req.gmtCliente);
-                    });
-                    
-                }).then(() => {
-                    res.json(objetoRetorno.logs);
-                }).catch(erro => next(erro));
+            if(req.query.idLog == util.log.BILHETE){
                 
+                this._bilheteRepository.filtrarBilhetesVendidosNoPeriodo(req.idCliente, req.query.dataIni, req.query.dataFim)
+                    .then(result =>{
+                        objetoRetorno.logs = result;
+
+                        objetoRetorno.logs.map(item => {
+                            item.evento = this._Util.descLogs[item.idLog];     
+                            item.dataHoraFormatada = this._DateUtil.formataDataHora(item.dataHoraEvento, req.gmtCliente);
+                        });
+
+                        res.json(objetoRetorno.logs);
+                    })
+
+            }else if(req.query.idLog == undefined){
+
+                let promises = [
+                    this._LogRepository.obterLogs(req.idCliente, req.query.idLog, placaVeiculo, req.query.dataIni, req.query.dataFim),
+                    this._bilheteRepository.filtrarBilhetesVendidosNoPeriodo(req.idCliente, req.query.dataIni, req.query.dataFim)
+                ];
+                
+                Promise.all(promises)
+                    .then(result => {
+                        objetoRetorno.logs = result[0];
+                        objetoRetorno.logsBilhete = result[1];
+
+                        objetoRetorno.logsBilhete.forEach(item => {
+                            objetoRetorno.logs.push(item);
+                        });
+
+                        objetoRetorno.logs.map(item => {
+                            item.evento = this._Util.descLogs[item.idLog];     
+                            item.dataHoraFormatada = this._DateUtil.formataDataHora(item.dataHoraEvento, req.gmtCliente);
+                        });
+                        
+                    }).then(() => {
+                        res.json(objetoRetorno.logs);
+                    }).catch(erro => next(erro));
+            
+            }else{
+            
+                this._LogRepository.obterLogs(req.idCliente, req.query.idLog, placaVeiculo, req.query.dataIni, req.query.dataFim)
+                    .then(result =>{
+                        objetoRetorno.logs = result;
+
+                        objetoRetorno.logs.map(item => {
+                            item.evento = this._Util.descLogs[item.idLog];     
+                            item.dataHoraFormatada = this._DateUtil.formataDataHora(item.dataHoraEvento, req.gmtCliente);
+                        });
+
+                        res.json(objetoRetorno.logs);
+                    })
+
+            }
         }
 
         obterComboLogs(req,res,next){

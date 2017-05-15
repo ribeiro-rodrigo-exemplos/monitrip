@@ -25,6 +25,10 @@ const CONSTANTES = {
         MONITRIP: 26
     },
 
+    log: {
+       BILHETE: "00" 
+    },
+
     descLogs : {
         '00':  'Log de Venda de Passagens',
         '1':  'Log de Cartões Emitidos & Recargas Efetuadas',
