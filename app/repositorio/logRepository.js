@@ -8,12 +8,23 @@ module.exports = () =>
         }
 
         obterLogs(clienteId, idLog, placaVeiculo, dataIni, dataFim) {
-            let criteria = {
-                "idCliente": clienteId,
-                "placaVeiculo": placaVeiculo.toUpperCase(),
-                $and: [{"dataHoraEvento": {$gte: dataIni}},
-                    {"dataHoraEvento": {$lte: dataFim}}]
-            };
+
+            let criteria = {};
+
+            if(placaVeiculo){
+                criteria = {
+                    "idCliente": clienteId,
+                    "placaVeiculo": placaVeiculo,
+                    $and: [{"dataHoraEvento": {$gte: dataIni}},
+                        {"dataHoraEvento": {$lte: dataFim}}]
+                };
+            }else{
+                criteria = {
+                    "idCliente": clienteId,
+                    $and: [{"dataHoraEvento": {$gte: dataIni}},
+                        {"dataHoraEvento": {$lte: dataFim}}]
+                };
+            }
 
             logger.info(`LogRepository - obterLogs - idCliente: ${clienteId} - idLog: ${idLog} - placaVeiculo: ${placaVeiculo} - dataIni: ${dataIni} - dataFim: ${dataFim}`);
 

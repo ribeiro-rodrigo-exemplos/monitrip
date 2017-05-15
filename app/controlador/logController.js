@@ -26,7 +26,7 @@ module.exports = () =>
 
             req.body.placaVeiculo = req.body.placaVeiculo ? req.body.placaVeiculo.toUpperCase() : null;
 
-            logger.info(`LogController - inserirLog  - idCliente: ${req.idCliente} - placaVeiculo: ${req.body.placaVeiculo.toUpperCase()}`);
+            logger.info(`LogController - inserirLog  - idCliente: ${req.idCliente} - placaVeiculo: ${req.body.placaVeiculo}`);
 
             this._logService.salvar(req.body)
                                 .then(() => res.sendStatus(202))
@@ -57,7 +57,7 @@ module.exports = () =>
                         });
 
                         res.json(objetoRetorno.logs);
-                    })
+                    }).catch(erro => next(erro));
 
             }else if(req.query.idLog == undefined){
 
@@ -96,7 +96,8 @@ module.exports = () =>
                         });
 
                         res.json(objetoRetorno.logs);
-                    })
+                        
+                    }).catch(erro => next(erro));
 
             }
         }
