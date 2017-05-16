@@ -53,6 +53,6 @@ module.exports = () =>
                                 {"dataHoraEvento": {$lte: dataFim}}]
                         };
 
-            return this._prepareResult(criteria, {"_id": 0, clienteId: 0});
+            return this._prepareResult(criteria, {"_class": 0, "_id": 0});
         }
     };
