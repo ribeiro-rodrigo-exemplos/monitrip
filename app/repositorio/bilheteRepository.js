@@ -39,7 +39,7 @@ module.exports = () =>
         }
 
         _prepareResult(criteria, fields) {
-            return this._Bilhete.find(criteria, fields);
+            return this._Bilhete.find(criteria, fields).lean().exec();
         }
 
 
