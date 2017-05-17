@@ -45,7 +45,7 @@ module.exports = () =>
 
             logger.info(`LogController - obterLogs - idCliente: ${req.idCliente} - idLog: ${req.query.idLog} - dataInicial: ${req.idCliente} - dataFim: ${req.idCliente} - placaVeiculo: ${placaVeiculo}`);
             
-            if(req.query.idLog == util.log.BILHETE){
+            if(req.query.idLog == util.log.BILHETE && placaVeiculo == null){
                 
                 this._bilheteRepository.filtrarBilhetesVendidosNoPeriodo(req.idCliente, req.query.dataIni, req.query.dataFim)
                     .then(result =>{
@@ -59,7 +59,7 @@ module.exports = () =>
                         res.json(objetoRetorno.logs);
                     }).catch(erro => next(erro));
 
-            }else if(req.query.idLog == undefined){
+            }else if(req.query.idLog == undefined && placaVeiculo == null){
 
                 let promises = [
                     this._LogRepository.obterLogs(req.idCliente, req.query.idLog, placaVeiculo, req.query.dataIni, req.query.dataFim),
@@ -96,7 +96,7 @@ module.exports = () =>
                         });
 
                         res.json(objetoRetorno.logs);
-                        
+
                     }).catch(erro => next(erro));
 
             }
