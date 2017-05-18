@@ -42,6 +42,7 @@ module.exports = () =>
             
             let objetoRetorno={};
             let placaVeiculo = req.query.placaVeiculo ? req.query.placaVeiculo.toUpperCase() : null;
+            let idLog = req.query.idLog ? req.query.idLog : null;
 
             logger.info(`LogController - obterLogs - idCliente: ${req.idCliente} - idLog: ${req.query.idLog} - dataInicial: ${req.idCliente} - dataFim: ${req.idCliente} - placaVeiculo: ${placaVeiculo}`);
             
@@ -59,7 +60,7 @@ module.exports = () =>
                         res.json(objetoRetorno.logs);
                     }).catch(erro => next(erro));
 
-            }else if(req.query.idLog == undefined && placaVeiculo == null){
+            }else if(req.query.idLog == null && placaVeiculo == null){
 
                 let promises = [
                     this._LogRepository.obterLogs(req.idCliente, req.query.idLog, placaVeiculo, req.query.dataIni, req.query.dataFim),
@@ -84,7 +85,7 @@ module.exports = () =>
                         res.json(objetoRetorno.logs);
                     }).catch(erro => next(erro));
             
-            }else{
+            }else if(req.query.idLog != util.log.BILHETE && placaVeiculo != null){
             
                 this._LogRepository.obterLogs(req.idCliente, req.query.idLog, placaVeiculo, req.query.dataIni, req.query.dataFim)
                     .then(result =>{
@@ -99,6 +100,8 @@ module.exports = () =>
 
                     }).catch(erro => next(erro));
 
+            }else{
+                res.sendStatus(204)
             }
         }
 

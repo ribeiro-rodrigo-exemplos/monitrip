@@ -11,20 +11,16 @@ module.exports = () =>
 
             let criteria = {};
 
-            if(placaVeiculo){
-                criteria = {
-                    "idCliente": clienteId,
-                    "placaVeiculo": placaVeiculo,
-                    $and: [{"dataHoraEvento": {$gte: dataIni}},
-                        {"dataHoraEvento": {$lte: dataFim}}]
-                };
-            }else{
-                criteria = {
-                    "idCliente": clienteId,
-                    $and: [{"dataHoraEvento": {$gte: dataIni}},
-                        {"dataHoraEvento": {$lte: dataFim}}]
-                };
+            if(idLog){
+                criteria["idLog"] = idLog;
             }
+
+            if(placaVeiculo){
+                criteria["placaVeiculo"] = placaVeiculo;
+            }
+
+            criteria["idCliente"] = clienteId;
+            criteria["$and"] = [{"dataHoraEvento": {$gte: dataIni}}, {"dataHoraEvento": {$lte: dataFim}}];
 
             logger.info(`LogRepository - obterLogs - idCliente: ${clienteId} - idLog: ${idLog} - placaVeiculo: ${placaVeiculo} - dataIni: ${dataIni} - dataFim: ${dataFim}`);
 
