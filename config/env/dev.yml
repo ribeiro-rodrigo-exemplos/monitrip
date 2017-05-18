@@ -13,18 +13,14 @@ mysql:
     database: sso
 
 mongodb:
-    url: mongodb://172.18.107.204:27017/frota_znh
+    url: mongodb://localhost:27017/frota_znh
 
 sso:
     url: http://172.18.107.240:3000
 
 amqp:
     url: amqp://guest:guest@localhost
-    servico-persistencia: lazypersistence
-    worker-processamento:
-      queue: eventos.monitriip
-      exchange-dlq: processador.monitriip.DLQ
-      routing-key-dql: dead.letters
+    queue: lazypersistence
 
 cache:
   linha:

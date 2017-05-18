@@ -22,39 +22,28 @@ module.exports = () =>
                         if (err)
                             reject(err);
 
-                        let servicoPersistenciaQueue = amqpConfig['servico-persistencia'];
-                        let workerProcessamentoQueue = amqpConfig['worker-processamento']['queue'];
+                        let queue = amqpConfig.queue;
 
-                        this._enviarMensagem(channel,servicoPersistenciaQueue,
-                            this._converterMensagem(this._LogDTO.toDTO('logsMonitrip', 'insert', log)),
-                            {durable: true});
-
-                        this._enviarMensagem(channel,workerProcessamentoQueue,this._converterMensagem(log),{
-                            durable: true,
-                            deadLetterExchange:amqpConfig['worker-processamento']['exchange-dlq'],
-                            deadLetterRoutingKey:amqpConfig['worker-processamento']['routing-key-dql']
+                        channel.assertQueue(queue, {durable: true});
+                        channel.sendToQueue(queue, Buffer.from(this._converterMensagem(log)), {
+                            persistent: true,
+                            contentType: 'text/plain',
+                            contentEncoding: 'utf-8'
                         });
-
                         this._fechar(connection);
 
                         resolve();
                     });
                 });
             });
-        }
 
-        _enviarMensagem(channel,queue,mensagem,optionsQueue){
-            channel.assertQueue(queue,optionsQueue);
-            channel.sendToQueue(queue, Buffer.from(mensagem), {
-                persistent: true,
-                contentType: 'text/plain',
-                contentEncoding: 'utf-8'
-            });
         }
 
         _converterMensagem(log) {
+            let dto = this._LogDTO.toDTO('logsMonitrip', 'insert', log);
             logger.info(`LogService - _converterMensagem - log: ${log}`);
-            return JSON.stringify(log);
+
+            return JSON.stringify(dto);
         }
 
         _fechar(connection) {
