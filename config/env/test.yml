@@ -20,7 +20,11 @@ sso:
 
 amqp:
     url: amqp://guest:guest@localhost
-    queue: lazypersistence
+    servico-persistencia: lazypersistence
+    worker-processamento:
+      queue: eventos.monitriip
+      exchange-dlq: processador.monitriip.DLQ
+      routing-key-dql: dead.letters
 
 cache:
   linha:
