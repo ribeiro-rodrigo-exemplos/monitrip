@@ -21,7 +21,6 @@ module.exports = () =>
             req.body.idCliente = req.idCliente;
 
             req.body.idViagem = req.header('idViagem');
-            req.body.idServico = req.header('idServico');
             req.body.idJornada = req.header('idJornada');
 
             req.body.placaVeiculo = req.body.placaVeiculo ? req.body.placaVeiculo.toUpperCase() : null;
