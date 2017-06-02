@@ -48,6 +48,10 @@ class DateUtil{
         return this.aplicaTimeZone(dataHora, format, timezone, tipo);
     }
 
+    formatarParaIsoDate(dataHora){
+        return moment(dataHora).format('YYYY-MM-DD HH:mm:ss');
+    }
+
     aplicaTimeZone(dataHora, format, timezone, tipo){
         let dh = momentTimezone.tz(dataHora, timezone);
 

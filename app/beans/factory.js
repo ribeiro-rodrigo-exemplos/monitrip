@@ -104,7 +104,7 @@ module.exports = app => {
         },
 
         get logService() {
-            return new app.servico.logService(this.logDTO)
+            return new app.servico.logService(this.logDTO,this.dateUtil);
         },
 
         get licencaService() {

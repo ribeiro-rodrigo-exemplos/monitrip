@@ -4,8 +4,9 @@ const logger = require('../util/log');
 
 module.exports = () =>
     class LogService {
-        constructor(logDTO) {
+        constructor(logDTO,dateUtil) {
             this._LogDTO = logDTO;
+            this._dateUtil = dateUtil; 
         }
 
         salvar(log) {
@@ -28,6 +29,8 @@ module.exports = () =>
                         this._enviarMensagem(channel,servicoPersistenciaQueue,
                             this._converterMensagem(this._LogDTO.toDTO('logsMonitrip', 'insert', log)),
                             {durable: true});
+
+                        log.dataHoraEvento = this._dateUtil.formatarParaIsoDate(log.dataHoraEvento);
 
                         this._enviarMensagem(channel,workerProcessamentoQueue,this._converterMensagem(log),{
                             durable: true,
