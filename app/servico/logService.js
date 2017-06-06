@@ -26,9 +26,10 @@ module.exports = () =>
                         let servicoPersistenciaQueue = amqpConfig['servico-persistencia'];
                         let workerProcessamentoQueue = amqpConfig['worker-processamento']['queue'];
 
-                        this._enviarMensagem(channel,servicoPersistenciaQueue,
-                            this._converterMensagem(this._LogDTO.toDTO('logsMonitrip', 'insert', log)),
-                            {durable: true});
+                        if(log.idLog != 250)
+                            this._enviarMensagem(channel,servicoPersistenciaQueue,
+                                this._converterMensagem(this._LogDTO.toDTO('logsMonitrip', 'insert', log)),
+                                {durable: true});
 
                         log.dataHoraEvento = this._dateUtil.formatarParaIsoDate(log.dataHoraEvento);
 
