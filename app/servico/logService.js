@@ -4,12 +4,11 @@ const logger = require('../util/log');
 
 module.exports = () =>
     class LogService {
-        constructor(logDTO,dateUtil) {
-            this._LogDTO = logDTO;
+        constructor(dateUtil) {
             this._dateUtil = dateUtil; 
         }
 
-        salvar(log) {
+        salvar(log,queue,queueConfig) {
             return new Promise((resolve, reject) => {
                 amqp.connect(amqpConfig.url, (erro, connection) => {
 
@@ -23,21 +22,9 @@ module.exports = () =>
                         if (err)
                             reject(err);
 
-                        let servicoPersistenciaQueue = amqpConfig['servico-persistencia'];
-                        let workerProcessamentoQueue = amqpConfig['worker-processamento']['queue'];
-
-                        if(log.idLog != 250)
-                            this._enviarMensagem(channel,servicoPersistenciaQueue,
-                                this._converterMensagem(this._LogDTO.toDTO('logsMonitrip', 'insert', log)),
-                                {durable: true});
-
                         log.dataHoraEvento = this._dateUtil.formatarParaIsoDate(log.dataHoraEvento);
 
-                        this._enviarMensagem(channel,workerProcessamentoQueue,this._converterMensagem(log),{
-                            durable: true,
-                            deadLetterExchange:amqpConfig['worker-processamento']['exchange-dlq'],
-                            deadLetterRoutingKey:amqpConfig['worker-processamento']['routing-key-dql']
-                        });
+                        this._enviarMensagem(channel,queue,this._converterMensagem(log),queueConfig);
 
                         this._fechar(connection);
 

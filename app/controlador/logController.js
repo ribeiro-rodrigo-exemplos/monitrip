@@ -3,8 +3,9 @@ let util = require('../util/util')();
 
 module.exports = () =>
     class LogController{
-        constructor(logService, logRepository, bilheteRepository, util, dateUtil){
-            this._logService = logService;
+        constructor(workerProcessamentoService,servicoPersistenciaService, logRepository, bilheteRepository, util, dateUtil){
+            this._workerProcessamentoService = workerProcessamentoService;
+            this._servicoPersistenciaService = servicoPersistenciaService; 
             this._LogRepository = logRepository;
             this._bilheteRepository = bilheteRepository;
             this._Util = util;
@@ -27,9 +28,16 @@ module.exports = () =>
 
             logger.info(`LogController - inserirLog  - idCliente: ${req.idCliente} - placaVeiculo: ${req.body.placaVeiculo}`);
 
-            this._logService.salvar(req.body)
+            /*this._logService.salvar(req.body)
                                 .then(() => res.sendStatus(202))
-                                .catch(erro => next(erro));
+                                .catch(erro => next(erro)); */
+
+            Promise.all([
+                this._workerProcessamentoService.salvarLog(req.body),
+                this._servicoPersistenciaService.salvarLog(req.body)
+            ])
+            .then(() => res.sendStatus(202))
+            .catch(erro => next(erro));
         }
 
         obterLogs(req,res,next){

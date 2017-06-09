@@ -84,7 +84,7 @@ module.exports = app => {
         },
 
         get logController() {
-            return new app.controlador.logController(this.logService, this.logRepository, this.bilheteRepository, this.util, this.dateUtil);
+            return new app.controlador.logController(this.workerProcessamentoService,this.servicoPersistenciaService,this.logRepository, this.bilheteRepository, this.util, this.dateUtil);
         },
 
         get motoristaController() {
@@ -104,7 +104,7 @@ module.exports = app => {
         },
 
         get logService() {
-            return new app.servico.logService(this.logDTO,this.dateUtil);
+            return new app.servico.logService(this.dateUtil);
         },
 
         get licencaService() {
@@ -114,6 +114,14 @@ module.exports = app => {
         get ssoService() {
             return new app.servico.ssoService();
         },
+
+        get workerProcessamentoService(){
+            return new app.servico.workerProcessamentoService(this.logService);
+        },
+
+        get servicoPersistenciaService(){
+            return new app.servico.servicoPersistenciaService(this.logService,this.servicoPersistenciaDTO);
+        }, 
 
         get retornoDTO() {
             return app.util.dto.retornoDTO;
@@ -127,8 +135,8 @@ module.exports = app => {
             return new app.util.dateUtil;
         },
 
-        get logDTO() {
-            return app.util.dto.logDTO;
+        get servicoPersistenciaDTO() {
+            return app.util.dto.servicoPersistenciaDTO;
         },
 
         get validadorDeData() {
