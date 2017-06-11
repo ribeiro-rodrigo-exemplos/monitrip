@@ -8,6 +8,10 @@ module.exports = app => {
             return app.modelo.cliente;
         },
 
+        get clienteRjConsultores(){
+            return app.modelo.clienteRjConsultores;
+        }, 
+
         get dispositivo() {
             return app.modelo.dispositivo;
         },
@@ -37,7 +41,7 @@ module.exports = app => {
         },
 
         get clienteRepository() {
-            return new app.repositorio.clienteRepository(this.cliente, this.dispositivo);
+            return new app.repositorio.clienteRepository(this.cliente,this.clienteRjConsultores,this.dispositivo);
         },
 
         get logRepository() {
@@ -84,7 +88,7 @@ module.exports = app => {
         },
 
         get logController() {
-            return new app.controlador.logController(this.workerProcessamentoService,this.servicoPersistenciaService,this.logRepository, this.bilheteRepository, this.util, this.dateUtil);
+            return new app.controlador.logController(this.logService,this.logRepository, this.bilheteRepository, this.util, this.dateUtil);
         },
 
         get motoristaController() {
@@ -104,23 +108,32 @@ module.exports = app => {
         },
 
         get logService() {
-            return new app.servico.logService(this.dateUtil);
+            return new app.servico.logService(this.dateUtil,this.bilheteService,this.servicoPersistenciaService,
+            this.workerProcessamentoService);
+        },
+
+        get rjConsultoresService(){
+            return new app.servico.rjConsultoresService();
         },
 
         get licencaService() {
             return new app.servico.licencaService(this.dispositivoRepository, this.clienteRepository);
         },
 
+        get bilheteService(){
+            return new app.servico.bilheteService(this.rjConsultoresService,this.clienteRepository,this.util);
+        }, 
+
         get ssoService() {
             return new app.servico.ssoService();
         },
 
         get workerProcessamentoService(){
-            return new app.servico.workerProcessamentoService(this.logService);
+            return new app.servico.workerProcessamentoService(this.amqpUtil);
         },
 
         get servicoPersistenciaService(){
-            return new app.servico.servicoPersistenciaService(this.logService,this.servicoPersistenciaDTO);
+            return new app.servico.servicoPersistenciaService(this.amqpUtil,this.servicoPersistenciaDTO);
         }, 
 
         get retornoDTO() {
@@ -133,6 +146,10 @@ module.exports = app => {
 
         get dateUtil() {
             return new app.util.dateUtil;
+        },
+
+        get amqpUtil(){
+            return new app.util.amqpUtil(this.dateUtil);
         },
 
         get servicoPersistenciaDTO() {

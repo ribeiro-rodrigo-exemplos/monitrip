@@ -26,7 +26,8 @@ const CONSTANTES = {
     },
 
     log: {
-       BILHETE: "00" 
+       BILHETE: "00",
+       LEITURA_BILHETE:'9' 
     },
 
     descLogs : {

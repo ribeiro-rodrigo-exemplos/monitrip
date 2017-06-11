@@ -4,51 +4,24 @@ const logger = require('../util/log');
 
 module.exports = () =>
     class LogService {
-        constructor(dateUtil) {
-            this._dateUtil = dateUtil; 
+        constructor(dateUtil,bilheteService,servicoPersistenciaService,workerProcessamentoService) {
+            this._dateUtil = dateUtil;
+            this._bilheteService = bilheteService; 
+            this._servicoPersistenciaService = servicoPersistenciaService;
+            this._workerProcessamentoService = workerProcessamentoService;  
         }
 
-        salvar(log,queue,queueConfig) {
-            return new Promise((resolve, reject) => {
-                amqp.connect(amqpConfig.url, (erro, connection) => {
+        salvar(log) {
+            log.dataHoraEvento = this._dateUtil.formatarParaIsoDate(log.dataHoraEvento);
 
-                    if (erro) {
-                        reject(erro);
-                        return;
-                    }
+            let promises = [
+                this._workerProcessamentoService.salvarLog(log),
+                this._servicoPersistenciaService.salvarLog(log)
+            ]; 
 
-                    connection.createChannel((err, channel) => {
+            if(this._bilheteService.ehLeituraDeBilhete())
+                promises.push(this._bilheteService.registrarCheckin(log));
 
-                        if (err)
-                            reject(err);
-
-                        log.dataHoraEvento = this._dateUtil.formatarParaIsoDate(log.dataHoraEvento);
-
-                        this._enviarMensagem(channel,queue,this._converterMensagem(log),queueConfig);
-
-                        this._fechar(connection);
-
-                        resolve();
-                    });
-                });
-            });
-        }
-
-        _enviarMensagem(channel,queue,mensagem,optionsQueue){
-            channel.assertQueue(queue,optionsQueue);
-            channel.sendToQueue(queue, Buffer.from(mensagem), {
-                persistent: true,
-                contentType: 'text/plain',
-                contentEncoding: 'utf-8'
-            });
-        }
-
-        _converterMensagem(log) {
-            logger.info(`LogService - _converterMensagem - log: ${log}`);
-            return JSON.stringify(log);
-        }
-
-        _fechar(connection) {
-            setTimeout(() => connection.close(), 500);
+            return Promise.all(promises);
         }
     };
