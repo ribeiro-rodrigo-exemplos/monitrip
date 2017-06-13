@@ -19,7 +19,7 @@ module.exports = () =>
                 this._servicoPersistenciaService.salvarLog(log)
             ]; 
 
-            if(this._bilheteService.ehLeituraDeBilhete())
+            if(this._bilheteService.ehLeituraDeBilhete(log))
                 promises.push(this._bilheteService.registrarCheckin(log));
 
             return Promise.all(promises);

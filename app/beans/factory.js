@@ -121,7 +121,7 @@ module.exports = app => {
         },
 
         get bilheteService(){
-            return new app.servico.bilheteService(this.rjConsultoresService,this.clienteRepository,this.util);
+            return new app.servico.bilheteService(this.bilheteRepository,this.rjConsultoresService,this.clienteRepository,this.util);
         }, 
 
         get ssoService() {

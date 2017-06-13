@@ -30,7 +30,9 @@ module.exports = () =>
         obterInformacoesDeConexaoComRJConsultores(idCliente){
             logger.info(`ClienteRepository - obterInformacoesDeConexaoComRJConsultores - idCliente: ${idCliente}`);
 
-            return this._ClienteRjConsultores.findById(idCliente);
+            return this._ClienteRjConsultores
+                        .findOne({where: {id_cliente: idCliente}})
+                        .then(info => info ? info.dataValues : null);
 
         }
     };

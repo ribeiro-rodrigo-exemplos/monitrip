@@ -1,21 +1,31 @@
+const logger = require('../util/log');
+
 module.exports = () => 
     class BilheteService{
-        constructor(rjConsultoresService,clienteRepository,constantes){
+        constructor(bilheteRepository,rjConsultoresService,clienteRepository,constantes){
             this._rjConsultoresService = rjConsultoresService;
             this._clienteRepository = clienteRepository;
-            this._constantes = constantes; 
+            this._constantes = constantes;
+            this._bilheteRepository = bilheteRepository;  
         }
 
-        registrarCheckin(bilhete){
+        registrarCheckin(leituraDeBilheteEvento){
+            logger.info(`BilheteService - registrarCheckin(${leituraDeBilheteEvento})`);
+
             return this._clienteRepository
-                        .obterInformacoesDeConexaoComRJConsultores(bilhete)
+                        .obterInformacoesDeConexaoComRJConsultores(leituraDeBilheteEvento.idCliente)
                         .then(infoConexao => {
-                            console.log(infoConexao);
-                            return infoConexao;
+                            if(infoConexao)
+                                return this._bilheteRepository
+                                            .filtrarBilhetes(leituraDeBilheteEvento.numeroBilheteEmbarque)
+                                            .then(result => result.length ? this._rjConsultoresService.enviarCheckin(result[0],infoConexao) : null);
                         });
         }
 
         ehLeituraDeBilhete(log){
+            logger.info(`BilheteService - ehLeituraDeBilhete(${log})`);
+
             return this._constantes.log.LEITURA_BILHETE == log.idLog; 
         }
+
     }

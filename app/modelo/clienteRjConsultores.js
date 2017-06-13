@@ -10,6 +10,10 @@ module.exports = app => {
                 field: 'id',
                 primaryKey: true
             },
+            id_cliente:{
+                type: Sequelize.BIGINT,
+                field:'id_cliente' 
+            },
             codigoCliente:{
                 type: Sequelize.STRING,
                 field:'cod_cliente'
