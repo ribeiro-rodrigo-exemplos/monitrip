@@ -1,5 +1,4 @@
 let logger = require('../util/log');
-let util = require('../util/util')();
 
 module.exports = () =>
     class LogController{
@@ -25,84 +24,36 @@ module.exports = () =>
 
             req.body.placaVeiculo = req.body.placaVeiculo ? req.body.placaVeiculo.toUpperCase() : null;
 
+            console.log(req.body);
+
             logger.info(`LogController - inserirLog  - idCliente: ${req.idCliente} - placaVeiculo: ${req.body.placaVeiculo}`);
 
             this._logService.salvar(req.body)
                                 .then(() => res.sendStatus(202))
                                 .catch(erro => next(erro));
+        
         }
 
+
         obterLogs(req,res,next){
+
             req.checkQuery('dataIni', 'A data inicial não é válida').notEmpty();
             req.checkQuery('dataFim', 'A data final não é válida').notEmpty();
             
             if(this._possuiErrosDeValidacao(req,res))
                 return;
             
-            let objetoRetorno={};
             let placaVeiculo = req.query.placaVeiculo ? req.query.placaVeiculo.toUpperCase() : null;
             let idLog = req.query.idLog ? req.query.idLog : null;
 
-            logger.info(`LogController - obterLogs - idCliente: ${req.idCliente} - idLog: ${req.query.idLog} - dataInicial: ${req.idCliente} - dataFim: ${req.idCliente} - placaVeiculo: ${placaVeiculo}`);
+            logger.info(`LogController - obterLogs - idCliente: ${req.idCliente} - idLog: ${req.query.idLog} - dataInicial: ${req.query.dataIni} - dataFim: ${req.query.dataFim} - placaVeiculo: ${placaVeiculo}`);
             
-            if(req.query.idLog == util.log.BILHETE && placaVeiculo == null){
-                
-                this._bilheteRepository.filtrarBilhetesVendidosNoPeriodo(req.idCliente, req.query.dataIni, req.query.dataFim)
-                    .then(result =>{
-                        objetoRetorno.logs = result;
-
-                        objetoRetorno.logs.map(item => {
-                            item.evento = this._Util.descLogs[item.idLog];     
-                            item.dataHoraFormatada = this._DateUtil.formataDataHora(item.dataHoraEvento, req.gmtCliente);
-                        });
-
-                        res.json(objetoRetorno.logs);
-                    }).catch(erro => next(erro));
-
-            }else if(req.query.idLog == null && placaVeiculo == null){
-
-                let promises = [
-                    this._LogRepository.obterLogs(req.idCliente, req.query.idLog, placaVeiculo, req.query.dataIni, req.query.dataFim),
-                    this._bilheteRepository.filtrarBilhetesVendidosNoPeriodo(req.idCliente, req.query.dataIni, req.query.dataFim)
-                ];
-                
-                Promise.all(promises)
-                    .then(result => {
-                        objetoRetorno.logs = result[0];
-                        objetoRetorno.logsBilhete = result[1];
-
-                        objetoRetorno.logsBilhete.forEach(item => {
-                            objetoRetorno.logs.push(item);
-                        });
-
-                        objetoRetorno.logs.map(item => {
-                            item.evento = this._Util.descLogs[item.idLog];     
-                            item.dataHoraFormatada = this._DateUtil.formataDataHora(item.dataHoraEvento, req.gmtCliente);
-                        });
-                        
-                    }).then(() => {
-                        res.json(objetoRetorno.logs);
-                    }).catch(erro => next(erro));
-            
-            }else if(req.query.idLog != util.log.BILHETE && placaVeiculo != null){
-            
-                this._LogRepository.obterLogs(req.idCliente, req.query.idLog, placaVeiculo, req.query.dataIni, req.query.dataFim)
-                    .then(result =>{
-                        objetoRetorno.logs = result;
-
-                        objetoRetorno.logs.map(item => {
-                            item.evento = this._Util.descLogs[item.idLog];     
-                            item.dataHoraFormatada = this._DateUtil.formataDataHora(item.dataHoraEvento, req.gmtCliente);
-                        });
-
-                        res.json(objetoRetorno.logs);
-
-                    }).catch(erro => next(erro));
-
-            }else{
-                res.sendStatus(204)
-            }
+            this._logService.buscarLogs(req.idCliente, req.query.dataIni, req.query.dataFim, idLog, placaVeiculo, req.gmtCliente)
+                .then(result => result ? res.json(result) : res.sendStatus(204))
+                .catch(erro => next(erro));
+        
         }
+
 
         obterComboLogs(req,res,next){
             return res.json(this._Util.descLogs);

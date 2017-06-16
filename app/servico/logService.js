@@ -1,12 +1,15 @@
 let amqp = require('amqplib/callback_api');
 let amqpConfig = require('../bootstrap/config-bootstrap')()['amqp'];
+let util = require('../util/util')();
 const logger = require('../util/log');
 
 module.exports = () =>
     class LogService {
-        constructor(logDTO,dateUtil) {
+        constructor(logDTO,dateUtil,logRepository,bilheteRepository) {
             this._LogDTO = logDTO;
-            this._dateUtil = dateUtil; 
+            this._dateUtil = dateUtil;
+            this._logRepository = logRepository;
+            this._bilheteRepository = bilheteRepository;
         }
 
         salvar(log) {
@@ -45,6 +48,76 @@ module.exports = () =>
                 });
             });
         }
+
+        
+        buscarLogs(idCliente, dataInicio, dataFim, idLog, placaVeiculo, gmtCliente){
+
+            let objetoRetorno={};
+
+            return new Promise((resolve, reject) =>{
+
+                if(idLog == util.log.BILHETE && placaVeiculo == null){
+                    
+                    this._bilheteRepository.filtrarBilhetesVendidosNoPeriodo(idCliente, dataInicio, dataFim)
+                        .then(result =>{
+                            objetoRetorno.logs = result;
+
+                            objetoRetorno.logs.map(item => {
+                                item.evento = util.descLogs[item.idLog];     
+                                item.dataHoraFormatada = this._dateUtil.formataDataHora(item.dataHoraEvento, gmtCliente);
+                            });
+
+                            resolve(objetoRetorno.logs);
+                        }).catch(erro => reject(erro));
+
+                }else if(idLog == null && placaVeiculo == null){
+
+                    let promises = [
+                        this._logRepository.obterLogs(idCliente, idLog, placaVeiculo, dataInicio, dataFim),
+                        this._bilheteRepository.filtrarBilhetesVendidosNoPeriodo(idCliente, dataInicio, dataFim)
+                    ];
+                    
+                    Promise.all(promises)
+                        .then(result => {
+                            objetoRetorno.logs = result[0];
+                            objetoRetorno.logsBilhete = result[1];
+
+                            objetoRetorno.logsBilhete.forEach(item => {
+                                objetoRetorno.logs.push(item);
+                            });
+
+                            objetoRetorno.logs.map(item => {
+                                item.evento = util.descLogs[item.idLog];     
+                                item.dataHoraFormatada = this._dateUtil.formataDataHora(item.dataHoraEvento, gmtCliente);
+                            });
+                            
+                        }).then(() => {
+                            resolve(objetoRetorno.logs);
+                        }).catch(erro => reject(erro));
+                
+                }else if(idLog != util.log.BILHETE && placaVeiculo != null){
+                
+                    this._logRepository.obterLogs(idCliente, idLog, placaVeiculo, dataInicio, dataFim)
+                        .then(result =>{
+                            objetoRetorno.logs = result;
+
+                            objetoRetorno.logs.map(item => {
+                                item.evento = util.descLogs[item.idLog];     
+                                item.dataHoraFormatada = this._dateUtil.formataDataHora(item.dataHoraEvento, gmtCliente);
+                            });
+
+                            resolve(objetoRetorno.logs);
+
+                        }).catch(erro => reject(erro));
+
+                }else{
+                    resolve(null);
+                }
+
+            });
+                        
+        }
+
 
         _enviarMensagem(channel,queue,mensagem,optionsQueue){
             channel.assertQueue(queue,optionsQueue);
