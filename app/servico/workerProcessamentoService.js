@@ -13,7 +13,8 @@ module.exports = () =>
         }
 
         salvarLog(log){
-            return this._amqpUtil.enviarMensagem(log,this._queue,this._queueConfig);
+            if(log.idJornada)
+                return this._amqpUtil.enviarMensagem(log,this._queue,this._queueConfig);
         }
     }
 
