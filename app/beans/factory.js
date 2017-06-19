@@ -109,7 +109,7 @@ module.exports = app => {
 
         get logService() {
             return new app.servico.logService(this.dateUtil,this.bilheteService,this.servicoPersistenciaService,
-            this.workerProcessamentoService);
+            this.workerProcessamentoService,this.logRepository,this.bilheteRepository);
         },
 
         get rjConsultoresService(){
