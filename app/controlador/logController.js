@@ -46,7 +46,7 @@ module.exports = () =>
             let placaVeiculo = req.query.placaVeiculo ? req.query.placaVeiculo.toUpperCase() : null;
             let idLog = req.query.idLog ? req.query.idLog : null;
 
-            logger.info(`LogController - obterLogs - idCliente: ${req.idCliente} - idLog: ${req.query.idLog} - dataInicial: ${req.query.dataIni} - dataFim: ${req.query.dataFim} - placaVeiculo: ${placaVeiculo}`);
+            logger.info(`LogController - obterLogs - idCliente: ${req.idCliente} - idLog: ${idLog} - dataInicial: ${req.query.dataIni} - dataFim: ${req.query.dataFim} - placaVeiculo: ${placaVeiculo}`);
             
             this._logService.buscarLogs(req.idCliente, req.query.dataIni, req.query.dataFim, idLog, placaVeiculo, req.gmtCliente)
                 .then(result => result ? res.json(result) : res.sendStatus(204))

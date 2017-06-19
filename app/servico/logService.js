@@ -54,6 +54,8 @@ module.exports = () =>
 
             let objetoRetorno={};
 
+            logger.info(`LogService - buscarLogs - idCliente: ${idCliente} - idLog: ${idLog} - dataInicial: ${dataInicio} - dataFim: ${dataFim} - placaVeiculo: ${placaVeiculo} - gmtCliente: ${gmtCliente}`);
+
             return new Promise((resolve, reject) =>{
 
                 if(idLog == util.log.BILHETE && placaVeiculo == null){
@@ -115,7 +117,7 @@ module.exports = () =>
                 }
 
             });
-                        
+        
         }
 
 
