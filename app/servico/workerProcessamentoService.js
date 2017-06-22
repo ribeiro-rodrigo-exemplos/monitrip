@@ -2,8 +2,9 @@ let amqpConfig = require('../bootstrap/config-bootstrap')()['amqp'];
 
 module.exports = () => 
     class WorkerProcessamentoService{
-        constructor(amqpUtil){
+        constructor(amqpUtil,dateUtil){
             this._amqpUtil = amqpUtil;
+            this._dateUtil = dateUtil; 
             this._queue = amqpConfig['worker-processamento']['queue'];
             this._queueConfig = {
                 durable: true,
@@ -12,7 +13,11 @@ module.exports = () =>
             };  
         }
 
-        salvarLog(log){
+        salvarLog(log,infoCliente){
+
+            log.dataHoraEventoUTC = log.dataHoraEvento; 
+            log.dataHoraEvento = this._dateUtil.aplicaTimeZoneEmUTC(log.dataHoraEvento,infoCliente.gmt); 
+
             if(log.idJornada)
                 return this._amqpUtil.enviarMensagem(log,this._queue,this._queueConfig);
         }

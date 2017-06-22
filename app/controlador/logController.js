@@ -2,12 +2,11 @@ let logger = require('../util/log');
 
 module.exports = () =>
     class LogController{
-        constructor(logService, logRepository, bilheteRepository, util, dateUtil){
+        constructor(logService, logRepository, bilheteRepository, util){
             this._logService = logService;
             this._LogRepository = logRepository;
             this._bilheteRepository = bilheteRepository;
             this._Util = util;
-            this._DateUtil = dateUtil;
         }
 
         inserirLog(req,res,next){
@@ -21,12 +20,15 @@ module.exports = () =>
 
             req.body.idViagem = req.header('idViagem');
             req.body.idJornada = req.header('idJornada');
-
             req.body.placaVeiculo = req.body.placaVeiculo ? req.body.placaVeiculo.toUpperCase() : null;
 
             logger.info(`LogController - inserirLog - idCliente: ${req.idCliente} - placaVeiculo: ${req.body.placaVeiculo}`);
 
-            this._logService.salvar(req.body)
+            const infoCliente = {gmt:req.gmtCliente};
+
+            console.log(infoCliente);
+
+            this._logService.salvar(req.body,infoCliente)
                                 .then(() => res.sendStatus(202))
                                 .catch(erro => next(erro)); 
         }

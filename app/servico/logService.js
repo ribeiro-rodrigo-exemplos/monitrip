@@ -14,11 +14,10 @@ module.exports = () =>
             this._bilheteRepository = bilheteRepository;
         }
 
-        salvar(log) {
-            log.dataHoraEvento = this._dateUtil.formatarParaIsoDate(log.dataHoraEvento);
-
+        salvar(log,infoCliente) {
+            
             let promises = [
-                this._workerProcessamentoService.salvarLog(log),
+                this._workerProcessamentoService.salvarLog(log,infoCliente),
                 this._servicoPersistenciaService.salvarLog(log)
             ]; 
 

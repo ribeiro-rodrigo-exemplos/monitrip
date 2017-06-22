@@ -88,7 +88,7 @@ module.exports = app => {
         },
 
         get logController() {
-            return new app.controlador.logController(this.logService,this.logRepository, this.bilheteRepository, this.util, this.dateUtil);
+            return new app.controlador.logController(this.logService,this.logRepository, this.bilheteRepository, this.util);
         },
 
         get motoristaController() {
@@ -129,11 +129,11 @@ module.exports = app => {
         },
 
         get workerProcessamentoService(){
-            return new app.servico.workerProcessamentoService(this.amqpUtil);
+            return new app.servico.workerProcessamentoService(this.amqpUtil,this.dateUtil);
         },
 
         get servicoPersistenciaService(){
-            return new app.servico.servicoPersistenciaService(this.amqpUtil,this.servicoPersistenciaDTO);
+            return new app.servico.servicoPersistenciaService(this.amqpUtil,this.servicoPersistenciaDTO,this.dateUtil);
         }, 
 
         get retornoDTO() {

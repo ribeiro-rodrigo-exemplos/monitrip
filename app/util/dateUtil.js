@@ -53,9 +53,20 @@ class DateUtil{
     }
 
     aplicaTimeZone(dataHora, format, timezone, tipo){
+
+        if(!format)
+            format = 'YYYY-MM-DD HH:mm:ss';
+
         let dh = momentTimezone.tz(dataHora, timezone);
 
         return (tipo === tipoRetorno.STRING) ? dh.format(format) : dh.toDate();
+    }
+
+    aplicaTimeZoneEmUTC(dataHora,timezone){
+        let utcDate = momentTimezone.tz(dataHora,'UTC'); 
+        return momentTimezone
+                .tz(utcDate,timezone)
+                .format('YYYY-MM-DD HH:mm:ss');
     }
 
     get formato(){
