@@ -20,6 +20,7 @@ module.exports = () =>
 
             req.body.idViagem = req.header('idViagem');
             req.body.idJornada = req.header('idJornada');
+            req.body.idTransacao = req.header('idTransacao');
             req.body.placaVeiculo = req.body.placaVeiculo ? req.body.placaVeiculo.toUpperCase() : null;
 
             logger.info(`LogController - inserirLog - idCliente: ${req.idCliente} - placaVeiculo: ${req.body.placaVeiculo}`);
