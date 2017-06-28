@@ -16,7 +16,8 @@ module.exports = () =>
         salvarLog(log,infoCliente){
 
             log.dataHoraEventoUTC = log.dataHoraEvento; 
-            log.dataHoraEvento = this._dateUtil.aplicaTimeZoneEmUTC(log.dataHoraEvento,infoCliente.gmt); 
+            log.dataHoraEvento = this._dateUtil.aplicaTimeZoneEmUTC(log.dataHoraEvento,infoCliente.gmt);
+            log.cpfMotorista = infoCliente.cpfMotorista; 
 
             if(log.idJornada)
                 return this._amqpUtil.enviarMensagem(log,this._queue,this._queueConfig);

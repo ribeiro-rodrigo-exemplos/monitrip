@@ -22,11 +22,14 @@ module.exports = () =>
             return new Promise((resolve,reject) => {
                 this._client.get(url,(err,req) => {
                     req.on('result',(err,res) => {
-                        if(err)
-                            reject(err);
-                        else
-                            resolve(obj);
-                        });
+                        res.on('data',(chunk) => {
+                            if(err)
+                                reject(err);
+                            else
+                                resolve(res.body);
+
+                        })
+                    });
                 });
             });
         }
