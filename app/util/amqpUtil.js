@@ -5,7 +5,7 @@ const logger = require('../util/log');
 module.exports = () => 
     class AmqpUtil{
 
-        enviarMensagem(mensagem,queue,queueConfig) {
+        enviarMensagem(mensagem,queue,queueConfig,mensagemConfig) {
             
             logger.info(`AmqpUtil - enviarMensagem - mensagem: ${mensagem},queue - ${queue}, queueConfig - ${queueConfig}`);
 
@@ -22,7 +22,7 @@ module.exports = () =>
                         if (err)
                             reject(err);
 
-                        this._enviarMensagem(channel,queue,this._converterMensagem(mensagem),queueConfig);
+                        this._enviarMensagem(channel,queue,this._converterMensagem(mensagem),queueConfig,mensagemConfig);
 
                         this._fechar(connection);
 
@@ -32,13 +32,18 @@ module.exports = () =>
             });
         }
 
-        _enviarMensagem(channel,queue,mensagem,optionsQueue){
-            channel.assertQueue(queue,optionsQueue);
-            channel.sendToQueue(queue, Buffer.from(mensagem), {
-                persistent: true,
+        _enviarMensagem(channel,queue,mensagem,optionsQueue,optionsMensagem){
+
+            let mensagemConfig = Object.assign({
                 contentType: 'text/plain',
+                persistent: true,
                 contentEncoding: 'utf-8'
-            });
+            },optionsMensagem); 
+
+            console.log(mensagemConfig);
+
+            channel.assertQueue(queue,optionsQueue);
+            channel.sendToQueue(queue, Buffer.from(mensagem),mensagemConfig);
         }
 
         _converterMensagem(mensagem) {
