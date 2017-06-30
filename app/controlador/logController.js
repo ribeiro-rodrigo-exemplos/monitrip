@@ -29,10 +29,8 @@ module.exports = () =>
             const infoCliente = {
                 gmt:req.gmtCliente,
                 cpfMotorista:req.header('cpfMotorista'),
-                appVersion:req.header('appVersion')
+                appVersion:req.header('appVersao')
             };
-
-            console.log(infoCliente);
 
             this._logService.salvar(req.body,infoCliente)
                                 .then(() => res.sendStatus(202))

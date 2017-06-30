@@ -34,8 +34,9 @@ module.exports = () =>
                 priority:this._obterPrioridadeDoLog(log) 
             }; 
 
-            if(log.idJornada)
+            if(log.idJornada && parseFloat(infoCliente.appVersion) >= 1.6)
                 return this._amqpUtil.enviarMensagem(log,this._queue,this._queueConfig,mensagemOption);
+            
         }
 
         _obterPrioridadeDoLog(log){

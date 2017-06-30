@@ -133,7 +133,7 @@ module.exports = app => {
         },
 
         get servicoPersistenciaService(){
-            return new app.servico.servicoPersistenciaService(this.amqpUtil,this.servicoPersistenciaDTO,this.dateUtil);
+            return new app.servico.servicoPersistenciaService(this.amqpUtil,this.servicoPersistenciaDTO);
         }, 
 
         get retornoDTO() {

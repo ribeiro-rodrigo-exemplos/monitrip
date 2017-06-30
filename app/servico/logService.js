@@ -15,10 +15,13 @@ module.exports = () =>
         }
 
         salvar(log,infoCliente) {
+
+            let logServicoPersistencia = this._clone(log);
+            let logWorkerProcessamento = this._clone(log); 
             
             let promises = [
-                this._workerProcessamentoService.salvarLog(log,infoCliente),
-                this._servicoPersistenciaService.salvarLog(log)
+                this._workerProcessamentoService.salvarLog(logWorkerProcessamento,infoCliente),
+                this._servicoPersistenciaService.salvarLog(logServicoPersistencia)
             ]; 
 
             if(this._bilheteService.ehLeituraDeBilhete(log))
@@ -94,6 +97,10 @@ module.exports = () =>
                 }
 
             });
+        }
+
+        _clone(log){
+            return Object.assign({},log);
         }
         
     }
