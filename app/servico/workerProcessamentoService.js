@@ -28,7 +28,7 @@ module.exports = () =>
 
             log.dataHoraEventoUTC = log.dataHoraEvento; 
             log.dataHoraEvento = this._dateUtil.aplicaTimeZoneEmUTC(log.dataHoraEvento,infoCliente.gmt);
-            log.cpfMotorista = infoCliente.cpfMotorista; 
+            log.cpfMotorista = log.cpfMotorista ? log.cpfMotorista : infoCliente.cpfMotorista; 
 
             let mensagemOption = {
                 priority:this._obterPrioridadeDoLog(log) 
