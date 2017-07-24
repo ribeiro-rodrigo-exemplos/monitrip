@@ -128,8 +128,12 @@ module.exports = app => {
             return new app.servico.ssoService();
         },
 
+        get viagemApiService(){
+            return new app.servico.viagemApiService();
+        },
+
         get workerProcessamentoService(){
-            return new app.servico.workerProcessamentoService(this.amqpUtil,this.dateUtil);
+            return new app.servico.workerProcessamentoService(this.viagemApiService);
         },
 
         get servicoPersistenciaService(){
