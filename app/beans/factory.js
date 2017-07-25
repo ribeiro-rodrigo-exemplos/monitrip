@@ -109,7 +109,7 @@ module.exports = app => {
 
         get logService() {
             return new app.servico.logService(this.dateUtil,this.bilheteService,this.servicoPersistenciaService,
-            this.workerProcessamentoService,this.logRepository,this.bilheteRepository);
+            this.viagemAdapter,this.logRepository,this.bilheteRepository);
         },
 
         get rjConsultoresService(){
@@ -132,8 +132,8 @@ module.exports = app => {
             return new app.servico.viagemApiService();
         },
 
-        get workerProcessamentoService(){
-            return new app.servico.workerProcessamentoService(this.viagemApiService);
+        get viagemAdapter(){
+            return new app.servico.viagemAdapter(this.viagemApiService);
         },
 
         get servicoPersistenciaService(){

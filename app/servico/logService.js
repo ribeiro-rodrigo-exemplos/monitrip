@@ -5,11 +5,11 @@ const logger = require('../util/log');
 
 module.exports = () =>
     class LogService {
-        constructor(dateUtil,bilheteService,servicoPersistenciaService,workerProcessamentoService,logRepository,bilheteRepository) {
+        constructor(dateUtil,bilheteService,servicoPersistenciaService,viagemAdapter,logRepository,bilheteRepository) {
             this._dateUtil = dateUtil;
             this._bilheteService = bilheteService; 
             this._servicoPersistenciaService = servicoPersistenciaService;
-            this._workerProcessamentoService = workerProcessamentoService;
+            this._viagemAdapter = viagemAdapter;
             this._logRepository = logRepository;  
             this._bilheteRepository = bilheteRepository;
         }
@@ -17,10 +17,10 @@ module.exports = () =>
         salvar(log,infoCliente) {
 
             let logServicoPersistencia = this._clone(log);
-            let logWorkerProcessamento = this._clone(log); 
+            let eventoViagem = this._clone(log); 
             
             let promises = [
-                this._workerProcessamentoService.salvarLog(logWorkerProcessamento,infoCliente),
+                this._viagemAdapter.registrarEvento(eventoViagem,infoCliente),
                 this._servicoPersistenciaService.salvarLog(logServicoPersistencia)
             ]; 
 
