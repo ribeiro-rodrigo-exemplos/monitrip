@@ -10,7 +10,7 @@ module.exports = app =>
 
         intercept(req, res, next) {
 
-            /*if (this.recursoLiberado(req)) {
+            if (this.recursoLiberado(req)) {
                 next();
                 return;
             }
@@ -23,13 +23,9 @@ module.exports = app =>
                 res.status(401)
                     .send('O recurso requisitado exige autenticação.');
                 return;
-            }*/
+            }
 
-            req.idCliente = 209;
-            req.gmtCliente = "America/Sao_Paulo";
-            next();
-
-            /*this._ssoService.decodificarToken(token)
+            this._ssoService.decodificarToken(token)
                 .then(decoded => {
                     if (this._ssoService.possuiPermissaoParaOMonitrip(decoded)) {
                         req.idCliente = decoded.idCliente;
@@ -46,6 +42,7 @@ module.exports = app =>
                     erro =>
                     res.status(401)
                         .send('Token inválido. O recurso requisitado exige autenticação.')
-                );*/
+            );
         }
     };
+
