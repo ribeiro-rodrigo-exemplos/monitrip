@@ -133,7 +133,7 @@ module.exports = app => {
         },
 
         get viagemAdapter(){
-            return new app.servico.viagemAdapter(this.viagemApiService);
+            return new app.servico.viagemAdapter(this.viagemApiService,this.dateUtil);
         },
 
         get servicoPersistenciaService(){

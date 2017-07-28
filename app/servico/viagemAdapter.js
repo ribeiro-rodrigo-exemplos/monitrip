@@ -1,6 +1,6 @@
 module.exports = () => 
     class ViagemAdapter{
-        constructor(viagemApiService){
+        constructor(viagemApiService,dateUtil){
             this._logStrategy = {
                 '4' : this._eventoDeVelocidadeLocalizacao,
                 '5' : this._eventoDeJornada,
@@ -11,10 +11,17 @@ module.exports = () =>
                 '250' : this._eventoDeDirecaoContinua  
             };
 
-            this._api = viagemApiService; 
+            this._api = viagemApiService;
+            this._dateUtil = dateUtil; 
         }
 
         registrarEvento(evento,infoCliente){
+
+            if(!evento.idJornada || !infoCliente.appVersion || parseFloat(infoCliente.appVersion) < 1.6)
+                return; 
+
+            evento.dataHoraEvento = this._dateUtil.aplicaTimeZoneEmUTC(evento.dataHoraEvento,infoCliente.gmt);
+
             let strategy = this._logStrategy[evento.idLog].bind(this);
             return strategy(evento);  
         }
