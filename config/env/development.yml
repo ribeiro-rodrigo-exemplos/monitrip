@@ -29,14 +29,6 @@ amqp:
     url: amqp://guest:guest@localhost
     servico-persistencia: lazypersistence
 
-cache:
-  linha:
-    seconds: 10
-  motorista:
-    seconds: 10
-  veiculo:
-    seconds: 10
-
 server:
   port: 3000
 
