@@ -22,36 +22,12 @@ module.exports = () =>
                         if (err)
                             reject(err);
 
-                        this._enviarMensagem(channel,queue,this._converterMensagem(mensagem),queueConfig,mensagemConfig);
-
-                        this._fechar(connection);
+                        channel.assertQueue(queue,queueConfig);
+                        channel.sendToQueue(queue, Buffer.from(JSON.stringify(mensagem)),mensagemConfig,(err,ok) => connection.close());
 
                         resolve();
                     });
                 });
             });
-        }
-
-        _enviarMensagem(channel,queue,mensagem,optionsQueue,optionsMensagem){
-
-            let mensagemConfig = Object.assign({
-                contentType: 'text/plain',
-                persistent: true,
-                contentEncoding: 'utf-8'
-            },optionsMensagem); 
-
-            console.log(mensagemConfig);
-
-            channel.assertQueue(queue,optionsQueue);
-            channel.sendToQueue(queue, Buffer.from(mensagem),mensagemConfig);
-        }
-
-        _converterMensagem(mensagem) {
-            logger.info(`AmqpUtil - _converterMensagem - mensagem: ${mensagem}`);
-            return JSON.stringify(mensagem);
-        }
-
-        _fechar(connection) {
-            setTimeout(() => connection.close(), 500);
         }
     }

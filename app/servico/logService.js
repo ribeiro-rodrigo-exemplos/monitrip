@@ -19,20 +19,15 @@ module.exports = () =>
             let logServicoPersistencia = this._clone(log);
             let eventoViagem = this._clone(log); 
             
-            let promises = [
-                this._viagemAdapter.registrarEvento(eventoViagem,infoCliente),
-                this._servicoPersistenciaService.salvarLog(logServicoPersistencia)
-            ]; 
-
-            if(this._bilheteService.ehLeituraDeBilhete(log))
-                promises.push(this._bilheteService.registrarCheckin(log));
-
-            return Promise.all(promises);
+            return this._viagemAdapter
+                        .registrarEvento(eventoViagem,infoCliente)
+                        .then(() => this._servicoPersistenciaService.salvarLog(logServicoPersistencia))
+                        .then(() => this._bilheteService.ehLeituraDeBilhete(log) ? this._bilheteService.registrarCheckin(log) : null); 
         }
 
         buscarLogs(idCliente, dataInicio, dataFim, idLog, placaVeiculo, gmtCliente){
 
-            let objetoRetorno={};
+            let objetoRetorno = {};
 
             logger.info(`LogService - buscarLogs - idCliente: ${idCliente} - idLog: ${idLog} - dataInicial: ${dataInicio} - dataFim: ${dataFim} - placaVeiculo: ${placaVeiculo} - gmtCliente: ${gmtCliente}`);
 

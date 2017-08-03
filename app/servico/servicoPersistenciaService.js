@@ -6,7 +6,12 @@ module.exports = () =>
             this._amqpUtil = amqpUtil;
             this._servicoPersistenciaDTO = servicoPersistenciaDTO;
             this._queue = amqpConfig['servico-persistencia'];
-            this._rabbitConfig = {durable:true}; 
+            this._rabbitConfig = {
+                durable:true,
+                contentType: 'text/plain',
+                persistent: true,
+                contentEncoding: 'utf-8'
+            };          
         }
 
         salvarLog(log){
