@@ -1,6 +1,10 @@
 module.exports = () => 
     class ViagemAdapter{
         constructor(viagemApiService,dateUtil){
+
+            this._api = viagemApiService;
+            this._dateUtil = dateUtil; 
+
             this._logStrategy = {
                 '4' : this._eventoDeVelocidadeLocalizacao,
                 '5' : this._eventoDeJornada,
@@ -21,9 +25,6 @@ module.exports = () =>
                 '0' : this._api.fecharViagem,
                 '1' : this._api.abrirViagem
             }; 
-
-            this._api = viagemApiService;
-            this._dateUtil = dateUtil; 
         }
 
         registrarEvento(evento,infoCliente){
