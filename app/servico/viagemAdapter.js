@@ -16,7 +16,7 @@ module.exports = () =>
             };
 
             this._tipoEventoJornada = {
-                '0' : evento => evento.idViagem ? this._api.fecharPeriodoDeViagem(evento.idViagem,evento.idJornada,evento) : this._fecharJornada(evento.idJornada,evento), 
+                '0' : evento => evento.idViagem ? this._api.fecharPeriodoDeViagem(evento.idViagem,evento.idJornada,evento) : this._api.fecharJornada(evento.idJornada,evento), 
                 '1' : evento => this._interpretarAberturaDeJornada(evento),  
                 '2' : evento => this._api.abrirPeriodoDeViagem(evento.idViagem,evento.idJornada,evento)
             };
@@ -30,7 +30,7 @@ module.exports = () =>
         registrarEvento(evento,infoCliente){
 
             if(!evento.idJornada || !infoCliente.appVersion || parseFloat(infoCliente.appVersion) < 1.6)
-                return; 
+                return new Promise((resolve,reject) => resolve()); 
 
             evento.dataHoraEvento = this._dateUtil.aplicaTimeZoneEmUTC(evento.dataHoraEvento,infoCliente.gmt);
 
