@@ -39,6 +39,20 @@ module.exports = () =>
         }
 
         _prepareResult(criteria, fields) {
-            return this._Bilhete.find(criteria, fields);
+            return this._Bilhete.find(criteria, fields).lean().exec();
+        }
+
+
+        filtrarBilhetesVendidosNoPeriodo(clienteId, dataInicio, dataFim){
+
+            logger.info(`BilheteRepository - filtrarBilhetesVendidosNoPeriodo(${clienteId},${dataInicio},${dataFim})`);
+            
+            let criteria = {
+                            "clienteId": clienteId,
+                            $and: [{"dataHoraEvento": {$gte: dataInicio}},
+                                {"dataHoraEvento": {$lte: dataFim}}]
+                        };
+
+            return this._prepareResult(criteria, {"_class": 0, "_id": 0});
         }
     };

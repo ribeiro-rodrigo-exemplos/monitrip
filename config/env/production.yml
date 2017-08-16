@@ -20,7 +20,11 @@ sso:
 
 amqp:
     url: amqp://admin:admin@172.18.107.201
-    queue: lazypersistence
+    servico-persistencia: lazypersistence
+    worker-processamento:
+      queue: eventos.monitriip
+      exchange-dlq: processador.monitriip.DLQ
+      routing-key-dql: dead.letters
 
 cache:
   linha:

@@ -9,6 +9,6 @@ function criarClusters(){
         .forEach(() => cluster.isMaster ? cluster.fork() : require('./server'));
 }
 
-process.env["NODE_ENV"] == 'hml' ? criarClusters() : require('./server');
+process.env["NODE_ENV"] == 'production' ? criarClusters() : require('./server');
 
 

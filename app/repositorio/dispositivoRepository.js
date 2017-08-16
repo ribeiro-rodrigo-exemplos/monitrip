@@ -98,7 +98,7 @@ module.exports = () =>
         }
 
         obter(idCliente, idDispositivo) {
-            logger.info(`DispositivoRepository - obter - idCliente: ${filtro} - idDispositivo: ${idDispositivo}`);
+            logger.info(`DispositivoRepository - obter - idCliente: ${idCliente} - idDispositivo: ${idDispositivo}`);
 
             return this._Dispositivo
                 .findOne({where: {idCliente: idCliente, id: idDispositivo}})
@@ -106,7 +106,7 @@ module.exports = () =>
         }
 
         excluir(idCliente, idDispositivo, excluido) {
-            logger.info(`DispositivoRepository - excluir - idCliente: ${filtro} - idDispositivo: ${idDispositivo} - excluido: ${excluido}`);
+            logger.info(`DispositivoRepository - excluir - idCliente: ${idCliente} - idDispositivo: ${idDispositivo} - excluido: ${excluido}`);
 
             return this._Dispositivo
                 .update({excluido: excluido}, {where: {idCliente: idCliente, id: idDispositivo}})

@@ -8,6 +8,10 @@ module.exports = app => {
             return app.modelo.cliente;
         },
 
+        get clienteRjConsultores(){
+            return app.modelo.clienteRjConsultores;
+        }, 
+
         get dispositivo() {
             return app.modelo.dispositivo;
         },
@@ -37,7 +41,7 @@ module.exports = app => {
         },
 
         get clienteRepository() {
-            return new app.repositorio.clienteRepository(this.cliente, this.dispositivo);
+            return new app.repositorio.clienteRepository(this.cliente,this.clienteRjConsultores,this.dispositivo);
         },
 
         get logRepository() {
@@ -84,7 +88,7 @@ module.exports = app => {
         },
 
         get logController() {
-            return new app.controlador.logController(this.logService, this.logRepository, this.util, this.dateUtil);
+            return new app.controlador.logController(this.logService,this.logRepository, this.bilheteRepository, this.util);
         },
 
         get motoristaController() {
@@ -104,16 +108,37 @@ module.exports = app => {
         },
 
         get logService() {
-            return new app.servico.logService(this.logDTO)
+            return new app.servico.logService(this.dateUtil,this.bilheteService,this.servicoPersistenciaService,
+            this.viagemAdapter,this.logRepository,this.bilheteRepository);
+        },
+
+        get rjConsultoresService(){
+            return new app.servico.rjConsultoresService();
         },
 
         get licencaService() {
             return new app.servico.licencaService(this.dispositivoRepository, this.clienteRepository);
         },
 
+        get bilheteService(){
+            return new app.servico.bilheteService(this.bilheteRepository,this.rjConsultoresService,this.clienteRepository,this.util);
+        }, 
+
         get ssoService() {
             return new app.servico.ssoService();
         },
+
+        get viagemApiService(){
+            return new app.servico.viagemApiService();
+        },
+
+        get viagemAdapter(){
+            return new app.servico.viagemAdapter(this.viagemApiService,this.dateUtil);
+        },
+
+        get servicoPersistenciaService(){
+            return new app.servico.servicoPersistenciaService(this.amqpUtil,this.servicoPersistenciaDTO);
+        }, 
 
         get retornoDTO() {
             return app.util.dto.retornoDTO;
@@ -127,8 +152,12 @@ module.exports = app => {
             return new app.util.dateUtil;
         },
 
-        get logDTO() {
-            return app.util.dto.logDTO;
+        get amqpUtil(){
+            return new app.util.amqpUtil(this.dateUtil);
+        },
+
+        get servicoPersistenciaDTO() {
+            return app.util.dto.servicoPersistenciaDTO;
         },
 
         get validadorDeData() {

@@ -3,8 +3,8 @@ const fs = require('fs');
 let logger = require('../util/log');
 
 const envs = {
-    dev: './config/env/dev.yml',
-    hml: './config/env/hml.yml',
+    development: './config/env/development.yml',
+    production: './config/env/production.yml',
     test: './config/env/test.yml'
 };
 
@@ -16,7 +16,7 @@ try {
     if (envs[envName])
         file = envs[envName];
     else {
-        envName = 'dev';
+        envName = 'development';
         file = envs[envName];
     }
 

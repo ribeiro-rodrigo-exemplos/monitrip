@@ -27,6 +27,7 @@ module.exports = app =>
 
 
         possuiPermissaoParaOMonitrip(decoded) {
+            console.log(decoded.funcionalidades);
             logger.info(`SSOService - possuiPermissaoParaOMonitrip: ${decoded.funcionalidades.indexOf('Monitrip') >= 0 ? true : false}`);
             return decoded.funcionalidades.indexOf('Monitrip') >= 0 ? true : false;
         }

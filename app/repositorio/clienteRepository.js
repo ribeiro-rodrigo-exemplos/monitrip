@@ -2,8 +2,9 @@ const logger = require('../util/log');
 
 module.exports = () =>
     class ClienteRepository {
-        constructor(cliente, dispositivo) {
+        constructor(cliente,clienteRjConsultores,dispositivo) {
             this._Cliente = cliente;
+            this._ClienteRjConsultores = clienteRjConsultores;
             this._Dispositivo = dispositivo;
         }
 
@@ -24,5 +25,14 @@ module.exports = () =>
 
             return this._Dispositivo.count({where: {idCliente: idCliente, excluido: 0}})
                 .then(count => count)
+        }
+
+        obterInformacoesDeConexaoComRJConsultores(idCliente){
+            logger.info(`ClienteRepository - obterInformacoesDeConexaoComRJConsultores - idCliente: ${idCliente}`);
+
+            return this._ClienteRjConsultores
+                        .findOne({where: {id_cliente: idCliente}})
+                        .then(info => info ? info.dataValues : null);
+
         }
     };
