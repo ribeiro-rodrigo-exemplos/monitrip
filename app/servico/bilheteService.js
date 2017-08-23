@@ -20,6 +20,7 @@ module.exports = () =>
                                             .then(bilhetes => 
                                                             bilhetes.forEach(bilhete => 
                                                                 this._rjConsultoresService.enviarCheckin(bilhete,infoConexao)
+                                                                    .then(() => this._bilheteRepository.salvarCheckin(bilhete,leituraDeBilheteEvento.dataHoraEvento))
                                                                     .catch(e => logger.error('Erro ao realizar checkin'))
                                                             )
                                                  );

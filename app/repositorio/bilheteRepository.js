@@ -9,6 +9,7 @@ module.exports = () =>
     class BilheteRepository {
         constructor() {
             this._Bilhete = mongoose.model('Bilhete');
+            this._Checkin = mongoose.model('Checkin');
             this._formatoData = 'YYYYMMDD';
             this._formatoHora = 'HHmmss';
         }
@@ -52,8 +53,14 @@ module.exports = () =>
                 dataViagem:1,
                 numeroBilheteEmbarque:1,
                 numeroPoltrona:1,
-                numServico:1
+                numServico:1,
+                clienteId:1,
+                _id:0
             });  
+        }
+
+        salvarCheckin(bilhete,dataHoraEvento){
+            return this._Checkin.create({dataHoraEvento:dataHoraEvento,bilhete:bilhete});
         }
 
         _prepareResult(criteria, fields) {
