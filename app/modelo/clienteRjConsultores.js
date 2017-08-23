@@ -10,7 +10,7 @@ module.exports = app => {
                 field: 'id',
                 primaryKey: true
             },
-            id_cliente:{
+            idCliente:{
                 type: Sequelize.BIGINT,
                 field:'id_cliente' 
             },
