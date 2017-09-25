@@ -4,7 +4,7 @@ mysql:
     username: frota
     password: frota
     port: 3306
-    database: frota_zn4
+    database: frota_znh
   sso:
     host: mysql-hml
     username: frota
