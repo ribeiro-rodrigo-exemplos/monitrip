@@ -4,6 +4,7 @@ let consign = require('consign');
 let validator = require('express-validator');
 let logger = require('../util/log');
 let morgan = require('morgan');
+let compression = require('compression');
 
 let ErrorInterceptor = require('../middleware/errorInterceptor')();
 let CorsInterceptor = require('../middleware/corsInterceptor')();
@@ -16,6 +17,12 @@ app.use(morgan("common",{
         write(mensagem){
             logger.info(mensagem);
         }
+    }
+}));
+
+app.use(compression({
+    filter(req,res){
+        return req.headers['accept-encoding'] && req.headers['accept-encoding'].split(',').includes('gzip');
     }
 }));
 

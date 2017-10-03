@@ -9,6 +9,7 @@ module.exports = () =>
     class BilheteRepository {
         constructor() {
             this._Bilhete = mongoose.model('Bilhete');
+            this._Checkin = mongoose.model('Checkin');
             this._formatoData = 'YYYYMMDD';
             this._formatoHora = 'HHmmss';
         }
@@ -38,10 +39,33 @@ module.exports = () =>
             return this._prepareResult(criteria, {"_id": 0, clienteId: 0});
         }
 
+        obterBilhetesPorNumerosEDatas(numeros,datas,idCliente){
+            let criteria = {
+                numeroBilheteEmbarque:{$in:numeros},
+                dataViagem:{$in:datas},
+                clienteId:idCliente
+            };
+
+            return this._prepareResult(criteria,{
+                idPontoOrigemViagem:1,
+                idPontoDestinoViagem:1,
+                identificacaoLinha:1,
+                dataViagem:1,
+                numeroBilheteEmbarque:1,
+                numeroPoltrona:1,
+                numServico:1,
+                clienteId:1,
+                _id:0
+            });  
+        }
+
+        salvarCheckin(bilhete,dataHoraEvento){
+            return this._Checkin.create({dataHoraEvento:dataHoraEvento,bilhete:bilhete});
+        }
+
         _prepareResult(criteria, fields) {
             return this._Bilhete.find(criteria, fields).lean().exec();
         }
-
 
         filtrarBilhetesVendidosNoPeriodo(clienteId, dataInicio, dataFim){
 

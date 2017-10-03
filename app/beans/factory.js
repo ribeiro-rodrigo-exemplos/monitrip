@@ -28,6 +28,10 @@ module.exports = app => {
             return app.modelo.bilhete;
         },
 
+        get checkin(){
+            return app.modelo.checkin;
+        },
+
         get motorista() {
             return app.modelo.motorista
         },

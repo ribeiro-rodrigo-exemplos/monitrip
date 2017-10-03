@@ -1,6 +1,6 @@
 {
   "name": "m2m-monitrip-api",
-  "version": "1.8.2",
+  "version": "1.9.0",
   "description": "Webservice REST desenvolvido para o projeto Monitrip",
   "main": "server.js",
   "scripts": {
@@ -13,6 +13,7 @@
     "amqplib": "^0.5.1",
     "basic-auth": "^1.1.0",
     "body-parser": "^1.15.2",
+    "compression": "^1.7.0",
     "consign": "^0.1.2",
     "express": "^4.14.0",
     "express-validator": "^2.20.10",

@@ -14,7 +14,7 @@ module.exports = () =>
         }
 
         enviarCheckin(bilhete,infoConexao){
-            logger.info(`RjConsultoresService - enviarCheckin(${bilhete})`);
+            logger.info(`RjConsultoresService - enviarCheckin()`);
 
             const url = `/WSMonitriip/checkin/enviaCheckin/${infoConexao.codigoConexao}/${infoConexao.codigoCliente}/`+
             `${bilhete.idPontoOrigemViagem}/${bilhete.idPontoDestinoViagem}/${bilhete.numServico}/${bilhete.dataViagem}/${bilhete.numeroPoltrona}`;
@@ -25,9 +25,10 @@ module.exports = () =>
                         res.on('data',(chunk) => {
                             if(err)
                                 reject(err);
-                            else
+                            else{
                                 resolve(res.body);
-
+                                logger.info(`RjConsultoresService - checkin do bilhete ${bilhete.numeroBilheteEmbarque} - ${infoConexao.idCliente} realizado com sucesso`);
+                            }
                         })
                     });
                 });
