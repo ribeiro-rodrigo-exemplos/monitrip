@@ -1,4 +1,3 @@
-const routeCache = require('route-cache');
 const cacheConfig = require('../bootstrap/config-bootstrap')()['cache'];
 
 module.exports = app => {

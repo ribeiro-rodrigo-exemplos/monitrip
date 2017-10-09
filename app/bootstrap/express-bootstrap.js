@@ -5,6 +5,8 @@ let validator = require('express-validator');
 let logger = require('../util/log');
 let morgan = require('morgan');
 let compression = require('compression');
+let mung = require('express-mung');
+let etag = require('etag');
 
 let ErrorInterceptor = require('../middleware/errorInterceptor')();
 let CorsInterceptor = require('../middleware/corsInterceptor')();
@@ -25,6 +27,29 @@ app.use(compression({
         return req.headers['accept-encoding'] && req.headers['accept-encoding'].split(',').includes('gzip');
     }
 }));
+
+app.use(mung.json(function(body,req,res){
+ 
+    res.etag = etag(JSON.stringify(body));
+    const etagRequest = req.headers['if-none-match'];
+
+    if(etagRequest != res.etag)
+        return body;
+
+    res.cacheControl = true;
+    
+    return null;
+}));
+
+app.use(mung.headers(function(req,res){
+    
+    if(res.cacheControl)
+        res.status(304);
+    
+    if(res.etag)
+        res.set('ETag',res.etag);
+
+})); 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));

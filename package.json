@@ -15,7 +15,9 @@
     "body-parser": "^1.15.2",
     "compression": "^1.7.0",
     "consign": "^0.1.2",
+    "etag": "^1.8.1",
     "express": "^4.14.0",
+    "express-mung": "^0.4.6",
     "express-validator": "^2.20.10",
     "js-yaml": "^3.7.0",
     "jsonwebtoken": "^7.2.1",
@@ -26,7 +28,6 @@
     "morgan": "^1.8.1",
     "mysql": "^2.12.0",
     "restify": "^4.1.1",
-    "route-cache": "^0.3.3",
     "sequelize": "^3.28.0",
     "winston": "^2.2.0"
   },
