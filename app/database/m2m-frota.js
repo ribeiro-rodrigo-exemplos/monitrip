@@ -1,6 +1,7 @@
+const safira = require('safira');
 let mongoose = require('mongoose');
-let log = require('../util/log');
-var config = require('../bootstrap/config-bootstrap')();
+let logger = safira.bean('logger');
+let config =  safira.bean('config');
 
 if(mongoose.connection.readyState)
     return;
@@ -20,28 +21,28 @@ function connect(){
 }
 
 mongoose.connection.on('connecting',() => {
-    log.info('conectando ao mongodb');
+    logger.info('conectando ao mongodb');
 });
 
 mongoose.connection.on('connected',() => {
-    log.info('conectado ao mongodb');
+    logger.info('conectado ao mongodb');
 });
 
 mongoose.connection.on('error',() => {
-    log.error('Erro ao conectar com o mongodb');
+    logger.error('Erro ao conectar com o mongodb');
     setTimeout(connect,2000);
 });
 
 mongoose.connection.on('reconnected',() => {
-    log.info('reconectado ao mongodb');
+    logger.info('reconectado ao mongodb');
 });
 
 mongoose.connection.on('disconnected',() => {
-    log.info('finalizando conexão com o mongodb');
+    logger.info('finalizando conexão com o mongodb');
 });
 
 process.on('SIGINT',() => {
-    log.info('encerrando o Monitriip');
+    logger.info('encerrando o Monitriip');
     mongoose.connection.close(() => process.exit(0));
 });
 

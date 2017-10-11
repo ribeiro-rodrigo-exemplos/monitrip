@@ -1,32 +1,33 @@
-const logger = require('../util/log');
+const safira = require('safira');
 
-module.exports = () =>
-    class VeiculoRepository {
+class VeiculoRepository {
 
-        constructor(veiculo) {
-            this._Veiculo = veiculo;
-        }
+    constructor(veiculo, logger) {
+        this._Veiculo = veiculo;
+        this._logger = logger;
+    }
 
-        filtrarVeiculos(idCliente, placa, dataAtualizacao) {
+    filtrarVeiculos(idCliente, placa, dataAtualizacao) {
 
-            let filtro = {};
+        let filtro = {};
 
-            if (idCliente && !placa && !dataAtualizacao)
-                filtro["id_cliente"] = idCliente;
+        if (idCliente && !placa && !dataAtualizacao)
+            filtro["id_cliente"] = idCliente;
 
-            if (dataAtualizacao)
-                filtro["dt_atualizacao"] = {$gte: dataAtualizacao};
+        if (dataAtualizacao)
+            filtro["dt_atualizacao"] = {$gte: dataAtualizacao};
 
-            if (placa)
-                filtro["vl_placa"] = placa;
+        if (placa)
+            filtro["vl_placa"] = placa;
 
-            logger.info(`VeiculoRepository - filtrarVeiculos - idCliente: ${idCliente} - placa: ${placa} - dataAtualizacao: ${dataAtualizacao}`);
+        this._logger.info(`VeiculoRepository - filtrarVeiculos - idCliente: ${idCliente} - placa: ${placa} - dataAtualizacao: ${dataAtualizacao}`);
 
-            return new Promise((resolve, reject) => {
-                this._Veiculo.findAll({where: filtro, attributes: ['vl_placa', 'fl_ativo']})
-                    .then(result => resolve(result.length ? result : null))
-                    .catch(erro => reject(erro))
-            });
-        }
-    };
+        return new Promise((resolve, reject) => {
+            this._Veiculo.findAll({where: filtro, attributes: ['vl_placa', 'fl_ativo']})
+                .then(result => resolve(result.length ? result : null))
+                .catch(erro => reject(erro))
+        });
+    }
+};
 
+safira.define(VeiculoRepository);

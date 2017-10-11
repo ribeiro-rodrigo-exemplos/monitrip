@@ -1,9 +1,9 @@
-let mongoose = require('mongoose');
-const logger = require('../util/log');
+const safira = require('safira');
 
 class LinhaRepository {
-    constructor() {
-        this._linha = mongoose.model('Linha');
+    constructor(logger, linha) {
+        this._linha = linha;
+        this._logger = logger;
     }
 
     filtrarLinhas(clienteId, numero, dataAtualizacao) {
@@ -20,7 +20,7 @@ class LinhaRepository {
 
         criteria["tags.NAME"] = {"$in": ["FRETADA", "REGULAR", "ALIMENTADORA"]};
 
-        logger.info(`LinhaRepository - filtrarLinhas - idCliente: ${clienteId} - numero: ${numero} - dataAtualizacao: ${dataAtualizacao}`);
+        this._logger.info(`LinhaRepository - filtrarLinhas - idCliente: ${clienteId} - numero: ${numero} - dataAtualizacao: ${dataAtualizacao}`);
 
         return this.prepareResult(criteria, {
             numero: 1,
@@ -33,10 +33,10 @@ class LinhaRepository {
     }
 
     prepareResult(criteria, fields) {
-        logger.info(`LinhaRepository - prepareResult - criteria: ${criteria} - fields: ${fields}`);
+        this._logger.info(`LinhaRepository - prepareResult - criteria: ${criteria} - fields: ${fields}`);
         return this._linha.find(criteria, fields).lean().exec();
     }
 }
 
-module.exports = () => LinhaRepository;
+safira.define(LinhaRepository);
 

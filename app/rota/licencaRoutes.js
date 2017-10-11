@@ -1,9 +1,8 @@
-/**
- * Created by rodrigo.santos on 05/01/2017.
- */
+const safira = require('safira');
 
-module.exports = app => {
-    let controlador = app.beans.factory.licencaController;
-    app.get('/web/v1/licencas', controlador.obterLicencasDoCliente.bind(controlador));
-    app.get('/web/v1/clientes/:id/licencas', controlador.obterLicencasDoClientePorId.bind(controlador));
-};
+let controlador = safira.bean('licencaController');
+let app = safira.bean('app');
+
+app.get('/web/v1/licencas', controlador.obterLicencasDoCliente.bind(controlador));
+app.get('/web/v1/clientes/:id/licencas', controlador.obterLicencasDoClientePorId.bind(controlador));
+

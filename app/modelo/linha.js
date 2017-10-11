@@ -1,4 +1,5 @@
 let mongoose = require('mongoose');
+const safira = require('safira');
 
 let linhaSchema = mongoose.Schema({
     ultimaAtualizacao: Date,
@@ -6,4 +7,6 @@ let linhaSchema = mongoose.Schema({
     tags: []
 });
 
-mongoose.model('Linha', linhaSchema, 'Linha');
+let linha = mongoose.model('Linha', linhaSchema, 'Linha');
+
+safira.defineObject(linha, 'linha');

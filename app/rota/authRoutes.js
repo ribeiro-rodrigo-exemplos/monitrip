@@ -1,14 +1,10 @@
-module.exports = app => {
-    
-    let controlador = app.beans.factory.authController;
+const safira = require('safira');
 
-    let apiTokenInterceptor = app.beans.factory.apiTokenInterceptor;
-    let webTokenInterceptor = app.beans.factory.webTokenInterceptor;
-    let basicAuthInterceptor = app.beans.factory.basicAuthInterceptor;
+let app = safira.bean('app');  
+let controlador = safira.bean('authController');
 
-    app.post('/auth',controlador.autenticar.bind(controlador));
+let apiTokenInterceptor = safira.bean('apiTokenInterceptor');
+let webTokenInterceptor = safira.bean('webTokenInterceptor');
+let basicAuthInterceptor = safira.bean('basicAuthInterceptor');
 
-    app.use('/api/*',apiTokenInterceptor.intercept.bind(apiTokenInterceptor));
-    app.use('/web/*',webTokenInterceptor.intercept.bind(webTokenInterceptor));
-    app.use('/info',basicAuthInterceptor.intercept.bind(basicAuthInterceptor));
-};
+app.post('/auth',controlador.autenticar.bind(controlador));

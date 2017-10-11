@@ -1,3 +1,5 @@
+const safira = require('safira');
+
 const CONSTANTES = {
     tipoFuncionario: {
         MOTORISTA: 1,
@@ -45,12 +47,4 @@ const CONSTANTES = {
     }
 };
 
-module.exports = () => CONSTANTES;    
-
-
-
-
-
-
-
- 
+safira.defineObject(CONSTANTES, 'constantes');

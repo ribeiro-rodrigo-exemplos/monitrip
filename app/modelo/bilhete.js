@@ -1,6 +1,4 @@
-/**
- * Created by rodrigo on 23/02/17.
- */
+const safira = require('safira');
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
@@ -15,4 +13,6 @@ const schema = mongoose.Schema({
     }
 });
 
-mongoose.model("Bilhete", schema, "Bilhetes");
+let bilhete = mongoose.model("Bilhete", schema, "Bilhetes");
+
+safira.defineObject(bilhete, 'bilhete');

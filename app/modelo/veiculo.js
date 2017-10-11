@@ -1,4 +1,6 @@
 const Sequelize = require('sequelize');
+const safira = require('safira');
+
 let sequelize = require('../database/frota')();
 
 let Veiculo = sequelize.define("veiculo", {
@@ -21,5 +23,5 @@ let Veiculo = sequelize.define("veiculo", {
     timestamps: false
 });
 
-module.exports = Veiculo;
+safira.defineObject(Veiculo, 'veiculo');
 

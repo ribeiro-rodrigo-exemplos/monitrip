@@ -1,9 +1,7 @@
 const routeCache = require('route-cache');
-const cacheConfig = require('../bootstrap/config-bootstrap')()['cache'];
+const safira = require('safira');
 
-module.exports = function (app) {
+let controlador = safira.bean('motoristaController');
+let app = safira.bean('app');
 
-    let controlador = app.beans.factory.motoristaController;
-
-    app.get('/api/v1/motoristas',controlador.obter.bind(controlador));
-};
+app.get('/api/v1/motoristas',controlador.obter.bind(controlador));

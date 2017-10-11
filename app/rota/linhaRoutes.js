@@ -1,7 +1,8 @@
 const routeCache = require('route-cache');
-const cacheConfig = require('../bootstrap/config-bootstrap')()['cache'];
+const safira = require('safira');
+var mysqlConfig = safira.bean('config').mysql.frota;
 
-module.exports = app => {
-    let controlador = app.beans.factory.linhaController;
-    app.get('/api/v1/linhas',controlador.obter.bind(controlador));
-};
+let controlador = safira.bean('linhaController');
+let app = safira.bean('app');
+
+app.get('/api/v1/linhas',controlador.obter.bind(controlador));

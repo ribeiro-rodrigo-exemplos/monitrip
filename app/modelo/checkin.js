@@ -1,3 +1,4 @@
+const safira = require('safira');
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
@@ -7,4 +8,7 @@ const schema = mongoose.Schema({
     versionKey:false
 });
 
-mongoose.model('Checkin',schema,'CheckinBilhetes');
+let checkin = mongoose.model('Checkin',schema,'CheckinBilhetes');
+
+safira.defineObject(checkin, 'checkin');
+

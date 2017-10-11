@@ -1,4 +1,5 @@
-let validadorDeData = require('../../app/util/validadorDeData')();
+const safira = require('safira');
+let validadorDeData = safira._beans('validadorDeData');
 let assert = require('assert');
 
 describe('Testando a classe ValidadorDeData',() => {

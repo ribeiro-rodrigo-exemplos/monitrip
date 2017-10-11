@@ -1,47 +1,46 @@
-/**
- * Created by rodrigo on 23/02/17.
- */
+const safira = require('safira');
+const retornoDTO = require('../util/dto/retornoDTO').class;
 
-let logger = require('../util/log');
+class BilheteController {
+    constructor(bilheteRepository, logger) {
+        this._bilheteRepository = bilheteRepository;
+        this._RetornoDTO = retornoDTO;
+        this._logger = logger;
+    }
 
-module.exports = () =>
-    class BilheteController {
-        constructor(bilheteRepository, retornoDTO) {
-            this._bilheteRepository = bilheteRepository;
-            this._RetornoDTO = retornoDTO;
+    obterBilhetes(req, res, next) {
+
+        const erros = this._validarParametrosDeConsulta(req);
+
+        if (erros) {
+            res.status(400);
+            res.json(erros);
+            return;
         }
 
-        obterBilhetes(req, res, next) {
+        const dataHoraInicioViagem = req.query.dataHoraInicioViagem;
 
-            const erros = this._validarParametrosDeConsulta(req);
+        const numeroBilhete = req.query.numero;
+        const identificacaoLinha = req.query.identificacaoLinha;
 
-            if (erros) {
-                res.status(400);
-                res.json(erros);
-                return;
-            }
+        this._logger.info(`BilheteController - obterBilhetes - idCliente: ${req.idCliente} - dataHoraInicioViagem: ${dataHoraInicioViagem} - numeroBilhete: ${numeroBilhete} - identificacaoLinha: ${identificacaoLinha}`);
 
-            const dataHoraInicioViagem = req.query.dataHoraInicioViagem;
+        this._bilheteRepository
+            .filtrarBilhetes(numeroBilhete, dataHoraInicioViagem, identificacaoLinha, req.idCliente)
+            .then(bilhetes => bilhetes.length ? res.json(new this._RetornoDTO(bilhetes, 'bilhetes')) : res.sendStatus(204))
+            .catch(erro => next(erro));
+    }
 
-            const numeroBilhete = req.query.numero;
-            const identificacaoLinha = req.query.identificacaoLinha;
+    _validarParametrosDeConsulta(req) {
 
-            logger.info(`BilheteController - obterBilhetes - idCliente: ${req.idCliente} - dataHoraInicioViagem: ${dataHoraInicioViagem} - numeroBilhete: ${numeroBilhete} - identificacaoLinha: ${identificacaoLinha}`);
+        
+        if (req.query.dataHoraInicioViagem)
+            req.checkQuery('dataHoraInicioViagem', 'deve estar no formato ISO').isDateTime();
+        
+        req.checkQuery('identificacaoLinha','campo obrigatório').notEmpty();
 
-            this._bilheteRepository
-                .filtrarBilhetes(numeroBilhete, dataHoraInicioViagem, identificacaoLinha, req.idCliente)
-                .then(bilhetes => bilhetes.length ? res.json(new this._RetornoDTO(bilhetes, 'bilhetes')) : res.sendStatus(204))
-                .catch(erro => next(erro));
-        }
+        return req.validationErrors();
+    }
+};
 
-        _validarParametrosDeConsulta(req) {
-
-            
-            if (req.query.dataHoraInicioViagem)
-                req.checkQuery('dataHoraInicioViagem', 'deve estar no formato ISO').isDateTime();
-            
-            req.checkQuery('identificacaoLinha','campo obrigatório').notEmpty();
-
-            return req.validationErrors();
-        }
-    };
+safira.define(BilheteController);
