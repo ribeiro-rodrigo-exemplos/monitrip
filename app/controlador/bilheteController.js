@@ -1,10 +1,9 @@
 const safira = require('safira');
-const retornoDTO = require('../util/dto/retornoDTO').class;
 
 class BilheteController {
-    constructor(bilheteRepository, logger) {
+    constructor(bilheteRepository, logger,envelopeDTO) {
         this._bilheteRepository = bilheteRepository;
-        this._RetornoDTO = retornoDTO;
+        this._envelopeDTO = envelopeDTO;
         this._logger = logger;
     }
 
@@ -27,12 +26,11 @@ class BilheteController {
 
         this._bilheteRepository
             .filtrarBilhetes(numeroBilhete, dataHoraInicioViagem, identificacaoLinha, req.idCliente)
-            .then(bilhetes => bilhetes.length ? res.json(new this._RetornoDTO(bilhetes, 'bilhetes')) : res.sendStatus(204))
+            .then(bilhetes => bilhetes.length ? res.json(this._envelopeDTO.toDTO(bilhetes, 'bilhetes')) : res.sendStatus(204))
             .catch(erro => next(erro));
     }
 
     _validarParametrosDeConsulta(req) {
-
         
         if (req.query.dataHoraInicioViagem)
             req.checkQuery('dataHoraInicioViagem', 'deve estar no formato ISO').isDateTime();

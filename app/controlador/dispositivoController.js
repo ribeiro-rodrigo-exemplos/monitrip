@@ -104,7 +104,6 @@ class DispositivoController {
             });
     }
 
-
     _validarDispositivoWeb(req) {
 
         this._excluirCamposSomenteLeitura(Object.assign(req.body));

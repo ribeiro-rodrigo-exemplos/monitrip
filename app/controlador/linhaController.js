@@ -1,11 +1,10 @@
 const safira = require('safira');
-const retornoDTO = require('../util/dto/retornoDTO').class;
 
 class LinhaController{
-    constructor(linhaRepository,validadorDeData,logger){
+    constructor(linhaRepository,validadorDeData,logger,envelopeDTO){
         this._LinhaRepository = linhaRepository;
         this._validadorDeData = validadorDeData;
-        this._RetornoDTO = retornoDTO;
+        this._envelopeDTO = envelopeDTO;
         this._logger = logger;
     }
 
@@ -33,7 +32,7 @@ class LinhaController{
                     )
                     .then(linhas => {
                         if(linhas.length){
-                            linhas = new this._RetornoDTO(linhas,'linhas');
+                            linhas = this._envelopeDTO.toDTO(linhas,'linhas');
                             res.json(linhas);  
                         }
                         else
