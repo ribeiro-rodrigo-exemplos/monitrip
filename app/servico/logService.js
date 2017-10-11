@@ -21,7 +21,7 @@ module.exports = () =>
             
             return this._viagemAdapter
                         .registrarEvento(eventoViagem,infoCliente)
-                        .then(() => this._servicoPersistenciaService.salvarLog(logServicoPersistencia))
+                        .then(() => this._servicoPersistenciaService.salvarLog(logServicoPersistencia,infoCliente))
                         .then(() => this._bilheteService.ehLeituraDeBilhete(log) ? this._bilheteService.registrarCheckin(log) : null) 
         }
 

@@ -14,7 +14,9 @@ module.exports = () =>
             };          
         }
 
-        salvarLog(log){
+        salvarLog(log,infoCliente){
+
+            log.appVersao = infoCliente.appVersion;
 
             if(log.idLog < 250)
                 return this._amqpUtil
