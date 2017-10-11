@@ -1,7 +1,7 @@
 const safira = require('safira');
 
 class BilheteController {
-    constructor(bilheteRepository, logger,envelopeDTO) {
+    constructor(bilheteRepository,logger,envelopeDTO) {
         this._bilheteRepository = bilheteRepository;
         this._envelopeDTO = envelopeDTO;
         this._logger = logger;

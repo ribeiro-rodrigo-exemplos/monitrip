@@ -1,4 +1,3 @@
-const routeCache = require('route-cache');
 const safira = require('safira');
 
 let controlador = safira.bean('motoristaController');

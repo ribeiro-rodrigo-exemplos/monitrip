@@ -1,7 +1,7 @@
 const safira = require('safira');
 
 class AuthController {
-    constructor(ssoService, dispositivoRepository, logger) {
+    constructor(ssoService,dispositivoRepository,logger) {
         this._ssoService = ssoService;
         this._dispositivoRepository = dispositivoRepository;
         this._logger = logger;

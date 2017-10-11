@@ -2,9 +2,9 @@ const safira = require('safira');
 
 class EnvelopeDTO{
     toDTO(result,labelResult){
-        return {
-            labelResult:result
-        };
+        const retorno = {};
+        retorno[labelResult] = result;
+        return retorno;
     }
 };
 
