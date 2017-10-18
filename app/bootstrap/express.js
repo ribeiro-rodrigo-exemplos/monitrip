@@ -4,7 +4,6 @@ let morgan = require('morgan');
 let compression = require('compression');
 const safira = require('safira');
 let logger = safira.bean('logger');
-let validator = require('express-validator');
 
 let app = express();
 
@@ -24,10 +23,6 @@ app.use(compression({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-
-app.use(validator({
-    customValidators:customValidations
-}));
 
 app.set('jwt_api_key','M2MParceiroKey');
 app.set('jwt_web_key','m2m');

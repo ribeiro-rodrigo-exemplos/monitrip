@@ -9,10 +9,13 @@ class CustomValidations{
     }
     
     created(){
+        const isDate = this.isDate.bind(this);
+        const isDateTime = this.isDateTime.bind(this);
+
         this._app.use(validator({
             customValidators:{
-                isDate:this._isDate,
-                isDateTime:this._isDateTime
+                isDate:isDate,
+                isDateTime:isDateTime
             }
         }));
     }
