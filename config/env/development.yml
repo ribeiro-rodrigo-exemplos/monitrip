@@ -26,8 +26,8 @@ worker-processamento:
   api: http://localhost:8080
 
 amqp:
-    url: amqp://guest:guest@localhost
-    servico-persistencia: lazypersistence
+    url: amqp://admin:admin@172.18.107.201
+    servico-persistencia: lazypersistenceTesteDiego
 
 server:
   port: 3000

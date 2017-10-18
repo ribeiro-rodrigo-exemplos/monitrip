@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
     dataHoraEvento:String,
+    idViagem: String,
     bilhete:Object
 },{
     versionKey:false
