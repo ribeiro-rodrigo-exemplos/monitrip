@@ -1,5 +1,5 @@
-let moment = require('moment');
 const safira = require('safira');
+let moment = require('moment');
 
 class ValidadorDeData {
     constructor() {
