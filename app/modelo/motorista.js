@@ -1,4 +1,6 @@
 const Sequelize = require('sequelize');
+const safira = require('safira');
+
 let sequelize = require('../database/frota')();
 
 Motorista = sequelize.define('motorista', {
@@ -29,4 +31,4 @@ Motorista = sequelize.define('motorista', {
     timestamps: false
 });
 
-module.exports = Motorista;
+safira.defineObject(Motorista, 'motorista');

@@ -1,67 +1,68 @@
-const logger = require('../util/log');
+const safira = require('safira');
 
-module.exports = () =>
-    class DispositivoService {
-        constructor(dispositivoRepository, clienteRepository) {
-            this._dispositivoRepository = dispositivoRepository;
-            this._clienteRepository = clienteRepository;
-        }
+class DispositivoService {
+    constructor(dispositivoRepository, clienteRepository, logger) {
+        this._dispositivoRepository = dispositivoRepository;
+        this._clienteRepository = clienteRepository;
+        this._logger = logger;
+    }
 
-        cadastrar(dispositivo, idCliente) {
-            logger.info(`DispositivoService - cadastrar - idCliente: ${idCliente} - dispositivo: ${dispositivo}`);
+    cadastrar(dispositivo, idCliente) {
+        this._logger.info(`DispositivoService - cadastrar - idCliente: ${idCliente} - dispositivo: ${dispositivo}`);
 
-            return this._clienteRepository
-                .obterQuantidadeMaximaDeLicencasDoCliente(idCliente)
-                .then(qtMaximaDeLicencas => this._verificaSePossuiLicencasDisponiveis(qtMaximaDeLicencas, idCliente))
-                .then(() => this._dispositivoRepository.obterDispositivoPorImei(dispositivo.imei, idCliente))
-                .then(dispositivoEncontrado => this._mesclaDispositivoEncontradoComDadosDeCadastro(dispositivoEncontrado, dispositivo))
-                .then(dispositivoMesclado => this._atualizarOuCadastrarDispositivo(dispositivoMesclado || dispositivo, idCliente))
-        }
+        return this._clienteRepository
+            .obterQuantidadeMaximaDeLicencasDoCliente(idCliente)
+            .then(qtMaximaDeLicencas => this._verificaSePossuiLicencasDisponiveis(qtMaximaDeLicencas, idCliente))
+            .then(() => this._dispositivoRepository.obterDispositivoPorImei(dispositivo.imei, idCliente))
+            .then(dispositivoEncontrado => this._mesclaDispositivoEncontradoComDadosDeCadastro(dispositivoEncontrado, dispositivo))
+            .then(dispositivoMesclado => this._atualizarOuCadastrarDispositivo(dispositivoMesclado || dispositivo, idCliente))
+    }
 
-        _mesclaDispositivoEncontradoComDadosDeCadastro(dispositivoEncontrado, dispositivoCadastrado) {
-            if (dispositivoEncontrado)
-                dispositivoEncontrado.descricao = dispositivoCadastrado.descricao;
-            else
-                dispositivoEncontrado = dispositivoCadastrado;
+    _mesclaDispositivoEncontradoComDadosDeCadastro(dispositivoEncontrado, dispositivoCadastrado) {
+        if (dispositivoEncontrado)
+            dispositivoEncontrado.descricao = dispositivoCadastrado.descricao;
+        else
+            dispositivoEncontrado = dispositivoCadastrado;
 
-            return dispositivoEncontrado;
-        }
+        return dispositivoEncontrado;
+    }
 
-        _verificaSePossuiLicencasDisponiveis(qtMaximaLicencas, idCliente) {
-            logger.info(`DispositivoService - _verificaSePossuiLicencasDisponiveis - idCliente: ${idCliente} - qtMaximaLicencas: ${qtMaximaLicencas}`);
+    _verificaSePossuiLicencasDisponiveis(qtMaximaLicencas, idCliente) {
+        this._logger.info(`DispositivoService - _verificaSePossuiLicencasDisponiveis - idCliente: ${idCliente} - qtMaximaLicencas: ${qtMaximaLicencas}`);
 
-            return this._clienteRepository
-                .obterQuantidadeDeDispositivosAtivosCadastrados(idCliente)
-                .then(qtDispositivos => {
-                    if (!qtMaximaLicencas || qtDispositivos >= qtMaximaLicencas) {
-                        throw this._criarErro('A quantidade de licenças disponíveis é insuficiente', 403);
-                    }
-                })
-        }
-
-        _atualizarOuCadastrarDispositivo(dispositivo, idCliente) {
-            dispositivo.idCliente = idCliente;
-
-            logger.info(`DispositivoService - _atualizarOuCadastrarDispositivo - idCliente: ${idCliente} - dispositivo: ${dispositivo}`);
-
-            if (dispositivo.id) {
-                if (dispositivo.excluido == 1) {
-                    dispositivo.excluido = 0;
-                    return this._dispositivoRepository.atualizar(dispositivo);
+        return this._clienteRepository
+            .obterQuantidadeDeDispositivosAtivosCadastrados(idCliente)
+            .then(qtDispositivos => {
+                if (!qtMaximaLicencas || qtDispositivos >= qtMaximaLicencas) {
+                    throw this._criarErro('A quantidade de licenças disponíveis é insuficiente', 403);
                 }
+            })
+    }
 
-                throw this._criarErro('Dispositivo já cadastrado', 422);
+    _atualizarOuCadastrarDispositivo(dispositivo, idCliente) {
+        dispositivo.idCliente = idCliente;
+
+        this._logger.info(`DispositivoService - _atualizarOuCadastrarDispositivo - idCliente: ${idCliente} - dispositivo: ${dispositivo}`);
+
+        if (dispositivo.id) {
+            if (dispositivo.excluido == 1) {
+                dispositivo.excluido = 0;
+                return this._dispositivoRepository.atualizar(dispositivo);
             }
-            else
-                return this._dispositivoRepository.cadastrar(dispositivo);
+
+            throw this._criarErro('Dispositivo já cadastrado', 422);
         }
+        else
+            return this._dispositivoRepository.cadastrar(dispositivo);
+    }
 
-        _criarErro(mensagem, status) {
-            let erro = new Error(mensagem);
-            erro.status = status;
-            logger.error(`DispositivoService - _criarErro - error: ${erro}`);
+    _criarErro(mensagem, status) {
+        let erro = new Error(mensagem);
+        erro.status = status;
+        this._logger.error(`DispositivoService - _criarErro - error: ${erro}`);
 
-            return erro;
-        }
-    };
+        return erro;
+    }
+};
 
+safira.define(DispositivoService);

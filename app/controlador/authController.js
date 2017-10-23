@@ -1,60 +1,62 @@
-let logger = require('../util/log');
+const safira = require('safira');
 
-module.exports = () =>
-    class AuthController {
-        constructor(ssoService, dispositivoRepository) {
-            this._ssoService = ssoService;
-            this._dispositivoRepository = dispositivoRepository;
+class AuthController {
+    constructor(ssoService,dispositivoRepository,logger) {
+        this._ssoService = ssoService;
+        this._dispositivoRepository = dispositivoRepository;
+        this._logger = logger;
+    }
+
+    autenticar(req, res, next) {
+        let erros = this._validarDados(req);
+
+        if (erros) {
+            res.status(422)
+                .json(erros);
+            return;
         }
 
-        autenticar(req, res, next) {
-            let erros = this._validarDados(req);
+        let credenciais = req.body;
 
-            if (erros) {
-                res.status(422)
-                    .json(erros);
-                return;
-            }
+        this._logger.info(`AuthController - autenticar - usuario: ${credenciais.usuario} - imei: ${credenciais.imei}`);
 
-            let credenciais = req.body;
+        this._ssoService.autenticar(credenciais)
+            .then(authResult => {
+                this._ssoService.decodificarToken(authResult.IdentificacaoLogin)
+                    .then(decoded => {
+                        if (!this._ssoService.possuiPermissaoParaOMonitrip(decoded)) {
+                            this._sendError('O dispositivo não possui permissão para consumir os serviços do Monitrip', 401, next);
+                            return;
+                        }
 
-            logger.info(`AuthController - autenticar - usuario: ${credenciais.usuario} - imei: ${credenciais.imei}`);
+                        this._dispositivoRepository.obterDispositivoHabilitadoPorImei(decoded.idCliente, credenciais.imei)
+                            .then(dispositivo => {
+                                if (dispositivo)
+                                    res.json(authResult);
+                                else
+                                    this._sendError('O imei informado não existe ou o dispositivo não possui permissão para se autenticar com o mesmo.', 401, next);
+                            })
+                            .catch(erro => next(erro));
+                    });
+            })
+            .catch(erro => {
+                next(erro);
+            });
+    }
 
-            this._ssoService.autenticar(credenciais)
-                .then(authResult => {
-                    this._ssoService.decodificarToken(authResult.IdentificacaoLogin)
-                        .then(decoded => {
-                            if (!this._ssoService.possuiPermissaoParaOMonitrip(decoded)) {
-                                this._sendError('O dispositivo não possui permissão para consumir os serviços do Monitrip', 401, next);
-                                return;
-                            }
+    _validarDados(req) {
+        req.assert('usuario', 'O campo usuario é obrigatório').notEmpty();
+        req.assert('senha', 'O campo senha é obrigatório').notEmpty();
+        req.assert('imei', 'O campo imei é obrigatório').notEmpty();
 
-                            this._dispositivoRepository.obterDispositivoHabilitadoPorImei(decoded.idCliente, credenciais.imei)
-                                .then(dispositivo => {
-                                    if (dispositivo)
-                                        res.json(authResult);
-                                    else
-                                        this._sendError('O imei informado não existe ou o dispositivo não possui permissão para se autenticar com o mesmo.', 401, next);
-                                })
-                                .catch(erro => next(erro));
-                        });
-                })
-                .catch(erro => {
-                    next(erro);
-                });
-        }
+        return req.validationErrors();
+    }
 
-        _validarDados(req) {
-            req.assert('usuario', 'O campo usuario é obrigatório').notEmpty();
-            req.assert('senha', 'O campo senha é obrigatório').notEmpty();
-            req.assert('imei', 'O campo imei é obrigatório').notEmpty();
+    _sendError(mensagem, status, next) {
+        let error = new Error(mensagem);
+        error.status = 401;
+        next(error);
+    }
+};
 
-            return req.validationErrors();
-        }
-
-        _sendError(mensagem, status, next) {
-            let error = new Error(mensagem);
-            error.status = 401;
-            next(error);
-        }
-    };
+safira.define(AuthController);

@@ -1,18 +1,16 @@
-/**
- * Created by rodrigo on 10/03/17.
- */
-var config = require('../bootstrap/config-bootstrap')();
-let logger = require('../util/log');
+const safira = require('safira');
+var config = safira.bean('config');
 
-module.exports = () =>
-    class InfoController{
-        constructor(){}
+class InfoController{
+    constructor(logger){
+        this._logger = logger;
+    }
 
-        obterInformacoesDaAplicacao(req,res,next){
-            logger.info(`InfoController - obterInformacoesDaAplicacao`);
+    obterInformacoesDaAplicacao(req,res,next){
+        this._logger.info(`InfoController - obterInformacoesDaAplicacao`);
 
-            res.json(config);
-        }
-    };
+        res.json(config);
+    }
+};
 
-
+safira.define(InfoController);

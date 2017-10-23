@@ -1,34 +1,33 @@
 const Sequelize = require('sequelize');
+const safira = require('safira');
 
-module.exports = app => {
-    let sequelize = app.database.sso;
+let sequelize = require('../database/sso')();
 
-    const ClienteRjConsultores = sequelize.define('clienteRjConsultores',
-        {
-            id:{
-                type: Sequelize.BIGINT,
-                field: 'id',
-                primaryKey: true
-            },
-            idCliente:{
-                type: Sequelize.BIGINT,
-                field:'id_cliente' 
-            },
-            codigoCliente:{
-                type: Sequelize.STRING,
-                field:'cod_cliente'
-            },
-            codigoConexao:{
-                type:Sequelize.STRING,
-                field:'cod_conexao'
-            }
+const ClienteRjConsultores = sequelize.define('clienteRjConsultores',
+    {
+        id:{
+            type: Sequelize.BIGINT,
+            field: 'id',
+            primaryKey: true
         },
-        {
-            tableName:'cliente_rjconsultores',
-            undescored:false,
-            timestamps:false 
+        idCliente:{
+            type: Sequelize.BIGINT,
+            field:'id_cliente' 
+        },
+        codigoCliente:{
+            type: Sequelize.STRING,
+            field:'cod_cliente'
+        },
+        codigoConexao:{
+            type:Sequelize.STRING,
+            field:'cod_conexao'
         }
-    ); 
+    },
+    {
+        tableName:'cliente_rjconsultores',
+        undescored:false,
+        timestamps:false 
+    }
+); 
 
-    return ClienteRjConsultores;
-}
+safira.defineObject(ClienteRjConsultores,'clienteRjConsultores');

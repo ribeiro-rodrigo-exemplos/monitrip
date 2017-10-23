@@ -1,6 +1,7 @@
 let moment = require('moment');
 let momentTimezone = require('moment-timezone');
 let log = require('./log');
+const safira = require('safira');
 
 const formato = {
     DATA_DMA_BARRA: 'DD/MM/YYYY',
@@ -82,4 +83,4 @@ class DateUtil{
     }
 }
 
-module.exports = () => DateUtil;
+safira.define(DateUtil);

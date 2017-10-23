@@ -1,19 +1,19 @@
 mysql:
   frota:
-    host: mysql-hml
+    host: 172.18.107.248
     username: frota
     password: frota
     port: 3306
     database: frota_znh
   sso:
-    host: mysql-hml
+    host: 172.18.107.248
     username: frota
     password: frota
     port: 3306
     database: sso
 
 mongodb:
-    url: mongodb://mongo-hml:27017/frota_znh
+    url: mongodb://172.18.107.204:27017/frota_znh
 
 sso:
     url: http://172.18.107.240:3000
@@ -26,8 +26,8 @@ worker-processamento:
   api: http://localhost:8080
 
 amqp:
-    url: amqp://guest:guest@localhost
-    servico-persistencia: lazypersistence
+    url: amqp://admin:admin@172.18.107.201
+    servico-persistencia: lazypersistenceTesteDiego
 
 server:
   port: 3000

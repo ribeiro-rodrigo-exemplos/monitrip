@@ -1,27 +1,25 @@
-/**
- * Created by rodrigo on 20/02/17.
- */
-const logger = require('../util/log');
-const mongoose = require('mongoose');
+const safira = require('safira');
 
-module.exports = () =>
-    class ServicoRepository {
-        constructor() {
-            this._Servico = mongoose.model('Servico');
-        }
+class ServicoRepository {
+    constructor(logger, servico) {
+        this._Servico = servico;
+        this._logger = logger;
+    }
 
-        obterServicos(clienteId, dataInicial, dataFinal) {
+    obterServicos(clienteId, dataInicial, dataFinal) {
 
-            logger.info(`ServicoRepository - obterServicos(${clienteId},${dataInicial},${dataFinal})`);
+        this._logger.info(`ServicoRepository - obterServicos(${clienteId},${dataInicial},${dataFinal})`);
 
-            let criteria = {
-                idCliente: clienteId,
-                dataServico: {
-                    "$gte": dataInicial,
-                    "$lte": dataFinal
-                }
-            };
+        let criteria = {
+            idCliente: clienteId,
+            dataServico: {
+                "$gte": dataInicial,
+                "$lte": dataFinal
+            }
+        };
 
-            return this._Servico.find(criteria, {"_id": 0,"_class":0});
-        }
-    };
+        return this._Servico.find(criteria, {"_id": 0,"_class":0});
+    }
+};
+
+safira.define(ServicoRepository);

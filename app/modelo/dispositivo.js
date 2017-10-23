@@ -1,43 +1,40 @@
 const Sequelize = require('sequelize');
+const safira = require('safira');
+let cliente = safira.bean('cliente');
 
-module.exports = app => {
+let sequelize = require('../database/frota')();
+Dispositivo = sequelize.define('dispositivo', {
 
-    let sequelize = app.database.frota;
+    imei: {
+        type: Sequelize.STRING,
+        field: 'nu_imei'
+    },
+    descricao: {
+        type: Sequelize.STRING,
+        field: 'tx_descricao'
+    },
+    excluido: {
+        type: Sequelize.BIGINT,
+        field: 'fl_excluido',
+        defaultValue: 0
+    },
+    id: {
+        type: Sequelize.BIGINT,
+        field: 'id_dispositivo',
+        autoIncrement: true,
+        primaryKey: true
+    },
+    idCliente: {
+        type: Sequelize.BIGINT,
+        field: 'id_cliente'
+    }
 
-    Dispositivo = sequelize.define('dispositivo', {
+}, {
+    tableName: 'dispositivo',
+    undescored: true,
+    timestamps: false
+});
 
-        imei: {
-            type: Sequelize.STRING,
-            field: 'nu_imei'
-        },
-        descricao: {
-            type: Sequelize.STRING,
-            field: 'tx_descricao'
-        },
-        excluido: {
-            type: Sequelize.BIGINT,
-            field: 'fl_excluido',
-            defaultValue: 0
-        },
-        id: {
-            type: Sequelize.BIGINT,
-            field: 'id_dispositivo',
-            autoIncrement: true,
-            primaryKey: true
-        },
-        idCliente: {
-            type: Sequelize.BIGINT,
-            field: 'id_cliente'
-        }
+Dispositivo.belongsTo(cliente, {as: 'Cliente', foreignKey: 'idCliente'});
 
-    }, {
-        tableName: 'dispositivo',
-        undescored: true,
-        timestamps: false
-    });
-
-    Dispositivo.belongsTo(app.modelo.cliente, {as: 'Cliente', foreignKey: 'idCliente'});
-
-    return Dispositivo;
-}
-
+safira.defineObject(Dispositivo,'dispositivo');

@@ -1,7 +1,5 @@
-/**
- * Created by rodrigo on 20/02/17.
- */
 const mongoose = require('mongoose');
+const safira = require('safira');
 
 const schema = mongoose.Schema({
     dataServico: String,
@@ -11,4 +9,6 @@ const schema = mongoose.Schema({
 
 schema.index({createDate: 1}, {expireAfterSeconds: 864000});
 
-mongoose.model('Servico', schema, 'ServicosMonitriip');
+let servico = mongoose.model('Servico', schema, 'ServicosMonitriip');
+
+safira.defineObject(servico, 'servico');
