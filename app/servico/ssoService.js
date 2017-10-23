@@ -4,10 +4,10 @@ let restify = require('restify');
 let jwt = require('jsonwebtoken');
 
 class SSOService {
-    constructor(logger, app) {
+    constructor(logger, app, config) {
         this._client = restify.createJsonClient({url: url});
-        this._apiTokenPass = app.get('jwt_api_key');
-        this._webTokenPass = app.get('jwt_web_key');
+        this._apiTokenPass = config.jwt['api_key'];
+        this._webTokenPass = config.jwt['web_key'];
         this._logger = logger;
     }
 
