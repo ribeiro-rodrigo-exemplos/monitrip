@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const safira = require('safira');
 
-let sequelize = require('../database/frota')();
+const datasource = safira.bean('frotaDatasource');
 
-Motorista = sequelize.define('motorista', {
+Motorista = datasource.define('motorista', {
     nomeFuncionario: {
         type: Sequelize.STRING,
         field: 'nm_nomeFuncionario'

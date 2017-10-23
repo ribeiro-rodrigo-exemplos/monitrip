@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const safira = require('safira');
 
-let sequelize = require('../database/sso')();
+const datasource = safira.bean('ssoDatasource');
 
-const ClienteRjConsultores = sequelize.define('clienteRjConsultores',
+const ClienteRjConsultores = datasource.define('clienteRjConsultores',
     {
         id:{
             type: Sequelize.BIGINT,

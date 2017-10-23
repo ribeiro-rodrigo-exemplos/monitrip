@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const safira = require('safira');
 
-let sequelize = require('../database/sso')();
+const datasource = safira.bean('ssoDatasource');
 
-let Licenca = sequelize.define('licenca', {
+let Licenca = datasource.define('licenca', {
     quantidade: {
         type: Sequelize.BIGINT,
         field: 'nu_licenca'

@@ -1,12 +1,12 @@
 const Sequelize = require('sequelize');
 const safira = require('safira');
 
-let sequelize = require('../database/sso')();
+const datasource = safira.bean('ssoDatasource');
 
 let Licenca = safira.bean('licenca');
 let Cliente = safira.bean('cliente');
 
-let Funcionalidade = sequelize.define('funcionalidade', {
+let Funcionalidade = datasource.define('funcionalidade', {
     nome: {
         type: Sequelize.STRING,
         field: 'nm_funcionalidade'
