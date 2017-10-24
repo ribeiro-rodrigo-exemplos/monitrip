@@ -1,12 +1,13 @@
-let mongoose = require('mongoose');
 const safira = require('safira');
 
-let logSchema = mongoose.Schema({
+const datasource = safira.bean('monitriipDatasource');
+
+let logSchema = datasource.Schema({
     dataHoraEvento: String,
     idLog: Number,
     placaVeiculo: String
 });
 
-let log = mongoose.model('Log', logSchema, 'logsMonitrip');
+let log = datasource.model('Log', logSchema, 'logsMonitrip');
 
 safira.defineObject(log, 'log');

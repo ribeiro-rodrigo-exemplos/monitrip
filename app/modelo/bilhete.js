@@ -1,7 +1,8 @@
 const safira = require('safira');
-const mongoose = require('mongoose');
 
-const schema = mongoose.Schema({
+const datasource = safira.bean('monitriipDatasource');
+
+const schema = datasource.Schema({
     dt_atualizacao: String,
     identificacaoLinha: String,
     numeroBilheteEmbarque: String,
@@ -13,6 +14,6 @@ const schema = mongoose.Schema({
     }
 });
 
-let bilhete = mongoose.model("Bilhete", schema, "Bilhetes");
+let bilhete = datasource.model("Bilhete", schema, "Bilhetes");
 
 safira.defineObject(bilhete, 'bilhete');
