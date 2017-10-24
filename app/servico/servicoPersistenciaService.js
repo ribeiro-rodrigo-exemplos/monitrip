@@ -15,7 +15,7 @@ class ServicoPersistenciaService{
     }
 
     salvarLog(log){
-
+        
         if(log.idLog < 250)
             return this._amqpUtil
                         .enviarMensagem(this._logDTO.toDTO('logsMonitrip', 'insert', log),

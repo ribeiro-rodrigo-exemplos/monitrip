@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const safira = require('safira');
 
-let sequelize = require('../database/frota')();
+const datasource = safira.bean('frotaDatasource');
 
-let Veiculo = sequelize.define("veiculo", {
+let Veiculo = datasource.define("veiculo", {
     idVeiculo: {
         type: Sequelize.BIGINT,
         primaryKey: true,

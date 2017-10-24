@@ -1,10 +1,9 @@
 const safira = require('safira');
-const retornoDTO = require('../util/dto/retornoDTO').class;
 
 class ServicoController{
-    constructor(servicoRepository, logger){
+    constructor(servicoRepository, logger,envelopeDTO){
         this._servicoRepository = servicoRepository;
-        this._RetornoDTO = retornoDTO;
+        this._envelopeDTO = envelopeDTO;
         this._logger = logger;
     }
 
@@ -27,7 +26,7 @@ class ServicoController{
             .obterServicos(req.idCliente, dataInicio, dataFim)
             .then(servicos => {
                 this._logger.info(`ServicoController - obter ${req.idCliente} de ${dataInicio} a ${dataFim} - sucesso`);
-                servicos.length ? res.json(new this._RetornoDTO(servicos,'servicos')) : res.sendStatus(204)
+                servicos.length ? res.json(this._envelopeDTO.toDTO(servicos,'servicos')) : res.sendStatus(204)
             })
             .catch(erro => next(erro));
     }

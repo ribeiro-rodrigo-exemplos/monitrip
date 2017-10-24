@@ -1,3 +1,4 @@
+
 const safira = require('safira');
 
 let controlador = safira.bean('veiculoController');

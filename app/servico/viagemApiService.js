@@ -1,12 +1,11 @@
 let restify = require('restify');
 const safira = require('safira');
-let url =  safira.bean('config')['worker-processamento'].api;
 
 class ViagemApiService{
-    constructor(logger){
+    constructor(logger,config){
         this._logger = logger;
         this._client = restify.createJsonClient({
-            url:url
+            url:config['worker-processamento'].api
         });
     }
 

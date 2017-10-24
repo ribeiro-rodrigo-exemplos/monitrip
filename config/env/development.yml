@@ -29,6 +29,10 @@ amqp:
     url: amqp://admin:admin@172.18.107.201
     servico-persistencia: lazypersistenceTesteDiego
 
+jwt:
+  api_key: M2MParceiroKey
+  web_key: m2m
+
 server:
   port: 3000
 

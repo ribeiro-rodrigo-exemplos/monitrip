@@ -1,5 +1,6 @@
 const safira = require('safira');
 let amqp = require('amqplib/callback_api');
+
 let amqpConfig =  safira.bean('config').amqp;
 
 class LogService {

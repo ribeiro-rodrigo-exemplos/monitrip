@@ -1,4 +1,5 @@
 const safira = require('safira');
+
 var mysqlConfig = safira.bean('config').mysql.frota;
 const Sequelize = require('sequelize');
 
@@ -13,4 +14,4 @@ let sequelize = new Sequelize(mysqlConfig.database,mysqlConfig.username,mysqlCon
     }
 });
 
-module.exports = () => sequelize;
+safira.defineObject(sequelize,'frotaDatasource');

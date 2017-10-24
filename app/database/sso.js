@@ -1,5 +1,6 @@
 const safira = require('safira');
-var mysqlConfig = safira.bean('config').mysql.sso;
+
+const mysqlConfig = safira.bean('config').mysql.sso;
 const Sequelize = require('sequelize');
 
 let sequelize = new Sequelize(mysqlConfig.database,mysqlConfig.username,mysqlConfig.password,{
@@ -13,4 +14,4 @@ let sequelize = new Sequelize(mysqlConfig.database,mysqlConfig.username,mysqlCon
     }
 });
 
-module.exports = () => sequelize;
+safira.defineObject(sequelize,'ssoDatasource');

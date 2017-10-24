@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
 const safira = require('safira');
-let cliente = safira.bean('cliente');
 
-let sequelize = require('../database/frota')();
-Dispositivo = sequelize.define('dispositivo', {
+const cliente = safira.bean('cliente');
+const datasource = safira.bean('frotaDatasource');
+
+Dispositivo = datasource.define('dispositivo', {
 
     imei: {
         type: Sequelize.STRING,

@@ -59,10 +59,6 @@ class BilheteRepository {
         return this._Checkin.create({dataHoraEvento:dataHoraEvento, idViagem: idViagem, bilhete:bilhete});
     }
 
-    _prepareResult(criteria, fields) {
-        return this._Bilhete.find(criteria, fields).lean().exec();
-    }
-
     filtrarBilhetesVendidosNoPeriodo(clienteId, dataInicio, dataFim){
 
         this._logger.info(`BilheteRepository - filtrarBilhetesVendidosNoPeriodo(${clienteId},${dataInicio},${dataFim})`);
@@ -74,6 +70,10 @@ class BilheteRepository {
                     };
 
         return this._prepareResult(criteria, {"_class": 0, "_id": 0});
+    }
+
+    _prepareResult(criteria, fields) {
+        return this._Bilhete.find(criteria, fields).lean().exec();
     }
 };
 

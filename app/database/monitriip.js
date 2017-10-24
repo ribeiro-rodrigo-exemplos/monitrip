@@ -1,5 +1,6 @@
 const safira = require('safira');
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
+
 let logger = safira.bean('logger');
 let config =  safira.bean('config');
 
@@ -47,3 +48,5 @@ process.on('SIGINT',() => {
 });
 
 connect();
+
+safira.defineObject(mongoose,'monitriipDatasource')

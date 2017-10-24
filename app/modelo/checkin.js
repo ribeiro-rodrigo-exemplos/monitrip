@@ -1,7 +1,8 @@
 const safira = require('safira');
-const mongoose = require('mongoose');
 
-const schema = mongoose.Schema({
+const datasource = safira.bean('monitriipDatasource');
+
+const schema = datasource.Schema({
     dataHoraEvento:String,
     idViagem: String,
     bilhete:Object
@@ -9,7 +10,7 @@ const schema = mongoose.Schema({
     versionKey:false
 });
 
-let checkin = mongoose.model('Checkin',schema,'CheckinBilhetes');
+let checkin = datasource.model('Checkin',schema,'CheckinBilhetes');
 
 safira.defineObject(checkin, 'checkin');
 

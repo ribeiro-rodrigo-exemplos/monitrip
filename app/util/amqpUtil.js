@@ -1,12 +1,11 @@
 let amqp = require('amqplib/callback_api');
 const safira = require('safira');
-let amqpConfig =  safira.bean('config').amqp
-
 
 class AmqpUtil{
 
-    constructor(logger){
+    constructor(logger,config){
         this._logger = logger;
+        this._amqpConfig = config.amqp;
     }
 
     enviarMensagem(mensagem,queue,queueConfig,mensagemConfig) {
@@ -22,7 +21,7 @@ class AmqpUtil{
 
     _criarConexao(){
         return new Promise((resolve, reject) => {
-            amqp.connect(amqpConfig.url, (erro, connection) => {
+            amqp.connect(this._amqpConfig.url, (erro, connection) => {
 
                 if (erro) {
                     reject(new Error(erro.message));

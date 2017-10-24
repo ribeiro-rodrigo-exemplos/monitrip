@@ -1,11 +1,10 @@
 const safira = require('safira');
-const retornoDTO = require('../util/dto/retornoDTO').class;
 
 class VeiculoController {
-    constructor(veiculoRepository, validadorDeData, logger) {
+    constructor(veiculoRepository, validadorDeData, logger,envelopeDTO) {
         this._veiculoRepository = veiculoRepository;
         this._validadorDeData = validadorDeData;
-        this._RetornoDTO = retornoDTO;
+        this._envelopeDTO = envelopeDTO;
         this._logger = logger;
     }
 
@@ -25,7 +24,7 @@ class VeiculoController {
             .filtrarVeiculos(req.idCliente, placa, dataAtualizacao)
             .then(veiculos => {
                 if (veiculos)
-                    res.json(new this._RetornoDTO(veiculos, 'veiculos'));
+                    res.json(this._envelopeDTO.toDTO(veiculos, 'veiculos'));
                 else
                     res.sendStatus(204);
             }).catch(erro => next(erro));
