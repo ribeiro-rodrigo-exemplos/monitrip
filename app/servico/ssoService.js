@@ -4,7 +4,7 @@ let jwt = require('jsonwebtoken');
 
 class SSOService {
     constructor(logger, app, config) {
-        this._client = restify.createJsonClient({url: config.url});
+        this._client = restify.createJsonClient({url: config.sso.url});
         this._apiTokenPass = config.jwt['api_key'];
         this._webTokenPass = config.jwt['web_key'];
         this._logger = logger;
@@ -49,6 +49,7 @@ class SSOService {
     }
 
     _resolveError(erro, reject) {
+        console.log(erro);
         if (!erro.body.RetornoOk) {
             erro = new Error('Usuário ou senha incorretos');
             this._logger.error(`SSOService - _resolveError - erro: ${erro}`);
