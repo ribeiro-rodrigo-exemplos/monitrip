@@ -12,6 +12,7 @@ class LogService {
         this._logRepository = logRepository;  
         this._bilheteRepository = bilheteRepository;
         this._logger = logger;
+        this._constantes = constantes; 
     }
 
     salvar(log,infoCliente) {
@@ -33,14 +34,14 @@ class LogService {
 
         return new Promise((resolve, reject) =>{
 
-            if(idLog == constantes.log.BILHETE && placaVeiculo == null){
+            if(idLog == this._constantes.log.BILHETE && placaVeiculo == null){
                 
                 this._bilheteRepository.filtrarBilhetesVendidosNoPeriodo(idCliente, dataInicio, dataFim)
                     .then(result =>{
                         objetoRetorno.logs = result;
 
                         objetoRetorno.logs.map(item => {
-                            item.evento = constantes.descLogs[item.idLog];     
+                            item.evento = this._constantes.descLogs[item.idLog];     
                             item.dataHoraFormatada = this._dateUtil.formataDataHora(item.dataHoraEvento, gmtCliente);
                         });
 
@@ -64,7 +65,7 @@ class LogService {
                         });
 
                         objetoRetorno.logs.map(item => {
-                            item.evento = constantes.descLogs[item.idLog];     
+                            item.evento = this._constantes.descLogs[item.idLog];     
                             item.dataHoraFormatada = this._dateUtil.formataDataHora(item.dataHoraEvento, gmtCliente);
                         });
                         
@@ -72,14 +73,14 @@ class LogService {
                         resolve(objetoRetorno.logs);
                     }).catch(erro => reject(erro));
             
-            }else if(idLog != constantes.log.BILHETE && placaVeiculo != null){
+            }else if(idLog != this._constantes.log.BILHETE && placaVeiculo != null){
             
                 this._logRepository.obterLogs(idCliente, idLog, placaVeiculo, dataInicio, dataFim)
                     .then(result =>{
                         objetoRetorno.logs = result;
 
                         objetoRetorno.logs.map(item => {
-                            item.evento = constantes.descLogs[item.idLog];     
+                            item.evento = this._constantes.descLogs[item.idLog];     
                             item.dataHoraFormatada = this._dateUtil.formataDataHora(item.dataHoraEvento, gmtCliente);
                         });
 
