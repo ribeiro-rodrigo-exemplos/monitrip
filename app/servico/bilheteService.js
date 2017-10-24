@@ -20,7 +20,7 @@ class BilheteService{
                                         .then(bilhetes => 
                                                         bilhetes.forEach(bilhete => 
                                                             this._rjConsultoresService.enviarCheckin(bilhete,infoConexao)
-                                                                .then(() => this._bilheteRepository.salvarCheckin(bilhete,leituraDeBilheteEvento.dataHoraEvento))
+                                                                .then(() => this._bilheteRepository.salvarCheckin(bilhete,leituraDeBilheteEvento.dataHoraEvento, leituraDeBilheteEvento.idViagem))
                                                                 .catch(e => this._logger.error('Erro ao realizar checkin'))
                                                         )
                                                 );

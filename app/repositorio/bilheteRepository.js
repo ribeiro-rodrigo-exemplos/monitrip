@@ -55,8 +55,8 @@ class BilheteRepository {
         });  
     }
 
-    salvarCheckin(bilhete,dataHoraEvento){
-        return this._Checkin.create({dataHoraEvento:dataHoraEvento,bilhete:bilhete});
+    salvarCheckin(bilhete,dataHoraEvento, idViagem){
+        return this._Checkin.create({dataHoraEvento:dataHoraEvento, idViagem: idViagem, bilhete:bilhete});
     }
 
     filtrarBilhetesVendidosNoPeriodo(clienteId, dataInicio, dataFim){

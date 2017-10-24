@@ -4,6 +4,7 @@ const datasource = safira.bean('monitriipDatasource');
 
 const schema = datasource.Schema({
     dataHoraEvento:String,
+    idViagem: String,
     bilhete:Object
 },{
     versionKey:false
