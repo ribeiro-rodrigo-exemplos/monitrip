@@ -25,6 +25,9 @@ rjConsultores:
 worker-processamento:
   api: http://localhost:8080
 
+worker-servico:
+  api: http://localhost:8080
+
 amqp:
     url: amqp://admin:admin@172.18.107.201
     servico-persistencia: lazypersistenceTesteDiego
@@ -43,6 +46,3 @@ log:
   files:
     erro: monitriip-erro.log
     info: monitriip-info.log
-
-
-
