@@ -3,5 +3,5 @@ const safira = require('safira');
 let controlador = safira.bean('linhaController');
 let app = safira.bean('app');
 
-app.route('/api/v1/linha/:idCliente')
+app.route('/api/v1/clientes/:idCliente/linhas')
     .get(controlador.obterLinhas.bind(controlador));

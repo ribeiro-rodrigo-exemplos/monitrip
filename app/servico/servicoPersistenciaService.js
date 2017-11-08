@@ -14,7 +14,9 @@ class ServicoPersistenciaService{
         };          
     }
 
-    salvarLog(log){
+    salvarLog(log, infoCliente){
+        
+        log.appVersion = infoCliente.appVersion
         
         if(log.idLog < 250)
             return this._amqpUtil
