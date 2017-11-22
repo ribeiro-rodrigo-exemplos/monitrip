@@ -30,7 +30,7 @@ worker-servico:
 
 amqp:
     url: amqp://admin:admin@172.18.107.201
-    servico-persistencia: lazypersistenceTesteDiego
+    servico-persistencia: lazypersistence
 
 jwt:
   api_key: M2MParceiroKey
