@@ -8,8 +8,8 @@ class LinhaController {
     
     obterLinhas(req, res, next) {
         
-        let idCliente = req.params.idCliente;
-        
+        let idCliente = req.idCliente;
+                
         this._logger.info(`LinhaController - obterLinhas  - idCliente: ${idCliente}`);
 
         this._servicoApiService.buscarLinhas(idCliente)

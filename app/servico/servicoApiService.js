@@ -26,7 +26,7 @@ class ServicoApiService{
     
     _prepareResult(resolve,reject,res,errorMessage){
         if(res){
-            resolve(JSON.parse(res.body));
+            resolve(res.body != "" ? JSON.parse(res.body) : res.status = 204);
             return; 
         }
         reject(new Error(errorMessage));
