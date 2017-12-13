@@ -1,9 +1,8 @@
-/**
- * Created by rodrigo on 23/02/17.
- */
-const mongoose = require('mongoose');
+const safira = require('safira');
 
-const schema = mongoose.Schema({
+const datasource = safira.bean('monitriipDatasource');
+
+const schema = datasource.Schema({
     dt_atualizacao: String,
     identificacaoLinha: String,
     numeroBilheteEmbarque: String,
@@ -15,4 +14,6 @@ const schema = mongoose.Schema({
     }
 });
 
-mongoose.model("Bilhete", schema, "Bilhetes");
+let bilhete = datasource.model("Bilhete", schema, "Bilhetes");
+
+safira.defineObject(bilhete, 'bilhete');

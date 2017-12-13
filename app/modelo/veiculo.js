@@ -1,7 +1,9 @@
 const Sequelize = require('sequelize');
-let sequelize = require('../database/frota')();
+const safira = require('safira');
 
-let Veiculo = sequelize.define("veiculo", {
+const datasource = safira.bean('frotaDatasource');
+
+let Veiculo = datasource.define("veiculo", {
     idVeiculo: {
         type: Sequelize.BIGINT,
         primaryKey: true,
@@ -21,5 +23,5 @@ let Veiculo = sequelize.define("veiculo", {
     timestamps: false
 });
 
-module.exports = Veiculo;
+safira.defineObject(Veiculo, 'veiculo');
 

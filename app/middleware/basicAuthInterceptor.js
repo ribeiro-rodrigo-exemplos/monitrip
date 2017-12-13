@@ -1,26 +1,30 @@
-/**
- * Created by rodrigo on 10/03/17.
- */
-
+const safira = require('safira');
 const basicAuth = require('basic-auth');
-let logger = require('../util/log');
 
-module.exports = () =>
-    class BasicAuthInterceptor {
-        constructor() {
-        }
+class BasicAuthInterceptor {
+    constructor(app) {
+        this._app = app;
+    }
 
-        intercept(req, res, next) {
-            const usuario = basicAuth(req);
+    created(){
+        this._app.use('/info',this.intercept.bind(this));
+    }
 
-            if (!usuario || usuario.name != 'm2m' || usuario.pass != 'm2m')
-                return this._naoAutorizado(res);
+    intercept(req, res, next) {
+        const usuario = basicAuth(req);
 
-            next();
-        }
+        if (!usuario || usuario.name != 'm2m' || usuario.pass != 'm2m')
+            return this._naoAutorizado(res);
 
-        _naoAutorizado(res) {
-            res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-            return res.send(401);
-        }
-    };
+        next();
+    }
+
+    _naoAutorizado(res) {
+        res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+        return res.send(401);
+    }
+};
+
+safira.define(BasicAuthInterceptor)
+      .build()
+      .eager();

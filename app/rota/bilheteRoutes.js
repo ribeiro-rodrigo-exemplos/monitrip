@@ -1,9 +1,7 @@
-/**
- * Created by rodrigo on 23/02/17.
- */
-module.exports = app => {
-    const controlador = app.beans.factory.bilheteController;
+const safira = require('safira');
 
-    app.route('/api/v1/bilhetes')
-        .get(controlador.obterBilhetes.bind(controlador));
-};
+let controlador = safira.bean('bilheteController');
+let app = safira.bean('app');
+
+app.route('/api/v1/bilhetes')
+    .get(controlador.obterBilhetes.bind(controlador));

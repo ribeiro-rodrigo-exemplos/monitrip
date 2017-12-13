@@ -1,12 +1,34 @@
-/**
- * Created by rodrigo on 20/02/17.
- */
+let validator = require('express-validator');
+const safira = require('safira');
 
-let validadorDeData = new (require('./validadorDeData')());
+class CustomValidations{
 
-module.exports = () => {
-    return {
-        isDate: value => validadorDeData.validarData(value),
-        isDateTime: value => validadorDeData.validarDataEHora(value) || validadorDeData.validarData(value)
+    constructor(app,validadorDeData){
+        this._app = app;
+        this._validadorDeData = validadorDeData;
     }
-};
+    
+    created(){
+        const isDate = this.isDate.bind(this);
+        const isDateTime = this.isDateTime.bind(this);
+
+        this._app.use(validator({
+            customValidators:{
+                isDate:isDate,
+                isDateTime:isDateTime
+            }
+        }));
+    }
+
+    isDate(value){
+        return this._validadorDeData.validarData(value);
+    }
+
+    isDateTime(value){
+        return this._validadorDeData.validarDataEHora(value) || this._validadorDeData.validarData(value);
+    }
+}
+
+safira.define(CustomValidations)
+        .build()
+        .eager();

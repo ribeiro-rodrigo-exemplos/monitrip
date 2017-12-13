@@ -1,6 +1,6 @@
+const safira = require('safira');
 const yaml = require('js-yaml');
 const fs = require('fs');
-let logger = require('../util/log');
 
 const envs = {
     development: './config/env/development.yml',
@@ -28,6 +28,6 @@ try {
     console.log(e);
 }
 
-module.exports = () => config;
+safira.defineObject(config,'config');
 
 

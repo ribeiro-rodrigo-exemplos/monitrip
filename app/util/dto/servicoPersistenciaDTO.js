@@ -1,12 +1,15 @@
-module.exports = () =>
-    class LogDTO{
-        constructor(){}
+const safira = require('safira');
 
-        static toDTO(collection,action,data){
-            return {
-                collection:collection,
-                action:action,
-                data:data
-            }
+class LogDTO{
+    constructor(){}
+
+    toDTO(collection,action,data){
+        return {
+            collection:collection,
+            action:action,
+            data:data
         }
-    };
+    }
+};
+
+safira.define(LogDTO);

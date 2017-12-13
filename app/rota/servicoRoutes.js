@@ -1,9 +1,7 @@
-/**
- * Created by rodrigo on 20/02/17.
- */
-module.exports = app => {
-    const controlador = app.beans.factory.servicoController;
+const safira = require('safira');
 
-    app.route('/api/v1/servicos')
-        .get(controlador.obter.bind(controlador));
-};
+let controlador = safira.bean('servicoController');
+let app = safira.bean('app');
+
+app.route('/api/v1/servicos')
+    .get(controlador.obter.bind(controlador));

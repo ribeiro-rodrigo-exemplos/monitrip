@@ -1,7 +1,7 @@
-/**
- * Created by rodrigo on 10/03/17.
- */
-module.exports = app => {
-    let controlador = app.beans.factory.infoController;
-    app.get('/info',controlador.obterInformacoesDaAplicacao.bind(controlador));
-};
+const safira = require('safira');
+
+let controlador = safira.bean('infoController');
+let app = safira.bean('app');
+
+app.get('/info',controlador.obterInformacoesDaAplicacao.bind(controlador));
+

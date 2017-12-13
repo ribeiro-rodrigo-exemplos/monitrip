@@ -1,21 +1,17 @@
 const Sequelize = require('sequelize');
+const safira = require('safira');
 
-module.exports = app => {
+const datasource = safira.bean('ssoDatasource');
 
-    let sequelize = app.database.sso;
+let Licenca = datasource.define('licenca', {
+    quantidade: {
+        type: Sequelize.BIGINT,
+        field: 'nu_licenca'
+    }
+}, {
+    tableName: 'cliente_funcionalidade',
+    undescored: true,
+    timestamps: false
+})
 
-    let Licenca = sequelize.define('licenca', {
-        quantidade: {
-            type: Sequelize.BIGINT,
-            field: 'nu_licenca'
-        }
-    }, {
-        tableName: 'cliente_funcionalidade',
-        undescored: true,
-        timestamps: false
-    })
-
-    return Licenca;
-}
-
-
+safira.defineObject(Licenca, 'licenca');

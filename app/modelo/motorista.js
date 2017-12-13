@@ -1,7 +1,9 @@
 const Sequelize = require('sequelize');
-let sequelize = require('../database/frota')();
+const safira = require('safira');
 
-Motorista = sequelize.define('motorista', {
+const datasource = safira.bean('frotaDatasource');
+
+Motorista = datasource.define('motorista', {
     nomeFuncionario: {
         type: Sequelize.STRING,
         field: 'nm_nomeFuncionario'
@@ -29,4 +31,4 @@ Motorista = sequelize.define('motorista', {
     timestamps: false
 });
 
-module.exports = Motorista;
+safira.defineObject(Motorista, 'motorista');

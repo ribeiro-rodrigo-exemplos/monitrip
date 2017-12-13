@@ -1,5 +1,6 @@
+const safira = require('safira');
 let winston = require('winston');
-let config = require('../bootstrap/config-bootstrap')();
+let config = safira.bean('config')
 let mkdirp = require('mkdirp');
 
 mkdirp(config.log.path,err => {
@@ -49,4 +50,4 @@ let logger = new winston.Logger({
     exitOnError: false
 });
 
-module.exports = logger;
+safira.defineObject(logger, 'logger');

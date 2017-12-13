@@ -1,27 +1,25 @@
-/**
- * Created by rodrigo.santos on 05/01/2017.
- */
+const safira = require('safira');
 
-const logger = require('../util/log');
+class LicencaService {
+    constructor(dispositivoRepository, clienteRepository, logger) {
+        this._dispositivoRepository = dispositivoRepository;
+        this._clienteRepository = clienteRepository;
+        this._logger = logger;
+    }
 
-module.exports = () =>
-    class LicencaService {
-        constructor(dispositivoRepository, clienteRepository) {
-            this._dispositivoRepository = dispositivoRepository;
-            this._clienteRepository = clienteRepository;
-        }
+    obterLicencasDoCliente(idCliente) {
 
-        obterLicencasDoCliente(idCliente) {
+        let licencas = {};
 
-            let licencas = {};
+        this._logger.info(`LicencaService - obterLicencasDoCliente - idCliente: ${idCliente}`);
 
-            logger.info(`LicencaService - obterLicencasDoCliente - idCliente: ${idCliente}`);
+        return this._dispositivoRepository
+            .obterQuantidadeDeDispositivosAtivosDoCliente(idCliente)
+            .then(quantidade => licencas.usadas = quantidade)
+            .then(() => this._clienteRepository.obterQuantidadeMaximaDeLicencasDoCliente(idCliente))
+            .then(quantidadeMaxima => licencas.disponiveis = quantidadeMaxima >= licencas.usadas ? quantidadeMaxima - licencas.usadas : quantidadeMaxima)
+            .then(() => licencas);
+    }
+};
 
-            return this._dispositivoRepository
-                .obterQuantidadeDeDispositivosAtivosDoCliente(idCliente)
-                .then(quantidade => licencas.usadas = quantidade)
-                .then(() => this._clienteRepository.obterQuantidadeMaximaDeLicencasDoCliente(idCliente))
-                .then(quantidadeMaxima => licencas.disponiveis = quantidadeMaxima >= licencas.usadas ? quantidadeMaxima - licencas.usadas : quantidadeMaxima)
-                .then(() => licencas);
-        }
-    };
+safira.define(LicencaService);
