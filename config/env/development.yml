@@ -31,7 +31,7 @@ worker-servico:
 amqp:
     url: amqp://guest:guest@localhost
     exchange: monitriip
-    routingKey: monitriip.transmissoes
+    routingKey: monitriip.logs
 
 jwt:
   api_key: M2MParceiroKey
