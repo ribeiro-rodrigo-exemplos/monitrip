@@ -14,7 +14,7 @@ class ServicoPersistenciaService{
             contentEncoding: 'utf-8', 
             headers: {
                 action:"insert",
-                collection: "logsMonitriip", 
+                collection: "logsMonitrip", 
                 database: this._config.lazypersistence.database
             }
         };          
