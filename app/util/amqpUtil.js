@@ -6,17 +6,19 @@ class AmqpUtil{
     constructor(logger,config){
         this._logger = logger;
         this._amqpConfig = config.amqp;
+        this._exchange = config.amqp.exchange; 
+        this._routingKey = config.amqp.routingKey;
     }
 
-    enviarMensagem(mensagem,queue,queueConfig,mensagemConfig) {
+    enviarMensagem(mensagem,mensagemConfig) {
         
-        this._logger.info(`AmqpUtil - enviarMensagem - mensagem: ${mensagem},queue - ${queue}, queueConfig - ${queueConfig}`);
+        this._logger.info(`AmqpUtil - enviarMensagem - mensagem: ${mensagem}, mensagemConfig - ${mensagemConfig}`);
 
         if(this._connection)
-            this._enviarParaFila(mensagem,queue,queueConfig,mensagemConfig);
+            this._enviar(mensagem,mensagemConfig);
         else
             return this._criarConexao()
-                .then(() => this._enviarParaFila(mensagem,queue,queueConfig,mensagemConfig))
+                .then(() => this._enviar(mensagem,mensagemConfig))
     }
 
     _criarConexao(){
@@ -44,10 +46,10 @@ class AmqpUtil{
         });
     }
 
-    _enviarParaFila(mensagem,queue,queueConfig,mensagemConfig){
+    _enviar(mensagem,mensagemConfig){
         try{
-            this._channel.assertQueue(queue,queueConfig);
-            this._channel.sendToQueue(queue, Buffer.from(JSON.stringify(mensagem)),mensagemConfig);
+            this._channel.assertExchange(this._exchange,'topic',{durable:true})
+            this._channel.publish(this._exchange,this._routingKey,Buffer.from(JSON.stringify(mensagem)),mensagemConfig)
         }
         catch(e){
             this._connection = null; 
