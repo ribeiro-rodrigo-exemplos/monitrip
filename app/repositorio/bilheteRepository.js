@@ -67,6 +67,7 @@ class BilheteRepository {
                         "clienteId": clienteId,
                         $and: [{"dataHoraEvento": {$gte: dataInicio}},
                             {"dataHoraEvento": {$lte: dataFim}}]
+                            , $and: [ { "flgCancelamento": { $ne: "false" } } ]
                     };
 
         return this._prepareResult(criteria, {"_class": 0, "_id": 0});
