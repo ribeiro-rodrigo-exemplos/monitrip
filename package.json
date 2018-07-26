@@ -1,6 +1,6 @@
 {
   "name": "m2m-monitrip-api",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "description": "Webservice REST desenvolvido para o projeto Monitrip",
   "main": "server.js",
   "scripts": {
