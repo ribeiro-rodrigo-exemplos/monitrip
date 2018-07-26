@@ -24,7 +24,9 @@ class ViagemAdapter{
 
         this._tipoEventoViagem = {
             '0' : this._api.fecharViagem,
-            '1' : this._api.abrirViagem
+            '1' : this._api.abrirViagem,
+            '2' : this._api.fecharViagem,
+            '3' : this._api.abrirViagem
         }; 
     }
 
