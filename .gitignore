@@ -33,3 +33,5 @@ var/log
 var/log/*
 package.json
 package-lock.json
+
+config/keys-dev.js

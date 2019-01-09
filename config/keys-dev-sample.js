@@ -1,0 +1,58 @@
+module.exports = {
+    mysql: {
+        frota: {
+            host: "ssod-mysql.m2m.cloud", 
+            database: "frota_znd",
+            username: "frota", 
+            password: "frota", 
+            port: 3306
+        }, 
+        sso: {
+            host: "ssod-mysql", 
+            database: "sso", 
+            username: "frota", 
+            password: "frota", 
+            port: 3306 
+        },
+    }, 
+    amqp:{
+        url: 'amqp://admin:admin@znd-rabbit-av', 
+        exchange: "monitriip",
+        routingKey: "monitriip.logs", 
+    }, 
+    lazypersistence: {
+        database: "monitriip_znd"
+    }, 
+    mongodb: {
+        url: "mongodb://172.18.107.172:27017/monitriip_znd"
+    }, 
+    sso: {
+        url: "http://ssod-api0.m2m.cloud:3000"
+    }, 
+    server: {
+        port: 3005
+    }, 
+    workerProcessamento: {
+        api: "http://znd-monitriip1:8080"
+    }, 
+    workerServico:{
+        api: "http://znd-monitriip1:8989"
+    }, 
+    jwt:{
+        apikey: "M2MParceiroKey", 
+        webkey: "m2m"
+    }, 
+    log:{
+        path: "/var/log", 
+        maxSize: 100000, 
+        maxFiles: 10, 
+        file: {
+            erro: "m2m-monitriip-erro.log",
+            info: "m2m-monitriip-info.log"
+        } 
+    }, 
+    rjConsultores:{
+        url: "http://34.198.151.111:9991",
+        authorization: "Basic bTJtOnJqbTJtcmo="
+    } 
+}
